@@ -81,7 +81,7 @@ public final class QuestionBank {
 
         for (Question question : availableQuestions) {
             if (question.getDifficulty() == difficulty) {
-                // Exact matches keep the ladder feeling consistent with the real show.
+              // Prefer an exact difficulty match to preserve the intended progression.
                 exactMatch = question;
                 break;
             }

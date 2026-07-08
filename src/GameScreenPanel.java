@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -40,6 +41,7 @@ public class GameScreenPanel extends JPanel {
     /** Creates the gameplay panel and starts the countdown timer. */
     public GameScreenPanel() {
         setFocusable(true);
+        setPreferredSize(new Dimension(1100, 760));
         countdownTimer = new Timer(1000, event -> onTick());
         installListeners();
         syncQuestionState();
