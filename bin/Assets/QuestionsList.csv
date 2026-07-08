@@ -1,0 +1,257 @@
+ID,Question,AnswerA,AnswerB,AnswerC,AnswerD,CorrectAnswer,Difficulty,TimeLimit,Category
+1,What color is the sky on a clear day?,Blue,Green,Red,Purple,A,1,10,Science
+2,How many days are in one week?,5,6,7,8,C,1,10,General Knowledge
+3,"Which animal says ""meow""?",Dog,Cat,Cow,Horse,B,1,10,Animals
+4,What is 5 + 3?,6,7,8,9,C,1,10,Math
+5,What is the first month of the year?,March,January,June,December,B,1,10,General Knowledge
+6,Which of these is a primary color?,Green,Orange,Red,Purple,C,1,10,Art
+7,"What is the opposite of the word ""hot""?",Cold,Warm,Wet,Dry,A,1,10,General Knowledge
+8,How many legs does a standard spider have?,6,8,10,12,B,1,10,Animals
+9,Which fruit is traditionally used to make apple cider?,Orange,Apple,Banana,Grape,B,1,10,Food
+10,What is the capital city of France?,London,Berlin,Rome,Paris,D,1,10,Geography
+Z,In which direction does the sun rise each morning?,North,South,East,West,C,1,10,Science
+12,How many letters are in the standard English alphabet?,24,25,26,27,C,1,10,General Knowledge
+13,Which of these is a frozen solid form of water?,Steam,Ice,Rain,Mist,B,1,10,Science
+14,What sweet substance do bees produce inside hives?,Milk,Honey,Cheese,Butter,B,1,10,Animals
+15,What shape is a standard road stop sign?,Square,Hexagon,Octagon,Circle,C,1,10,General Knowledge
+16,Who is Mickey Mouse's famous cartoon partner?,Minnie,Daisy,Clarabelle,Pluto,A,1,10,Pop Culture
+17,Which planet in our solar system is known as the Red Planet?,Earth,Mars,Jupiter,Venus,B,2,12,Space
+18,How many continents are there on planet Earth?,5,6,7,8,C,2,12,Geography
+19,What is the essential chemical symbol for water?,O2,CO2,H2O,H2,C,2,12,Science
+20,Who wrote the famous romantic play Romeo and Juliet?,Charles Dickens,Mark Twain,William Shakespeare,Jane Austen,C,2,12,Literature
+21,What is the largest living mammal in the world today?,Elephant,Blue Whale,Giraffe,Hippopotamus,B,2,12,Animals
+22,How many degrees are in a perfect right angle?,45,90,180,360,B,2,12,Math
+23,Which country is famous for the ancient Pyramids of Giza?,Greece,Italy,Egypt,Mexico,C,2,12,History
+24,What is the capital city of Japan?,Beijing,Seoul,Tokyo,Bangkok,C,2,12,Geography
+25,Which musical instrument features exactly 88 keys?,Guitar,Violin,Piano,Flute,C,2,12,Music
+26,What official currency is used across the United Kingdom?,Euro,Dollar,Pound,Yen,C,2,12,General Knowledge
+27,Which gas do humans need to breathe to survive?,Nitrogen,Oxygen,Carbon Dioxide,Hydrogen,B,2,12,Science
+28,Who painted the iconic portrait known as the Mona Lisa?,Vincent van Gogh,Leonardo da Vinci,Pablo Picasso,Claude Monet,B,2,12,Art
+29,What is the primary green ingredient in guacamole?,Tomato,Avocado,Onion,Pepper,B,2,12,Food
+30,How many elements or individual items are in a dozen?,10,12,14,16,B,2,12,Math
+31,Which organ primarily pumps blood through the human body?,Brain,Lungs,Heart,Liver,C,2,12,Science
+32,What is the traditional gemstone color of an emerald?,Red,Blue,Yellow,Green,D,2,12,General Knowledge
+33,Which ocean is the largest by surface area on Earth?,Atlantic,Indian,Arctic,Pacific,D,3,15,Geography
+34,Who served as the very first President of the United States?,Thomas Jefferson,Abraham Lincoln,George Washington,John Adams,C,3,15,History
+35,What is the hardest known natural substance on Earth?,Gold,Iron,Diamond,Quartz,C,3,15,Science
+36,How many teeth does an adult human typically have?,28,30,32,34,C,3,15,Science
+37,Which fictional young wizard attends school at Hogwarts?,Gandalf,Merlin,Harry Potter,Dumbledore,C,3,15,Pop Culture
+38,What is the exact mathematical square root of 64?,6,7,8,9,C,3,15,Math
+39,In what calendar year did the historic Titanic sink?,1905,1912,1918,1925,B,3,15,History
+40,Which southern hemisphere country is native to the kangaroo?,South Africa,Australia,Brazil,India,B,3,15,Animals
+41,What is the historic capital city of Italy?,Milan,Naples,Venice,Rome,D,3,15,Geography
+42,Who is widely credited with inventing the telephone?,Thomas Edison,Alexander Graham Bell,Nikola Tesla,Albert Einstein,B,3,15,Technology
+43,Which fairy tale character famously loses her glass slipper?,Snow White,Cinderella,Sleeping Beauty,Rapunzel,B,3,15,Literature
+44,What is the primary official language spoken in Brazil?,Spanish,Portuguese,French,English,B,3,15,Geography
+45,How many strings does a standard classical violin possess?,4,5,6,7,A,3,15,Music
+46,Which element is a metal that remains liquid at room temperature?,Iron,Lead,Mercury,Copper,C,3,15,Science
+47,What is the most abundant gas found in Earth's atmosphere?,Oxygen,Nitrogen,Carbon Dioxide,Argon,B,3,15,Science
+48,Which South American country hosted the 2016 Summer Olympics?,Argentina,Colombia,Brazil,Chile,C,3,15,Sports
+49,What is the exact boiling point of water in Celsius?,50,100,150,200,B,4,15,Science
+50,"Who wrote the highly influential political novel ""1984""?",George Orwell,Aldous Huxley,Ray Bradbury,HG Wells,A,4,15,Literature
+51,Which planet is positioned closest to our Sun?,Venus,Earth,Mercury,Mars,C,4,15,Space
+52,What is the largest country in the world by land area?,Canada,China,USA,Russia,D,4,15,Geography
+53,How many permanent teeth does an adult domestic cat have?,26,30,32,34,B,4,15,Animals
+54,What is the administrative capital city of Spain?,Barcelona,Madrid,Seville,Valencia,B,4,15,Geography
+55,Which historical figure was famously called the Maid of Orleans?,Marie Antoinette,Joan of Arc,Queen Elizabeth I,Cleopatra,B,4,15,History
+56,What is the official chemical symbol for Gold?,Go,Gd,Ag,Au,D,4,15,Science
+57,How many individual bones comprise an adult human body?,106,206,306,406,B,4,15,Science
+58,"Who directed the iconic 1975 summer thriller movie ""Jaws""?",George Lucas,Steven Spielberg,Martin Scorsese,Francis Coppola,B,4,15,Movies
+59,Which ancient Greek mythological god ruled the underworld?,Zeus,Poseidon,Hades,Hermes,C,4,15,Mythology
+60,What is the mathematical calculation of 12 squared?,122,144,166,188,B,4,15,Math
+61,Which scientific instrument measures atmospheric pressure?,Thermometer,Barometer,Anemometer,Hygrometer,B,4,15,Technology
+62,What is the official national capital city of Canada?,Toronto,Vancouver,Montreal,Ottawa,D,4,15,Geography
+63,In which modern country is the ancient city of Petra located?,Egypt,Jordan,Turkey,Greece,B,4,15,History
+64,Which vitamin is synthesized when skin meets sunlight?,Vitamin A,Vitamin B,Vitamin C,Vitamin D,D,4,15,Science
+65,What is widely considered the longest river on Earth?,Amazon,Nile,Mississippi,Yangtze,B,5,18,Geography
+66,"Who painted the post-impressionist piece ""The Starry Night""?",Pablo Picasso,Claude Monet,Vincent van Gogh,Salvador Dali,C,5,18,Art
+67,Which Asian country is poetically called Land of the Rising Sun?,China,South Korea,Japan,Thailand,C,5,18,Geography
+68,What is the correct chemical symbol for Sodium?,So,Sd,Na,Nu,C,5,18,Science
+69,Who was the ancient Greek god of music light and poetry?,Ares,Apollo,Hermes,Dionysus,B,5,18,Mythology
+70,How many active players per team are allowed on a soccer pitch?,9,10,11,12,C,5,18,Sports
+71,What is the federal capital city of Australia?,Sydney,Melbourne,Brisbane,Canberra,D,5,18,Geography
+72,Which Shakespearean tragedy features Banquo and Lady Macbeth?,Hamlet,Othello,Macbeth,King Lear,C,5,18,Literature
+73,What is the smallest official planet in our solar system?,Mercury,Mars,Venus,Neptune,A,5,18,Space
+74,In what calendar year did World War I officially begin?,1912,1914,1916,1918,B,5,18,History
+75,What type of rock forms directly from cooled magma or lava?,Sedimentary,Metamorphic,Igneous,Sandstone,C,5,18,Science
+76,Which chemical element features the atomic number 1?,Helium,Hydrogen,Lithium,Carbon,B,5,18,Science
+77,"Who wrote the classic book ""Charlie and the Chocolate Factory""?",Roald Dahl,CS Lewis,JK Rowling,Dr Seuss,A,5,18,Literature
+78,What is the official national currency of Japan?,Yuan,Won,Yen,Baht,C,5,18,General Knowledge
+79,Which body system protects humans against invasive pathogens?,Digestive,Nervous,Immune,Endocrine,C,5,18,Science
+80,What boundary separates Earth's crust from the underlying mantle?,Moho,Gutenberg,Lehmann,Conrad,A,5,18,Science
+81,Which vast empire was famously expanded by Julius Caesar?,Greek,Persian,Roman,Ottoman,C,6,18,History
+82,What is the central capital city of Germany?,Munich,Frankfurt,Berlin,Hamburg,C,6,18,Geography
+83,"Who is credited with writing the epic ancient Greek poem ""The Odyssey""?",Virgil,Homer,Aristotle,Plato,B,6,18,Literature
+84,What is considered the basic structural and functional unit of life?,Atom,Molecule,Cell,Tissue,C,6,18,Science
+85,Which classic cocktail consists primarily of gin and dry vermouth?,Margarita,Martini,Manhattan,Daiquiri,B,6,18,Food
+86,In what city is the administrative European Parliament headquartered?,Paris,Brussels,Geneva,Vienna,B,6,18,Geography
+87,"Which Dutch artist painted ""Girl with a Pearl Earring""?",Rembrandt,Johannes Vermeer,Vincent van Gogh,Piet Mondrian,B,6,18,Art
+88,What is the predominant organic acid found naturally in lemons?,Acetic acid,Citric acid,Lactic acid,Malic acid,B,6,18,Science
+89,Which scientist is famously credited with discovering penicillin?,Louis Pasteur,Alexander Fleming,Gregor Mendel,Robert Koch,B,6,18,Science
+90,Which planet currently holds the most confirmed orbital moons?,Saturn,Jupiter,Neptune,Uranus,A,6,18,Space
+91,What is the mathematical value of Pi to two decimal places?,3.12,3.14,3.16,3.18,B,6,18,Math
+92,Which country won the inaugural FIFA World Cup in 1930?,Argentina,Brazil,Uruguay,Italy,C,6,18,Sports
+93,What is the designated federal capital city of India?,Mumbai,New Delhi,Calcutta,Bangalore,B,6,18,Geography
+94,"Who is the celebrated author of ""To Kill a Mockingbird""?",Harper Lee,Mark Twain,F Scott Fitzgerald,Ernest Hemingway,A,6,18,Literature
+95,What scale measures the seismic energy released by earthquakes?,Richter,Celsius,Kelvin,Beaufort,A,6,18,Science
+96,Which gas makes up the absolute majority of Jupiter's mass?,Helium,Hydrogen,Methane,Ammonia,B,6,18,Space
+97,Where is the administrative executive capital of South Africa?,Johannesburg,Cape Town,Pretoria,Durban,C,7,20,Geography
+98,"In Norse mythology, who is the powerful god of thunder?",Odin,Thor,Loki,Baldur,B,7,20,Mythology
+99,Which US state possesses the largest total land area?,Texas,California,Alaska,Montana,C,7,20,Geography
+100,In what year did the historic Berlin Wall finally fall?,1985,1989,1991,1993,B,7,20,History
+101,What is the exact chemical formula for standard table salt?,HCl,NaOH,NaCl,KCl,C,7,20,Science
+102,"Which brilliant composer wrote the famous ""Moonlight Sonata""?",Mozart,Beethoven,Bach,Chopin,B,7,20,Music
+103,Which internal organ in the human body produces insulin?,Liver,Pancreas,Kidney,Gallbladder,B,7,20,Science
+104,What is the exact mathematical square root of 225?,13,14,15,16,C,7,20,Math
+105,Which island nation was formerly known as Ceylon until 1972?,Thailand,Myanmar,Sri Lanka,Vietnam,C,7,20,Geography
+106,"Who wrote the classic American novel ""The Great Gatsby""?",Ernest Hemingway,F Scott Fitzgerald,William Faulkner,John Steinbeck,B,7,20,Literature
+107,What is the official national currency of South Korea?,Yen,Yuan,Won,Ringgit,C,7,20,General Knowledge
+108,Which human internal organ can uniquely regenerate lost tissue?,Heart,Lung,Liver,Brain,C,7,20,Science
+109,What was the name of the first artificial satellite sent to space?,Apollo 11,Sputnik 1,Voyager 1,Hubble,B,7,20,Space
+110,Who was the British Prime Minister during most of World War II?,Neville Chamberlain,Winston Churchill,Clement Attlee,Anthony Eden,B,7,20,History
+111,What is the true political capital city of Turkey?,Istanbul,Ankara,Izmir,Antalya,B,7,20,Geography
+112,Which layer of Earth's atmosphere holds the protective ozone layer?,Troposphere,Stratosphere,Mesosphere,Thermosphere,B,7,20,Science
+113,What is the official capital city of New Zealand?,Auckland,Wellington,Christchurch,Hamilton,B,8,20,Geography
+114,"Who authored the famous English epic poem ""Paradise Lost""?",John Milton,Dante Alighieri,Geoffrey Chaucer,William Blake,A,8,20,Literature
+115,What is the biological study of mushrooms and fungi called?,Botany,Mycology,Phycology,Entomology,B,8,20,Science
+116,Which Roman emperor famously planned to make his horse a consul?,Nero,Caligula,Commodus,Tiberius,B,8,20,History
+117,What is the most abundant metallic element in Earth's crust?,Iron,Aluminum,Copper,Zinc,B,8,20,Science
+118,Which instrument is closely linked with jazz icon Miles Davis?,Saxophone,Trumpet,Piano,Drums,B,8,20,Music
+119,What city serves as the official federal capital of Switzerland?,Zurich,Geneva,Bern,Basel,C,8,20,Geography
+120,Which chemical element possesses the atomic number 79?,Silver,Platinum,Gold,Mercury,C,8,20,Science
+121,"Who painted the legendary Renaissance mural ""The Last Supper""?",Michelangelo,Raphael,Donatello,Leonardo da Vinci,D,8,20,Art
+122,How many total curves are found in a standard metal paperclip?,2,3,4,5,B,8,20,General Knowledge
+123,Which country ranks as the largest global producer of coffee?,Colombia,Vietnam,Brazil,Ethiopia,C,8,20,Food
+124,What ship famously transported the Pilgrims to America in 1620?,Speedwell,Discovery,Mayflower,Susan Constant,C,8,20,History
+125,What strange marine animal is a Portuguese Man o' War?,Jellyfish,Siphonophore,Anemone,Coral,B,8,20,Animals
+126,Which vital gas is released as a byproduct of photosynthesis?,Carbon Dioxide,Oxygen,Nitrogen,Hydrogen,B,8,20,Science
+127,"Who wrote the famous 1818 Gothic horror novel ""Frankenstein""?",Mary Shelley,Bram Stoker,Jane Austen,Charlotte Bronte,A,8,20,Literature
+128,What is the primary unit of national currency in South Africa?,Shilling,Rand,Kwanza,Pula,B,8,20,General Knowledge
+129,Which active volcano catastrophically buried Pompeii in 79 AD?,Mount Etna,Mount Vesuvius,Mount Stromboli,Mount Kilimanjaro,B,9,22,History
+130,What is the historic capital city of Egypt?,Alexandria,Luxor,Cairo,Giza,C,9,22,Geography
+131,Who is widely recognized as the father of modern chemistry?,Antoine Lavoisier,Dmitri Mendeleev,John Dalton,Robert Boyle,A,9,22,Science
+132,Which oceanic trench marks the absolute deepest point on Earth?,Puerto Rico Trench,Mariana Trench,Java Trench,Tonga Trench,B,9,22,Geography
+133,What is the formal medical terminology for the human kneecap?,Femur,Tibia,Patella,Fibula,C,9,22,Science
+134,"Which legendary composer wrote the opera ""The Magic Flute""?",Ludwig van Beethoven,Wolfgang Amadeus Mozart,Richard Wagner,Johann Sebastian Bach,B,9,22,Music
+135,What is the official base currency utilized across Poland?,Euro,Krona,Zloty,Koruna,C,9,22,General Knowledge
+136,In what calendar year did the historic French Revolution begin?,1776,1789,1799,1804,B,9,22,History
+137,Which land animal possesses the highest recorded blood pressure?,Blue Whale,Elephant,Giraffe,Flea,C,9,22,Animals
+138,What is the coastal capital city of Sweden?,Oslo,Helsinki,Stockholm,Copenhagen,C,9,22,Geography
+139,What structural chemical element makes up a pure diamond?,Silicon,Carbon,Nitrogen,Boron,B,9,22,Science
+140,"Who penned the philosophical text ""Thus Spoke Zarathustra""?",Karl Marx,Friedrich Nietzsche,Arthur Schopenhauer,Immanuel Kant,B,9,22,Literature
+141,Which 1815 battle marked the ultimate downfall of Napoleon?,Battle of Leipzig,Battle of Waterloo,Battle of Austerlitz,Battle of Borodino,B,9,22,History
+142,What is the essential base alcohol inside a standard Mojito?,Vodka,Rum,Tequila,Gin,B,9,22,Food
+143,Which subatomic particle holds absolutely zero electrical charge?,Proton,Electron,Neutron,Quark,C,9,22,Science
+144,What is the name given to the largest known moon of Saturn?,Europa,Titan,Ganymede,Callisto,B,9,22,Space
+145,Which historic 1919 treaty officially ended World War I?,Treaty of Paris,Treaty of Versailles,Treaty of Utrecht,Treaty of Ghent,B,10,22,History
+146,What is the northerly capital city of Iceland?,Reykjavik,Akureyri,Kopavogur,Hafnarfjordur,A,10,22,Geography
+147,Who formulated the comprehensive mathematical laws of planetary motion?,Nicolaus Copernicus,Johannes Kepler,Galileo Galilei,Isaac Newton,B,10,22,Space
+148,Which country boasts the longest total coastline in the world?,Russia,Canada,Australia,Indonesia,B,10,22,Geography
+149,What biological pigment determines human skin and hair color?,Carotene,Melanin,Hemoglobin,Chlorophyll,B,10,22,Science
+150,"Who wrote the influential dystopian masterpiece ""Brave New World""?",George Orwell,Aldous Huxley,Ray Bradbury,H.G. Wells,B,10,22,Literature
+151,What is the official legal currency utilized in Israel?,Dinar,Lira,Shekel,Riyal,C,10,22,General Knowledge
+152,"Which master Renaissance artist sculpted the famous marble ""David""?",Leonardo da Vinci,Michelangelo,Donatello,Raphael,B,10,22,Art
+153,What is the single most abundant element found in the universe?,Oxygen,Helium,Hydrogen,Carbon,C,10,22,Space
+154,To which language family does the Hungarian tongue belong?,Slavic,Germanic,Finno-Ugric,Romance,C,10,22,General Knowledge
+155,In what year did the United States purchase Alaska from Russia?,1857,1867,1877,1887,B,10,22,History
+156,What is the official SI unit used to quantify electrical resistance?,Volt,Ampere,Ohm,Watt,C,10,22,Science
+157,Which mammal is known to possess the highest bite force?,Hippopotamus,Spotted Hyena,Grizzly Bear,Jaguar,A,10,22,Animals
+158,What is the high-altitude capital city of Peru?,Cusco,Arequipa,Lima,Trujillo,C,10,22,Geography
+159,Which physicist famously discovered the laws governing pendulums?,Galileo Galilei,Isaac Newton,Johannes Kepler,Albert Einstein,A,10,22,Science
+160,Which of these is considered the best-selling novel of all time?,A Tale of Two Cities,Don Quixote,The Little Prince,The Hobbit,B,10,22,Literature
+161,Who proposed the historic theory of evolution by natural selection?,Jean-Baptiste Lamarck,Charles Darwin,Gregor Mendel,Thomas Huxley,B,11,25,Science
+162,What is the historic northern capital city of Vietnam?,Ho Chi Minh City,Hanoi,Da Nang,Hue,B,11,25,Geography
+163,Who served as British Prime Minister during the Falklands War?,Edward Heath,James Callaghan,Margaret Thatcher,John Major,C,11,25,History
+164,What insect is considered the absolute loudest in the world?,Cicada,Africanized Bee,Bullet Ant,Katydid,A,11,25,Animals
+165,Which common keyboard layout takes its name from its top-left letters?,DVORAK,AZERTY,QWERTY,COLEMAK,C,11,25,Technology
+166,What island is geographically defined as the largest globally?,Australia,Greenland,New Guinea,Borneo,B,11,25,Geography
+167,"Who wrote the iconic psychological horror novel ""The Shining""?",Stephen King,Dean Koontz,Clive Barker,HP Lovecraft,A,11,25,Literature
+168,Which chemical element features the highest elemental melting point?,Iron,Tungsten,Platinum,Osmium,B,11,25,Science
+169,What is the official sovereign currency of Switzerland?,Euro,Krona,Franc,Pound,C,11,25,General Knowledge
+170,"Who directed the critically acclaimed 1994 film ""Pulp Fiction""?",Martin Scorsese,Quentin Tarantino,Steven Spielberg,David Fincher,B,11,25,Movies
+171,Which early Greek deity was the literal embodiment of the sky?,Zeus,Uranus,Cronus,Hyperion,B,11,25,Mythology
+172,What primary acid is found inside normal human gastric juice?,Sulfuric Acid,Nitric Acid,Hydrochloric Acid,Acetic Acid,C,11,25,Science
+173,In which century did the devastating Black Death hit Europe?,12th Century,13th Century,14th Century,15th Century,C,11,25,History
+174,What massive shield volcano is the tallest in our solar system?,Mount Vesuvius,Mount Etna,Olympus Mons,Mauna Loa,C,11,25,Space
+175,Which nation holds the world's largest population as of 2024?,India,China,USA,Indonesia,A,11,25,Geography
+176,What is the mathematical calculation of 15 squared?,225,250,275,300,A,11,25,Math
+177,Which element is a non-metal that stays liquid at room temperature?,Mercury,Bromine,Gallium,Cesium,B,12,25,Science
+178,What is the historic inland capital city of Morocco?,Casablanca,Marrakesh,Rabat,Fes,C,12,25,Geography
+179,Who is consolidated by history as the very first Roman Emperor?,Julius Caesar,Augustus,Nero,Caligula,B,12,25,History
+180,Which specific star system sits physically closest to our own?,Proxima Centauri,Alpha Centauri,Sirius,Barnard's Star,A,12,25,Space
+181,Which standard SI base unit quantifies luminous intensity?,Lumen,Lux,Candela,Watt,C,12,25,Science
+182,"Who composed the famous 14th-century work ""The Canterbury Tales""?",William Shakespeare,Geoffrey Chaucer,John Milton,Dante Alighieri,B,12,25,Literature
+183,What is the official base currency used in Norway?,Euro,Krone,Krona,Mark,B,12,25,General Knowledge
+184,Which English conflict was fought by the Lancasters and Yorks?,The Hundred Years' War,The Wars of the Roses,The English Civil War,The Thirty Years' War,B,12,25,History
+185,What is the capital city of Ukraine?,Lviv,Odesa,Kyiv,Kharkiv,C,12,25,Geography
+186,Which cellular organelle is the designated powerhouse of cells?,Nucleus,Ribosome,Mitochondria,Golgi Apparatus,C,12,25,Science
+187,"Who painted the surreal triptych ""The Garden of Earthly Delights""?",Hieronymus Bosch,Pieter Bruegel,Albrecht Durer,Jan van Eyck,A,12,25,Art
+188,What is the largest lake by surface area across Africa?,Lake Tanganyika,Lake Victoria,Lake Malawi,Lake Chad,B,12,25,Geography
+189,Which vital element features the specific atomic number 6?,Oxygen,Carbon,Nitrogen,Boron,B,12,25,Science
+190,In the Norse pantheon who is the notorious god of mischief?,Odin,Thor,Loki,Balder,C,12,25,Mythology
+191,What linguistic term defines words spelled the same but differing in meaning?,Synonyms,Antonyms,Homographs,Homophones,C,12,25,Literature
+192,Which nation hosted the inaugural modern Olympic Games in 1896?,France,United Kingdom,Greece,United States,C,12,25,Sports
+193,What geological zone lies directly beneath the Earth's crust?,Inner Core,Outer Core,Mantle,Lithosphere,C,13,28,Science
+194,What is the newly named capital city of Kazakhstan?,Almaty,Astana,Shymkent,Aktobe,B,13,28,Geography
+195,Who was the absolute last ruling monarch of the House of Tudor?,Henry VIII,Mary I,Elizabeth I,James I,C,13,28,History
+196,What is the closest major spiral galaxy to our own Milky Way?,Andromeda,Triangulum,Sombrero,Large Magellanic Cloud,A,13,28,Space
+197,"Which French thinker famously wrote ""I think, therefore I am?""",Jean-Paul Sartre,Voltaire,René Descartes,Jean-Jacques Rousseau,C,13,28,Literature
+198,What is the correct chemical symbol for Potassium?,P,Po,Pt,K,D,13,28,Science
+199,Which major navy was crushed at the Battle of Lepanto in 1571?,Byzantine,Persian,Ottoman,Holy Roman,C,13,28,History
+200,What is the sprawling capital city of Colombia?,Medellin,Cali,Bogota,Cartagena,C,13,28,Geography
+201,To which biological class do all modern birds belong?,Amphibia,Reptilia,Aves,Mammalia,C,13,28,Animals
+202,"Who composed the baroque violin concertos known as ""The Four Seasons""?",Bach,Vivaldi,Mozart,Beethoven,B,13,28,Music
+203,What is the mathematical value of constant 'e' to two decimals?,2.71,2.81,3.14,1.61,A,13,28,Math
+204,Which global country contains the highest number of natural lakes?,USA,Canada,Russia,Brazil,B,13,28,Geography
+205,"Who authored the scandalous Gothic novel ""The Picture of Dorian Gray""?",Bram Stoker,Mary Shelley,Oscar Wilde,Edgar Allan Poe,C,13,28,Literature
+206,What is the official base currency utilized in Thailand?,Dong,Ringgit,Baht,Rupiah,C,13,28,General Knowledge
+207,Which law of physics dictates that every action has an opposite reaction?,Newton's First Law,Newton's Second Law,Newton's Third Law,Law of Gravitation,C,13,28,Science
+208,Which battle is widely called the turning point of the American Civil War?,Battle of Antietam,Battle of Gettysburg,Battle of Bull Run,Battle of Shiloh,B,13,28,History
+209,Which metal exhibits the absolute highest electrical conductivity?,Copper,Gold,Silver,Aluminum,C,14,30,Science
+210,What is the expansive capital city of Ethiopia?,Nairobi,Addis Ababa,Asmara,Mogadishu,B,14,30,Geography
+211,Which 1494 treaty divided global colonial rights between Spain and Portugal?,Treaty of Tordesillas,Treaty of Zaragoza,Treaty of Madrid,Treaty of Utrecht,A,14,30,History
+212,What is the brightest individual star visible in our night sky?,Sirius,Canopus,Arcturus,Vega,A,14,30,Space
+213,"Who wrote the highly classical Greek political text ""The Republic""?",Socrates,Plato,Aristotle,Cicero,B,14,30,Literature
+214,What is the strict medical terminology for a red blood cell?,Leukocyte,Thrombocyte,Erythrocyte,Lymphocyte,C,14,30,Science
+215,Which autonomous territory of Denmark is the largest non-continental island?,Svalbard,Faroe Islands,Greenland,Iceland,C,14,30,Geography
+216,Who was Supreme Commander of Allied Expeditionary Forces in Europe during WWII?,MacArthur,Patton,Eisenhower,Montgomery,C,14,30,History
+217,What structural fibrous protein makes up human hair and fingernails?,Collagen,Keratin,Elastin,Myosin,B,14,30,Science
+218,Which instrument did romantic composer Frédéric Chopin primarily focus on?,Violin,Cello,Piano,Flute,C,14,30,Music
+219,What is the official legal currency utilized in Malaysia?,Baht,Rupiah,Ringgit,Peso,C,14,30,General Knowledge
+220,Which geometric theorem calculates side lengths as a^2 + b^2 = c^2?,Euler's Theorem,Fermat's Last Theorem,Pythagorean Theorem,Goldbach's Conjecture,C,14,30,Math
+221,"Who directed the landmark 1972 cinematic crime drama ""The Godfather""?",Martin Scorsese,Francis Ford Coppola,Steven Spielberg,Stanley Kubrick,B,14,30,Movies
+222,"What is the coastal state capital of New South Wales, Australia?",Melbourne,Brisbane,Sydney,Adelaide,C,14,30,Geography
+223,Which Aztec emperor ruled when conquistador Hernán Cortés landed?,Montezuma II,Cuauhtémoc,Itzcoatl,Ahuitzotl,A,14,30,History
+224,What boundary around a black hole marks the point of no escape?,Singularity,Event Horizon,Ergosphere,Accretion Disk,B,14,30,Space
+225,Which element has the highest atomic number found naturally on Earth?,Uranium,Plutonium,Thorium,Radium,A,15,30,Science
+226,What is the isolated capital city of Mongolia?,Astana,Ulaanbaatar,Tashkent,Bishkek,B,15,30,Geography
+227,Who was the historically recognized final pharaoh of ancient Egypt?,Nefertiti,Cleopatra VII,Hatshepsut,Tutankhamun,B,15,30,History
+228,What term defines a word or sentence reading identically backwards?,Anagram,Palindrome,Oxymoron,Homonym,B,15,30,Literature
+229,In which ocean does the tropical island nation of Mauritius lie?,Atlantic Ocean,Pacific Ocean,Indian Ocean,Arctic Ocean,C,15,30,Geography
+230,Who discovered calculus alongside the foundational laws of universal gravitation?,Galileo,Kepler,Newton,Einstein,C,15,30,Science
+231,What official base currency is valid in South Georgia and South Sandwich Islands?,Euro,Pound Sterling,Rand,Dollar,B,15,30,General Knowledge
+232,Which English king died at the Battle of Bosworth Field in 1485?,Richard III,Henry VI,Edward IV,Henry VII,A,15,30,History
+233,What is the name of the largest retrograde-orbiting moon of Neptune?,Triton,Proteus,Nereid,Larissa,A,15,30,Space
+234,Which complex protein inside red blood cells binds to oxygen molecules?,Myoglobin,Hemoglobin,Albumin,Globulin,B,15,30,Science
+235,"Who wrote the landmark French philosophical text ""The History of Sexuality""?",Sartre,Foucault,Derrida,Deleuze,B,15,30,Literature
+236,What qualitative scale classifies the scratch resistance of distinct minerals?,Richter Scale,Mohs Scale,Brinell Scale,Vickers Scale,B,15,30,Science
+237,"Which absolute Bourbon monarch of France was dubbed the ""Sun King""?",Louis XIV,Louis XVI,Louis XIII,Francis I,A,15,30,History
+238,What is the exact sum of all interior angles inside a hexagon?,360 degrees,540 degrees,720 degrees,900 degrees,C,15,30,Math
+239,Which solar system planet has the fastest rotational velocity on its axis?,Earth,Mars,Jupiter,Saturn,C,15,30,Space
+240,What is the official base currency unit utilized across Paraguay?,Guarani,Peso,Real,Boliviano,A,15,30,General Knowledge
+241,Which subatomic composite particle is constructed of exactly three quarks?,Proton,Electron,Photon,Neutrino,A,16,35,Science
+242,What is the mountainous landlocked capital of Bhutan?,Kathmandu,Thimphu,Dhaka,Colombo,B,16,35,Geography
+243,Which 216 BC battle remains Hannibal's ultimate tactical masterpiece over Rome?,Battle of Zama,Battle of Cannae,Battle of Lake Trasimene,Battle of Trebia,B,16,35,History
+244,What human-made probe was the very first to enter interstellar space?,Voyager 1,Voyager 2,Pioneer 10,New Horizons,A,16,35,Space
+245,"Who wrote the highly influential 1867 economic treatise ""Das Kapital""?",Adam Smith,Karl Marx,John Maynard Keynes,Max Weber,B,16,35,Literature
+246,Which fundamental force binds quarks into protons and nucleons together?,Gravitational Force,Electromagnetic Force,Weak Nuclear Force,Strong Nuclear Force,D,16,35,Science
+247,What codename identified the WWII program that built the atomic bomb?,Manhattan Project,Project Vanguard,Apollo Program,Operation Paperclip,A,16,35,History
+248,What is the rarest naturally occurring elemental metalloid in Earth's crust?,Astatine,Francium,Rhenium,Promethium,A,16,35,Science
+249,Which massive 1648 diplomatic treaty ended Europe's Thirty Years' War?,Treaty of Westphalia,Treaty of Utrecht,Treaty of Versailles,Treaty of Pyrenees,A,16,35,History
+250,What is the microstate capital city of Liechtenstein?,Zurich,Vaduz,Geneva,Bern,B,16,35,Geography
+251,Which mathematical statement conjectures every even integer >2 is the sum of two primes?,Fermat's Last Theorem,Goldbach's Conjecture,Riemann Hypothesis,Collatz Conjecture,B,16,35,Math
+252,"Who composed the radically avant-garde 1913 ballet ""The Rite of Spring""?",Claude Debussy,Igor Stravinsky,Maurice Ravel,Arnold Schoenberg,B,16,35,Music
+253,Which civilization developed the cuneiform script on clay tablets?,Egyptians,Sumerians,Indus Valley,Minoans,B,16,35,History
+254,What stellar remnant core is left after a low-mass star sheds its envelope?,Neutron Star,White Dwarf,Black Hole,Red Giant,B,16,35,Space
+255,Which chemical element features the absolute highest electronegativity value?,Oxygen,Fluorine,Chlorine,Nitrogen,B,16,35,Science
+256,"Who wrote the foundational 1651 political philosophy treatise ""Leviathan""?",John Locke,Thomas Hobbes,Jean-Jacques Rousseau,Niccolò Machiavelli,B,16,35,Literature
