@@ -9,11 +9,7 @@ import javax.swing.*;
  */
 public class MainMenu extends JFrame {
 
-    /** Creates the main menu window and installs the menu panel.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
+    /** Creates the main menu window and installs the menu panel. */
     public MainMenu() {
         setTitle("LOCK IN");
         setSize(900, 700);
@@ -47,20 +43,18 @@ public class MainMenu extends JFrame {
         private final Color BUTTON_BORDER_HOVER = new Color(245, 158, 11);
         private final Color BUTTON_TEXT = new Color(209, 213, 219);
 
-        // --- Button Bounds ---
-        private final Rectangle play = new Rectangle(300, 360, 300, 56);
-        private final Rectangle settings = new Rectangle(300, 440, 300, 56);
-        private final Rectangle credits = new Rectangle(300, 520, 300, 56);
+        // --- Button Bounds for 4 Buttons ---
+        private final Rectangle play = new Rectangle(300, 320, 300, 50);
+        private final Rectangle settings = new Rectangle(300, 390, 300, 50);
+        private final Rectangle credits = new Rectangle(300, 460, 300, 50);
+        private final Rectangle quit = new Rectangle(300, 530, 300, 50);
 
         // Track currently hovered menu item
         private String hovered = "";
 
-        /** Constructor initializing input listeners for interaction and hit detection.
-         *
-         * @param none no parameters are required
-         * @return void
-         */
+        /** Constructor initializing input listeners for interaction and hit detection. */
         MenuPanel() {
+            setPreferredSize(new Dimension(900, 700));
             setFocusable(true);
             
             addMouseMotionListener(new MouseMotionAdapter() {
@@ -78,11 +72,7 @@ public class MainMenu extends JFrame {
             });
         }
 
-        /** Updates the hover state based on the current pointer position.
-         *
-         * @param point the pointer location to evaluate
-         * @return void
-         */
+        /** Updates the hover state based on the current pointer position. */
         private void handleMouseMoved(Point point) {
             if (play.contains(point)) {
                 hovered = "PLAY";
@@ -90,37 +80,34 @@ public class MainMenu extends JFrame {
                 hovered = "SETTINGS";
             } else if (credits.contains(point)) {
                 hovered = "CREDITS";
+            } else if (quit.contains(point)) {
+                hovered = "QUIT";
             } else {
                 hovered = "";
             }
             repaint();
         }
 
-        /** Routes a click to the selected menu action.
-         *
-         * @param point the click location to evaluate
-         * @return void
-         */
+        /** Routes a click to the selected menu action. */
         private void handleMouseClicked(Point point) {
             if (play.contains(point)) {
-                GameScreen game = new GameScreen();
+                // FIX: Initialize a fresh GameSession and pass it directly to the GameScreen constructor
+                GameSession session = new GameSession();
+                GameScreen game = new GameScreen(session);
                 game.setVisible(true);
                 MainMenu.this.dispose();
-            }
-            if (settings.contains(point)) {
+            } else if (settings.contains(point)) {
                 JOptionPane.showMessageDialog(MainMenu.this, "Settings Menu");
-            }
-            if (credits.contains(point)) {
+            } else if (credits.contains(point)) {
                 JOptionPane.showMessageDialog(MainMenu.this, "Developed by Sri Ganty");
+            } else if (quit.contains(point)) {
+                System.exit(0);
             }
         }
 
         /**
          * Overridden graphics layer painting all custom colors, visual assets, 
          * and font strings cleanly onto the panel canvas.
-         *
-         * @param g the graphics context used for drawing
-         * @return void
          */
         @Override
         protected void paintComponent(Graphics g) {
@@ -130,6 +117,7 @@ public class MainMenu extends JFrame {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
+            // Draw Gradient Background
             GradientPaint background = new GradientPaint(
                     0, 0, BACKGROUND_TOP,
                     0, getHeight(), BACKGROUND_BOTTOM
@@ -137,51 +125,49 @@ public class MainMenu extends JFrame {
             g2.setPaint(background);
             g2.fillRect(0, 0, getWidth(), getHeight());
 
+            // Center Spotlight Ambient Radial Glow
             Point2D center = new Point2D.Float(getWidth() / 2.0f, getHeight() / 2.0f);
             float radius = 500f;
             float[] dist = {0.0f, 1.0f};
-                Color[] colors = {GLOW_COLOR, new Color(0, 0, 0, 0)};
+            Color[] colors = {GLOW_COLOR, new Color(0, 0, 0, 0)};
             RadialGradientPaint glow = new RadialGradientPaint(center, radius, dist, colors);
             g2.setPaint(glow);
             g2.fillRect(0, 0, getWidth(), getHeight());
 
+            // Decorative Background Circles
             g2.setStroke(new BasicStroke(1f));
-                g2.setColor(ACCENT_GLOW);
+            g2.setColor(ACCENT_GLOW);
             g2.drawOval(-200, -200, 600, 600);
             g2.drawOval(getWidth() - 400, getHeight() - 400, 600, 600);
 
+            // Title Header with Shadow Decor
             g2.setFont(TITLE_FONT);
-            
-                g2.setColor(TITLE_SHADOW);
-                drawCentered(g2, "LOCK IN", 172);
+            g2.setColor(TITLE_SHADOW);
+            drawCentered(g2, "LOCK IN", 172);
 
-                g2.setColor(TITLE_PRIMARY);
+            g2.setColor(TITLE_PRIMARY);
             drawCentered(g2, "LOCK IN", 170);
 
+            // Underline Accent Bar
             FontMetrics titleMetrics = g2.getFontMetrics();
             int titleWidth = titleMetrics.stringWidth("LOCK IN");
             int titleX = (getWidth() - titleWidth) / 2;
             g2.setColor(TITLE_ACCENT);
             g2.fillRoundRect(titleX + 40, 188, titleWidth - 80, 4, 4, 4);
 
+            // Subtitle Tagline text round
             g2.setFont(SUBTITLE_FONT);
-                g2.setColor(SUBTITLE_COLOR); 
+            g2.setColor(SUBTITLE_COLOR); 
             drawCentered(g2, "ONE MILLION REASONS TO PLAY", 255);
 
             // --- Draw Navigation Buttons ---
             drawButton(g2, play, "PLAY", hovered.equals("PLAY"));
             drawButton(g2, settings, "SETTINGS", hovered.equals("SETTINGS"));
             drawButton(g2, credits, "CREDITS", hovered.equals("CREDITS"));
+            drawButton(g2, quit, "QUIT", hovered.equals("QUIT"));
         }
 
-        /** Draws an isolated rounded rectangle menu button dynamically changing color on hover.
-         *
-         * @param g2 the active 2D graphics context
-         * @param r the boundaries defining the width, height, and location coordinates
-         * @param text the message label displayed inside the button
-         * @param hover whether the button should use the hover styling
-         * @return void
-         */
+        /** Draws an isolated rounded rectangle menu button dynamically changing color on hover. */
         private void drawButton(Graphics2D g2, Rectangle r, String text, boolean hover) {
             if (hover) {
                 g2.setColor(BUTTON_BG_HOVER);
@@ -208,13 +194,7 @@ public class MainMenu extends JFrame {
             g2.drawString(text, x, y);
         }
 
-        /** Centers text horizontally within the menu panel.
-         *
-         * @param g2 the active 2D graphics context
-         * @param text the text string to center
-         * @param y the baseline height coordinate where the text should rest
-         * @return void
-         */
+        /** Centers text horizontally within the menu panel. */
         private void drawCentered(Graphics2D g2, String text, int y) {
             FontMetrics fm = g2.getFontMetrics();
             int x = (getWidth() - fm.stringWidth(text)) / 2;

@@ -1,6 +1,6 @@
 public class Question {
 
-    private final String question;
+    public final String question;
     private final String answerA;
     private final String answerB;
     private final String answerC;
@@ -9,6 +9,7 @@ public class Question {
     private final int difficulty;
     private final int timeLimit;
     private final String category;
+    private final boolean[] eliminatedByFiftyFifty = new boolean[4];
 
     /** Creates a question record for the game database.
      *
@@ -37,6 +38,35 @@ public class Question {
         this.difficulty = difficulty;
         this.timeLimit = timeLimit;
         this.category = category;
+    }
+
+    /** Marks an answer index as eliminated by the 50/50 lifeline.
+     *
+     * @param index the answer index to eliminate (0-3)
+     * @return void
+     */
+    public void eliminateAnswer(int index) {
+        if (index >= 0 && index < 4) {
+            eliminatedByFiftyFifty[index] = true;
+        }
+    }
+
+    /** Returns whether the answer at the given index has been eliminated by 50/50.
+     *
+     * @param index the answer index to check (0-3)
+     * @return true when the answer has been eliminated, otherwise false
+     */
+    public boolean isEliminated(int index) {
+        return eliminatedByFiftyFifty[index];
+    }
+
+    /** Returns the array of elimination flags for all answers.
+     *
+     * @param none no parameters are required
+     * @return a copy of the elimination flags
+     */
+    public boolean[] getEliminationFlags() {
+        return eliminatedByFiftyFifty.clone();
     }
 
     /** Returns the question text.

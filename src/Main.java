@@ -1,3 +1,4 @@
+
 import javax.swing.SwingUtilities;
 
 /** Entry point for the Lock In application. */

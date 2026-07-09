@@ -1,149 +1,281 @@
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.util.Arrays;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-/** Handles gameplay input, timers, and small UI state for the game screen. */
+/**
+ * GameScreenPanel acts as the controller and interactive layer for gameplay.
+ * It manages clicks, hovers, answer submissions, animation timings, 
+ * and routes out directly to the game over screen on failures or time outs.
+ */
 public class GameScreenPanel extends JPanel {
 
-    private final GameSession session = new GameSession();
-    private final GameScreenRenderer renderer = new GameScreenRenderer();
+    private final GameSession session;
+    private final GameScreenRenderer renderer;
+    private final JFrame parentFrame;
 
-    private MoneyLadder moneyLadder;
+    // Boundary maps for interactive layout click zones
+    private final Rectangle backButtonBounds = new Rectangle(20, 20, 90, 36);
+    private final Rectangle[] answerBounds = new Rectangle[4];
+    private final Rectangle[] lifelineBounds = new Rectangle[4];
 
-    private final Rectangle backButton = new Rectangle(34, 26, 128, 38);
-    private final Rectangle[] answerBounds = {
-            new Rectangle(90, 390, 420, 88),
-            new Rectangle(590, 390, 420, 88),
-            new Rectangle(90, 495, 420, 88),
-            new Rectangle(590, 495, 420, 88)
-    };
-    private final Rectangle[] lifelineBounds = {
-            new Rectangle(90, 620, 200, 42),
-            new Rectangle(305, 620, 200, 42),
-            new Rectangle(520, 620, 200, 42),
-            new Rectangle(735, 620, 200, 42)
-    };
-    private final boolean[] answerLocks = new boolean[4];
-    private final Timer countdownTimer;
+    // Interaction tracking state variables
     private int hoveredAnswerIndex = -1;
     private int hoveredLifelineIndex = -1;
-    private boolean hoveringBack;
-    private int lastQuestionSerial = -1;
-    private boolean completionDialogShowing;
+    private boolean hoveringBack = false;
+    private int selectedAnswerIndex = -1;
+    private boolean answerRevealed = false;
+    private boolean inputBlocked = false;
 
-    /** Creates the gameplay panel and starts the countdown timer. */
-    public GameScreenPanel() {
+    private final Timer gameLoopTimer;
+
+    public GameScreenPanel(JFrame parentFrame, GameSession session) {
+        this.parentFrame = parentFrame;
+        this.session = session;
+        this.renderer = new GameScreenRenderer();
+
+        setPreferredSize(new Dimension(1100, 750));
         setFocusable(true);
-        setPreferredSize(new Dimension(1100, 760));
-        countdownTimer = new Timer(1000, event -> onTick());
-        installListeners();
-        syncQuestionState();
-        if (!session.isFinished()) {
-            countdownTimer.start();
+
+        // Configure layout button nodes dynamically
+        initLayoutBounds();
+
+        // High-frequency UI tick loop (updates timers and animations smoothly)
+        gameLoopTimer = new Timer(1000, e -> handleGameTick());
+        gameLoopTimer.start();
+
+        // Repaint driver for smooth fluid pulse color changes
+        Timer repaintTimer = new Timer(50, e -> repaint());
+        repaintTimer.start();
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                handleMouseClick(e.getPoint());
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                handleMouseMovement(e.getPoint());
+            }
+        });
+    }
+
+    private void initLayoutBounds() {
+        // Setup answer cards grid matrix positions
+        int startX = 80;
+        int startY = 400;
+        int boxWidth = 450;
+        int boxHeight = 54;
+        int gapX = 40;
+        int gapY = 24;
+
+        answerBounds[0] = new Rectangle(startX, startY, boxWidth, boxHeight);
+        answerBounds[1] = new Rectangle(startX + boxWidth + gapX, startY, boxWidth, boxHeight);
+        answerBounds[2] = new Rectangle(startX, startY + boxHeight + gapY, boxWidth, boxHeight);
+        answerBounds[3] = new Rectangle(startX + boxWidth + gapX, startY + boxHeight + gapY, boxWidth, boxHeight);
+
+        // Setup bottom row utility lifeline blocks
+        int lifeStartX = 80;
+        int lifeStartY = 580;
+        int lifeWidth = 210;
+        int lifeHeight = 44;
+        int lifeGap = 33;
+
+        for (int i = 0; i < 4; i++) {
+            lifelineBounds[i] = new Rectangle(lifeStartX + i * (lifeWidth + lifeGap), lifeStartY, lifeWidth, lifeHeight);
         }
     }
 
-    /**
-     * * Registers the MoneyLadder reference so this panel can push live step
-     * highlights.
-     * * @param ladder the instantiated MoneyLadder UI instance
-     */
-    public void setMoneyLadder(MoneyLadder ladder) {
-        this.moneyLadder = ladder;
-        // Seed initial level placement matching active state
-        if (this.moneyLadder != null) {
-            this.moneyLadder.setCurrentMoney(session.getScore());
+    private void handleGameTick() {
+        if (session.isFinished()) {
+            return;
+        }
+
+        // Advance backend timer tracking increments
+        session.tick();
+
+        // CRITICAL FIX: If an active game session expires due to timeout, immediately route directly to Game Over
+        if (session.isFinished() && "Time expired.".equals(session.getStatusMessage())) {
+            triggerGameOverSequence();
         }
     }
 
-    /**
-     * Returns the active game session used by the renderer.
-     *
-     * @param none no parameters are required
-     * @return the active game session used by the renderer
-     */
-    GameSession getSession() {
-        return session;
+    private void handleMouseMovement(Point point) {
+        if (inputBlocked || session.isFinished()) {
+            hoveringBack = false;
+            hoveredAnswerIndex = -1;
+            hoveredLifelineIndex = -1;
+            return;
+        }
+
+        // If high stakes choice overlay is pending, re-map layout regions contextually to options 0 and 1
+        if (session.isHighStakesDecisionPending()) {
+            int center = getWidth() / 2;
+            Rectangle playBox = new Rectangle(center - 310, 370, 280, 90);
+            Rectangle walkBox = new Rectangle(center + 30, 370, 280, 90);
+
+            if (playBox.contains(point)) hoveredAnswerIndex = 0;
+            else if (walkBox.contains(point)) hoveredAnswerIndex = 1;
+            else hoveredAnswerIndex = -1;
+            return;
+        }
+
+        hoveringBack = backButtonBounds.contains(point);
+
+        hoveredAnswerIndex = -1;
+        for (int i = 0; i < 4; i++) {
+            if (answerBounds[i].contains(point) && !session.isAnswerEliminated(i)) {
+                hoveredAnswerIndex = i;
+                break;
+            }
+        }
+
+        hoveredLifelineIndex = -1;
+        for (int i = 0; i < 4; i++) {
+            if (lifelineBounds[i].contains(point)) {
+                hoveredLifelineIndex = i;
+                break;
+            }
+        }
     }
 
-    /**
-     * Returns the menu-button bounds used for hit testing and drawing.
-     *
-     * @param none no parameters are required
-     * @return the menu-button bounds used for hit testing and drawing
-     */
-    Rectangle getBackButtonBounds() {
-        return backButton;
+    private void handleMouseClick(Point point) {
+        if (inputBlocked || session.isFinished()) return;
+
+        // Redirect interaction events explicitly when the inline PlayOrWalk UI overlay is active
+        if (session.isHighStakesDecisionPending()) {
+            int center = getWidth() / 2;
+            Rectangle playBox = new Rectangle(center - 310, 370, 280, 90);
+            Rectangle walkBox = new Rectangle(center + 30, 370, 280, 90);
+
+            if (playBox.contains(point)) {
+                session.chooseHighStakesDecision(true);
+                resetInterfaceState();
+            } else if (walkBox.contains(point)) {
+                session.chooseHighStakesDecision(false);
+                triggerGameOverSequence();
+            }
+            return;
+        }
+
+        if (backButtonBounds.contains(point)) {
+            gameLoopTimer.stop();
+            parentFrame.setContentPane(new MainMenu().getContentPane());
+            parentFrame.validate();
+            return;
+        }
+
+        // Process answer selections
+        for (int i = 0; i < 4; i++) {
+            if (answerBounds[i].contains(point) && !session.isAnswerEliminated(i)) {
+                executeAnswerSubmissionSequence(i);
+                return;
+            }
+        }
+
+        // Process lifelines click selections
+        for (int i = 0; i < 4; i++) {
+            if (lifelineBounds[i].contains(point)) {
+                handleLifelineTrigger(i);
+                return;
+            }
+        }
     }
 
-    /**
-     * Returns the four answer-button bounds used for hit testing and drawing.
-     *
-     * @param none no parameters are required
-     * @return the four answer-button bounds used for hit testing and drawing
-     */
-    Rectangle[] getAnswerBounds() {
-        return answerBounds;
+    private void executeAnswerSubmissionSequence(int answerIndex) {
+        inputBlocked = true;
+        selectedAnswerIndex = answerIndex;
+        session.pauseTimer();
+
+        // Validate answer target state via backend checks
+        boolean correct = (session.getCorrectAnswerIndex() == answerIndex);
+        session.setAnswerAnimating(answerIndex, correct);
+        answerRevealed = true;
+
+        // Freeze interface window frame for exactly 2 seconds to showcase results
+        Timer freezeTimer = new Timer(2000, e -> {
+            session.clearAnswerAnimation();
+            
+            // Apply result status updates to core session registers
+            session.submitAnswer(answerIndex);
+
+            if (!correct) {
+                // If wrong choice submitted, complete freeze time and transition straight to game over screen
+                triggerGameOverSequence();
+            } else {
+                // Clean up transient selection flags for the upcoming question round
+                resetInterfaceState();
+                session.resumeTimer();
+            }
+        });
+        freezeTimer.setRepeats(false);
+        freezeTimer.start();
     }
 
-    /**
-     * Returns the lifeline-button bounds used for hit testing and drawing.
-     *
-     * @param none no parameters are required
-     * @return the lifeline-button bounds used for hit testing and drawing
-     */
-    Rectangle[] getLifelineBounds() {
-        return lifelineBounds;
+    private void handleLifelineTrigger(int index) {
+        switch (index) {
+            case 0:
+                session.useSwap();
+                break;
+            case 1:
+                if (!session.isAudiencePollUsed()) {
+                    session.useAudiencePoll();
+                    Question currentQ = session.getCurrentQuestion();
+                    if (currentQ != null) {
+                        AudiencePollDialog dialog = new AudiencePollDialog(new JDialog(parentFrame, true), currentQ);
+                        dialog.pack();
+                        dialog.setLocationRelativeTo(this);
+                        dialog.setVisible(true);
+                    }
+                }
+                break;
+            case 2:
+                session.useFiftyFifty();
+                break;
+            case 3:
+                session.usePhoneAFriend();
+                break;
+        }
+        resetInterfaceState();
     }
 
-    /**
-     * Returns whether the cursor is over the menu button.
-     *
-     * @param none no parameters are required
-     * @return true when the cursor is over the menu button, otherwise false
-     */
-    boolean isHoveringBack() {
-        return hoveringBack;
+    private void resetInterfaceState() {
+        selectedAnswerIndex = -1;
+        answerRevealed = false;
+        inputBlocked = false;
+        hoveredAnswerIndex = -1;
+        hoveredLifelineIndex = -1;
     }
 
-    /**
-     * Returns the currently hovered answer index, or -1 when none is hovered.
-     *
-     * @param none no parameters are required
-     * @return the currently hovered answer index, or -1 when none is hovered
-     */
-    int getHoveredAnswerIndex() {
-        return hoveredAnswerIndex;
-    }
+    private void triggerGameOverSequence() {
+        gameLoopTimer.stop();
 
-    /**
-     * Returns the currently hovered lifeline index, or -1 when none is hovered.
-     *
-     * @param none no parameters are required
-     * @return the currently hovered lifeline index, or -1 when none is hovered
-     */
-    int getHoveredLifelineIndex() {
-        return hoveredLifelineIndex;
-    }
+        // 1. Extract clean integer/boolean primitives for custom GameOverScreen
+        int finalWinnings = session.getScore();
+        boolean failed = (session.getStatusType() == GameSession.StatusType.FAILURE);
 
-    /**
-     * Returns whether the answer at the given index is currently locked.
-     *
-     * @param index the answer slot to inspect
-     * @return true when the answer is locked, otherwise false
-     */
-    boolean isAnswerLocked(int index) {
-        return answerLocks[index];
+        java.awt.Container parent = this.getParent();
+        if (parent instanceof javax.swing.JSplitPane) {
+            javax.swing.JSplitPane splitPane = (javax.swing.JSplitPane) parent;
+            
+            // Create a clean instance of the original screen configuration
+            GameOverScreen gameOver = new GameOverScreen(finalWinnings, failed);
+            
+            splitPane.setLeftComponent(gameOver);
+            
+            splitPane.setDividerLocation(820); 
+            
+            gameOver.requestFocusInWindow();
+            
+            splitPane.revalidate();
+            splitPane.repaint();
+        } else {
+            // Fallback layout wrapper path
+            parentFrame.setContentPane(new GameOverScreen(finalWinnings, failed));
+            parentFrame.validate();
+        }
     }
 
     @Override
@@ -152,315 +284,16 @@ public class GameScreenPanel extends JPanel {
         renderer.paint((Graphics2D) g, this);
     }
 
-    /**
-     * Installs mouse listeners for hover state, single-press answer selection, and
-     * navigation.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void installListeners() {
-        addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent event) {
-                handleMouseMoved(event.getPoint());
-            }
-        });
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent event) {
-                handleMousePressed(event.getPoint());
-            }
-        });
-    }
-
-    /**
-     * Handles mouse-move events and refreshes hover feedback.
-     *
-     * @param point the pointer location to evaluate
-     * @return void
-     */
-    private void handleMouseMoved(Point point) {
-        updateHoverState(point);
-    }
-
-    /**
-     * Handles mouse-press events and routes them through the click dispatcher.
-     *
-     * @param point the pointer location to evaluate
-     * @return void
-     */
-    private void handleMousePressed(Point point) {
-        handleClick(point);
-    }
-
-    /**
-     * Routes a pointer press to the back button, answer grid, or lifelines.
-     *
-     * @param point the pointer location to evaluate
-     * @return void
-     */
-    private void handleClick(Point point) {
-        if (backButton.contains(point)) {
-            returnToMenu();
-            return;
-        }
-
-        if (session.isFinished() || session.getCurrentQuestion() == null) {
-            return;
-        }
-
-        for (int i = 0; i < answerBounds.length; i++) {
-            if (answerBounds[i].contains(point) && !answerLocks[i]) {
-                session.submitAnswer(i);
-                syncQuestionState();
-                return;
-            }
-        }
-
-        for (int i = 0; i < lifelineBounds.length; i++) {
-            if (lifelineBounds[i].contains(point)) {
-                useLifeline(i);
-                syncQuestionState();
-                return;
-            }
-        }
-    }
-
-    /**
-     * Recomputes hover state so the renderer can highlight the current target.
-     *
-     * @param point the pointer location to evaluate
-     * @return void
-     */
-    private void updateHoverState(Point point) {
-        hoveringBack = backButton.contains(point);
-
-        hoveredAnswerIndex = -1;
-        for (int i = 0; i < answerBounds.length; i++) {
-            if (answerBounds[i].contains(point)) {
-                hoveredAnswerIndex = i;
-                break;
-            }
-        }
-
-        hoveredLifelineIndex = -1;
-        for (int i = 0; i < lifelineBounds.length; i++) {
-            if (lifelineBounds[i].contains(point)) {
-                hoveredLifelineIndex = i;
-                break;
-            }
-        }
-
-        repaint();
-    }
-
-    /**
-     * Advances the countdown and refreshes the display.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void onTick() {
-        session.tick();
-        syncQuestionState();
-    }
-
-    /**
-     * Dispatches lifeline actions by button index.
-     *
-     * @param index the lifeline button index
-     * @return void
-     */
-    private void useLifeline(int index) {
-        switch (index) {
-            case 0 -> useSwapLifeline();
-            case 1 -> useAudiencePollLifeline();
-            case 2 -> useFiftyFiftyLifeline();
-            case 3 -> usePhoneAFriendLifeline();
-            default -> {
-            }
-        }
-    }
-
-    /**
-     * Uses Swap and clears any answer locks so the replacement question is
-     * interactive.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void useSwapLifeline() {
-        if (!session.useSwap()) {
-            JOptionPane.showMessageDialog(this, "Swap is unavailable right now.");
-            return;
-        }
-        Arrays.fill(answerLocks, false);
-        JOptionPane.showMessageDialog(this, "Swap used. The current question has been refreshed.");
-    }
-
-    /**
-     * Shows a lightweight audience-poll summary for the active question.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void useAudiencePollLifeline() {
-        if (!session.useAudiencePoll()) {
-            JOptionPane.showMessageDialog(this, "Audience Poll has already been used.");
-            return;
-        }
-
-        Question question = session.getCurrentQuestion();
-        if (question == null) {
-            return;
-        }
-
-        JOptionPane.showMessageDialog(this, Lifelines.buildAudiencePollText(question), "Audience Poll",
-                JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    /**
-     * Locks two incorrect answers, leaving the correct answer and one wrong option
-     * available.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void useFiftyFiftyLifeline() {
-        if (!session.useFiftyFifty()) {
-            JOptionPane.showMessageDialog(this, "25/75 has already been used.");
-            return;
-        }
-
-        Question question = session.getCurrentQuestion();
-        if (question == null) {
-            return;
-        }
-
-        Arrays.fill(answerLocks, false);
-        int[] eliminatedIndices = Lifelines.getFiftyFiftyEliminatedIndices(question);
-        for (int index : eliminatedIndices) {
-            answerLocks[index] = true;
-        }
-        repaint();
-    }
-
-    /**
-     * Shows the active question's correct answer as the simulated phone-a-friend
-     * hint.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void usePhoneAFriendLifeline() {
-        if (!session.usePhoneAFriend()) {
-            JOptionPane.showMessageDialog(this, "Phone a Friend has already been used.");
-            return;
-        }
-
-        Question question = session.getCurrentQuestion();
-        if (question == null) {
-            return;
-        }
-
-        JOptionPane.showMessageDialog(this, Lifelines.buildPhoneAFriendHint(question), "Phone a Friend",
-                JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    /**
-     * Resets local interaction state when the session advances, finishes, or
-     * restarts.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void syncQuestionState() {
-        if (session.getQuestionSerial() != lastQuestionSerial) {
-            Arrays.fill(answerLocks, false);
-            lastQuestionSerial = session.getQuestionSerial();
-        }
-
-        // Highlight the ladder step matching the question the player is facing!
-        if (moneyLadder != null) {
-            moneyLadder.setCurrentLevel(session.getCurrentQuestionNumber());
-        }
-        // ---------------------------------
-
-        if (session.isFinished() && session.getStatusType() == GameSession.StatusType.FAILURE) {
-            countdownTimer.stop();
-            completionDialogShowing = true;
-            showCompletionDialog();
-            return;
-        }
-
-        if (!session.isFinished()) {
-            completionDialogShowing = false;
-            repaint();
-            return;
-        }
-        if (completionDialogShowing) {
-            repaint();
-            return;
-        }
-        completionDialogShowing = true;
-        countdownTimer.stop();
-        repaint();
-        showCompletionDialog();
-    }
-
-    /**
-     * Prompts the player to replay or return to the menu after the run ends.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void showCompletionDialog() {
-        boolean failed = session.getStatusType() == GameSession.StatusType.FAILURE;
-        String title = failed ? "Game Over" : "Game Complete";
-        String message = failed
-                ? "GAME OVER: You earned a grand total of " + String.format("%,d", session.getLastSafeMoney())
-                        + ".\n\nWould you like to play again?"
-                : "You cleared Lock In with a score of $" + String.format("%,d", session.getScore())
-                        + ".\n\nWould you like to play again?";
-        int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION,
-                JOptionPane.INFORMATION_MESSAGE);
-
-        if (choice == JOptionPane.YES_OPTION) {
-            session.restart();
-            completionDialogShowing = false;
-            lastQuestionSerial = -1;
-            Arrays.fill(answerLocks, false);
-
-            // Re-sync the level capsule back to level 1 on restart
-            if (moneyLadder != null) {
-                moneyLadder.setCurrentMoney(session.getScore());
-            }
-
-            countdownTimer.start();
-            repaint();
-            return;
-        }
-
-        returnToMenu();
-    }
-
-    /**
-     * Opens a fresh main menu and closes the current game window.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void returnToMenu() {
-        SwingUtilities.invokeLater(() -> {
-            MainMenu menu = new MainMenu();
-            menu.setVisible(true);
-        });
-
-        java.awt.Window window = SwingUtilities.getWindowAncestor(this);
-        if (window != null) {
-            window.dispose();
-        }
-    }
+    // Expose component layouts cleanly to internal drawing dependencies
+    public GameSession getSession() { return session; }
+    public Rectangle getBackButtonBounds() { return backButtonBounds; }
+    public boolean isHoveringBack() { return hoveringBack; }
+    public Rectangle[] getAnswerBounds() { return answerBounds; }
+    public int getHoveredAnswerIndex() { return hoveredAnswerIndex; }
+    public int getSelectedAnswerIndex() { return selectedAnswerIndex; }
+    public boolean isAnswerRevealed() { return answerRevealed; }
+    public boolean isInputBlocked() { return inputBlocked; }
+    public Rectangle[] getLifelineBounds() { return lifelineBounds; }
+    public int getHoveredLifelineIndex() { return hoveredLifelineIndex; }
+    public boolean wasLastAnswerCorrect() { return session.wasLastAnswerCorrect(); }
 }

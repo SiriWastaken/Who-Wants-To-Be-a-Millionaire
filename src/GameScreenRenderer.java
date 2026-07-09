@@ -8,14 +8,12 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 
+
 /** Draws the Lock In gameplay screen using the current session and panel state.
  * @author Sri Ganty, with refactoring help from Copilot (GPT 5.4 Mini)
  */
 public class GameScreenRenderer {
 
-    // Changes to be made: 1. Please fix the spacing between the timer and the question
-    // 2. Make the ring thicker
-    // 3. Make the ring color change from green to yellow to red as time runs out
     private final Font titleFont = new Font("SansSerif", Font.BOLD, 40);
     private final Font subtitleFont = new Font("SansSerif", Font.PLAIN, 15);
     private final Font bodyFont = new Font("SansSerif", Font.PLAIN, 22);
@@ -24,8 +22,8 @@ public class GameScreenRenderer {
     private final Font statFont = new Font("SansSerif", Font.BOLD, 19);
     private final Font statSmallFont = new Font("SansSerif", Font.PLAIN, 14);
 
-    private final Color backgroundTop = new Color(10, 8, 28);
-    private final Color backgroundBottom = new Color(3, 2, 10);
+    private final Color backgroundTop = new Color(6, 6, 16);
+    private final Color backgroundBottom = new Color(18, 12, 36);
     private final Color glowColor = new Color(99, 102, 241, 25);
     private final Color accentGlow = new Color(245, 158, 11, 20);
     private final Color titlePrimary = Color.WHITE;
@@ -42,6 +40,10 @@ public class GameScreenRenderer {
     private final Color disabledText = new Color(107, 114, 128);
     private final Color success = new Color(34, 197, 94);
     private final Color failure = new Color(239, 68, 68);
+    private final Color selectedOrange = new Color(245, 158, 11);
+    private final Color selectedOrangeBg = new Color(245, 158, 11, 40);
+    private final Color incorrectOrange = new Color(239, 68, 68);
+    private final Color incorrectOrangeBg = new Color(239, 68, 68, 40);
 
     /** Paints the full gameplay screen.
      *
@@ -56,6 +58,12 @@ public class GameScreenRenderer {
         GradientPaint background = new GradientPaint(0, 0, backgroundTop, 0, panel.getHeight(), backgroundBottom);
         g2.setPaint(background);
         g2.fillRect(0, 0, panel.getWidth(), panel.getHeight());
+
+        // Check if High Stakes Decision overlay should be integrated directly into the UI
+        if (panel.getSession().isHighStakesDecisionPending()) {
+            drawPlayOrWalkOverlay(g2, panel);
+            return;
+        }
 
         Point2D center = new Point2D.Float(panel.getWidth() / 2.0f, panel.getHeight() / 2.0f);
         float[] dist = {0.0f, 1.0f};
@@ -74,6 +82,51 @@ public class GameScreenRenderer {
         drawAnswerButtons(g2, panel);
         drawLifelineButtons(g2, panel);
         drawFooter(g2, panel);
+    }
+
+    /**
+     * Renders the integrated PlayOrWalk high stakes overlay screen contextually inside the main gameplay canvas.
+     */
+    private void drawPlayOrWalkOverlay(Graphics2D g2, GameScreenPanel panel) {
+        g2.setColor(new Color(245, 179, 92, 40));
+        g2.fillOval(panel.getWidth() / 2 - 250, 80, 500, 250);
+
+        g2.setFont(new Font("Serif", Font.BOLD, 60));
+        g2.setColor(new Color(246, 230, 194));
+        drawCentered(g2, "£16,000 REACHED!", 130, panel);
+
+        g2.setFont(new Font("SansSerif", Font.BOLD, 28));
+        g2.setColor(Color.WHITE);
+        drawCentered(g2, "You have secured £16,000.", 210, panel);
+
+        g2.setFont(new Font("SansSerif", Font.PLAIN, 24));
+        drawCentered(g2, "Do you want to risk it for the next question?", 260, panel);
+
+        int buttonWidth = 280;
+        int buttonHeight = 90;
+        int center = panel.getWidth() / 2;
+
+        Rectangle playButton = new Rectangle(center - buttonWidth - 30, 370, buttonWidth, buttonHeight);
+        Rectangle walkButton = new Rectangle(center + 30, 370, buttonWidth, buttonHeight);
+
+        // Map answer button hover indices to play/walk options safely
+        drawPlayOrWalkButton(g2, playButton, "PLAY ROUND", panel.getHoveredAnswerIndex() == 0);
+        drawPlayOrWalkButton(g2, walkButton, "WALK AWAY", panel.getHoveredAnswerIndex() == 1);
+    }
+
+    private void drawPlayOrWalkButton(Graphics2D g2, Rectangle box, String text, boolean hovered) {
+        g2.setColor(hovered ? new Color(255, 170, 36) : new Color(57, 146, 224));
+        g2.fillRoundRect(box.x, box.y, box.width, box.height, 30, 30);
+        
+        g2.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(box.x, box.y, box.width, box.height, 30, 30);
+
+        g2.setFont(new Font("SansSerif", Font.BOLD, 28));
+        FontMetrics fm = g2.getFontMetrics();
+        int x = box.x + (box.width - fm.stringWidth(text)) / 2;
+        int y = box.y + (box.height + fm.getAscent()) / 2 - 5;
+        g2.drawString(text, x, y);
     }
 
     /** Draws the back-to-menu button in the upper-left corner.
@@ -117,7 +170,7 @@ public class GameScreenRenderer {
 
         drawStatCard(g2, 90, 140, 250, 68, "QUESTION", panel.getSession().getCurrentQuestionNumber() + " / " + panel.getSession().getTotalQuestions());
         drawTimerWidget(g2, panel, 438, 118, 214, 116);
-        drawStatCard(g2, 760, 140, 250, 68, "MONEY", "$" + String.format("%,d", panel.getSession().getScore()));
+        drawStatCard(g2, 760, 140, 250, 68, "MONEY", "£" + String.format("%,d", panel.getSession().getScore()));
     }
 
     /** Draws a simple stat card used for the question counter and money total.
@@ -174,19 +227,16 @@ public class GameScreenRenderer {
 
         int timeLimit = panel.getSession().getCurrentQuestionTimeLimit();
         int timeRemaining = panel.getSession().getTimeRemaining();
-        // Convert the remaining seconds into a 0..1 fraction for the progress ring.
         float fraction = timeLimit <= 0 ? 0.0f : Math.max(0.0f, Math.min(1.0f, timeRemaining / (float) timeLimit));
         int extent = Math.round(360f * fraction);
         Color timerColor = timerColorForFraction(fraction);
 
-        // The ring is intentionally split into a background track and a live progress arc.
         g2.setColor(new Color(255, 255, 255, 24));
         g2.fillOval(ringX, ringY, ringSize, ringSize);
 
         g2.setStroke(new BasicStroke(9f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g2.setColor(new Color(255, 255, 255, 28));
         g2.drawArc(ringX, ringY, ringSize, ringSize, 90, -360);
-        // Negative extent makes the arc fill clockwise from the top.
         g2.setColor(timerColor);
         g2.drawArc(ringX, ringY, ringSize, ringSize, 90, -extent);
 
@@ -249,7 +299,7 @@ public class GameScreenRenderer {
         }
     }
 
-    /** Draws the four answer buttons and their current hover/disabled states.
+    /** Draws the four answer buttons and their current hover/disabled/selected states.
      *
      * @param g2 the graphics context used for drawing
      * @param panel the gameplay panel being rendered
@@ -269,23 +319,77 @@ public class GameScreenRenderer {
                 question.getAnswerD()
         };
 
+        // Fall back to animated state indicators to synchronize drawing metrics during freeze locks
+        int selectedIdx = panel.getSelectedAnswerIndex();
+        if (selectedIdx == -1 && panel.getSession().isAnswerAnimating()) {
+            selectedIdx = panel.getSession().getAnimatedAnswerIndex();
+        }
+
+        boolean revealed = panel.isAnswerRevealed() || panel.getSession().isAnswerAnimating() || panel.getSession().isFinished();
+        boolean correct = panel.wasLastAnswerCorrect() || (panel.getSession().isAnswerAnimating() && panel.getSession().wasLastAnswerCorrect());
+        boolean inputBlocked = panel.isInputBlocked() || panel.getSession().isAnswerAnimating();
+        
+        int correctAnswerIndex = panel.getSession().getCorrectAnswerIndex();
+
         for (int i = 0; i < panel.getAnswerBounds().length; i++) {
             Rectangle rect = panel.getAnswerBounds()[i];
-            boolean hover = panel.getHoveredAnswerIndex() == i && !panel.isAnswerLocked(i) && !panel.getSession().isFinished();
-            boolean disabled = panel.isAnswerLocked(i);
+            
+            // Check elimination using our clean non-permanent Session Array
+            boolean disabled = panel.getSession().isAnswerEliminated(i);
+            boolean hover = panel.getHoveredAnswerIndex() == i && !disabled && !panel.getSession().isFinished();
+            boolean isSelected = (i == selectedIdx);
+            boolean isCorrectAnswer = (i == correctAnswerIndex);
 
-            g2.setColor(disabled ? new Color(17, 24, 39, 110) : (hover ? buttonBgHover : buttonBg));
+            Color bgColor;
+            Color borderColor;
+            Color textColor;
+
+            if (disabled) {
+                bgColor = new Color(17, 24, 39, 110);
+                borderColor = new Color(55, 65, 81, 80);
+                textColor = disabledText;
+            } else if (revealed && isSelected && correct) {
+                // Correct choice reached: Pulse green and orange seamlessly via system clock ticks
+                boolean alternatingPulse = (System.currentTimeMillis() / 200) % 2 == 0;
+                bgColor = alternatingPulse ? success.darker() : selectedOrangeBg;
+                borderColor = alternatingPulse ? success : selectedOrange;
+                textColor = Color.WHITE;
+            } else if (revealed && !correct && isCorrectAnswer) {
+                // Wrong answer selected - show the correct answer in green
+                bgColor = success.darker();
+                borderColor = success;
+                textColor = Color.WHITE;
+            } else if (revealed && isSelected && !correct) {
+                // Wrong answer selected - lock the selected box to solid orange
+                bgColor = incorrectOrangeBg;
+                borderColor = incorrectOrange;
+                textColor = Color.WHITE;
+            } else if (isSelected && inputBlocked) {
+                bgColor = selectedOrangeBg;
+                borderColor = selectedOrange;
+                textColor = selectedOrange;
+            } else if (hover && !inputBlocked) {
+                bgColor = buttonBgHover;
+                borderColor = buttonBorderHover;
+                textColor = titlePrimary;
+            } else {
+                bgColor = buttonBg;
+                borderColor = buttonBorder;
+                textColor = buttonText;
+            }
+
+            g2.setColor(bgColor);
             g2.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 18, 18);
             g2.setStroke(new BasicStroke(1.4f));
-            g2.setColor(disabled ? new Color(55, 65, 81, 80) : (hover ? buttonBorderHover : buttonBorder));
+            g2.setColor(borderColor);
             g2.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 18, 18);
 
             g2.setFont(buttonFont);
-            g2.setColor(disabled ? disabledText : (hover ? titlePrimary : buttonText));
+            g2.setColor(textColor);
             g2.drawString(labels[i], rect.x + 18, rect.y + 31);
 
             g2.setFont(bodySmallFont);
-            drawWrappedText(g2, answers[i], rect.x + 58, rect.y + 28, rect.width - 74, 20, disabled ? disabledText : buttonText);
+            drawWrappedText(g2, answers[i], rect.x + 58, rect.y + 28, rect.width - 74, 20, textColor);
         }
     }
 

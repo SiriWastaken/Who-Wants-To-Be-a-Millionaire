@@ -114,7 +114,7 @@ public final class QuestionBank {
      */
     private static List<Question> createFallbackQuestions() {
         ArrayList<Question> fallback = new ArrayList<>();
-        fallback.add(new Question("What color is the sky on a clear day?", "Blue", "Green", "Red", "Purple", "A", 1, 10, "Science"));
+        fallback.add(new Question("What colour is the sky on a clear day?", "Blue", "Green", "Red", "Purple", "A", 1, 10, "Science"));
         fallback.add(new Question("How many days are in one week?", "5", "6", "7", "8", "C", 1, 10, "General Knowledge"));
         fallback.add(new Question("Which animal says meow?", "Dog", "Cat", "Cow", "Horse", "B", 1, 10, "Animals"));
         fallback.add(new Question("What is 5 + 3?", "6", "7", "8", "9", "C", 1, 10, "Math"));

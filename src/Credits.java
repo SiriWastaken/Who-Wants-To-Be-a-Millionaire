@@ -1,3 +1,4 @@
+
 /** Placeholder class for the credits view. */
 public class Credits {
 

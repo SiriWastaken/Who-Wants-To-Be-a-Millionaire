@@ -34,17 +34,18 @@ public final class Lifelines {
         return poll.toString();
     }
 
-    /** Returns one incorrect answer index that should be hidden by 25/75.
+    /** Eliminates one incorrect answer index using 50/55 and marks it on the question.
+     * The question's elimination state is updated so the UI can query it directly.
      *
-     * @param question the question used to determine the correct answer
-     * @return the answer index that should be locked
+     * @param question the question to eliminate an answer from
+     * @return the answer index that was eliminated
      */
     public static int[] getFiftyFiftyEliminatedIndices(Question question) {
         int correctIndex = question.getCorrectAnswer().trim().toUpperCase().charAt(0) - 'A';
         List<Integer> eliminated = new ArrayList<>(1);
 
         for (int i = 0; i < 4; i++) {
-            if (i != correctIndex) {
+            if (i != correctIndex && !question.isEliminated(i)) {
                 eliminated.add(i);
             }
         }
@@ -54,6 +55,7 @@ public final class Lifelines {
         }
 
         int chosenIndex = eliminated.get(RANDOM.nextInt(eliminated.size()));
+        question.eliminateAnswer(chosenIndex);
 
         return new int[] { chosenIndex };
     }
