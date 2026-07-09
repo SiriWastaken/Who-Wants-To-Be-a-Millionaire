@@ -17,6 +17,9 @@ public class GameScreenPanel extends JPanel {
 
     private final GameSession session = new GameSession();
     private final GameScreenRenderer renderer = new GameScreenRenderer();
+
+    private MoneyLadder moneyLadder;
+
     private final Rectangle backButton = new Rectangle(34, 26, 128, 38);
     private final Rectangle[] answerBounds = {
             new Rectangle(90, 390, 420, 88),
@@ -50,7 +53,21 @@ public class GameScreenPanel extends JPanel {
         }
     }
 
-    /** Returns the active game session used by the renderer.
+    /**
+     * * Registers the MoneyLadder reference so this panel can push live step
+     * highlights.
+     * * @param ladder the instantiated MoneyLadder UI instance
+     */
+    public void setMoneyLadder(MoneyLadder ladder) {
+        this.moneyLadder = ladder;
+        // Seed initial level placement matching active state
+        if (this.moneyLadder != null) {
+            this.moneyLadder.setCurrentMoney(session.getScore());
+        }
+    }
+
+    /**
+     * Returns the active game session used by the renderer.
      *
      * @param none no parameters are required
      * @return the active game session used by the renderer
@@ -59,7 +76,8 @@ public class GameScreenPanel extends JPanel {
         return session;
     }
 
-    /** Returns the menu-button bounds used for hit testing and drawing.
+    /**
+     * Returns the menu-button bounds used for hit testing and drawing.
      *
      * @param none no parameters are required
      * @return the menu-button bounds used for hit testing and drawing
@@ -68,7 +86,8 @@ public class GameScreenPanel extends JPanel {
         return backButton;
     }
 
-    /** Returns the four answer-button bounds used for hit testing and drawing.
+    /**
+     * Returns the four answer-button bounds used for hit testing and drawing.
      *
      * @param none no parameters are required
      * @return the four answer-button bounds used for hit testing and drawing
@@ -77,7 +96,8 @@ public class GameScreenPanel extends JPanel {
         return answerBounds;
     }
 
-    /** Returns the lifeline-button bounds used for hit testing and drawing.
+    /**
+     * Returns the lifeline-button bounds used for hit testing and drawing.
      *
      * @param none no parameters are required
      * @return the lifeline-button bounds used for hit testing and drawing
@@ -86,7 +106,8 @@ public class GameScreenPanel extends JPanel {
         return lifelineBounds;
     }
 
-    /** Returns whether the cursor is over the menu button.
+    /**
+     * Returns whether the cursor is over the menu button.
      *
      * @param none no parameters are required
      * @return true when the cursor is over the menu button, otherwise false
@@ -95,7 +116,8 @@ public class GameScreenPanel extends JPanel {
         return hoveringBack;
     }
 
-    /** Returns the currently hovered answer index, or -1 when none is hovered.
+    /**
+     * Returns the currently hovered answer index, or -1 when none is hovered.
      *
      * @param none no parameters are required
      * @return the currently hovered answer index, or -1 when none is hovered
@@ -104,7 +126,8 @@ public class GameScreenPanel extends JPanel {
         return hoveredAnswerIndex;
     }
 
-    /** Returns the currently hovered lifeline index, or -1 when none is hovered.
+    /**
+     * Returns the currently hovered lifeline index, or -1 when none is hovered.
      *
      * @param none no parameters are required
      * @return the currently hovered lifeline index, or -1 when none is hovered
@@ -113,7 +136,8 @@ public class GameScreenPanel extends JPanel {
         return hoveredLifelineIndex;
     }
 
-    /** Returns whether the answer at the given index is currently locked.
+    /**
+     * Returns whether the answer at the given index is currently locked.
      *
      * @param index the answer slot to inspect
      * @return true when the answer is locked, otherwise false
@@ -128,7 +152,9 @@ public class GameScreenPanel extends JPanel {
         renderer.paint((Graphics2D) g, this);
     }
 
-    /** Installs mouse listeners for hover state, single-press answer selection, and navigation.
+    /**
+     * Installs mouse listeners for hover state, single-press answer selection, and
+     * navigation.
      *
      * @param none no parameters are required
      * @return void
@@ -149,7 +175,8 @@ public class GameScreenPanel extends JPanel {
         });
     }
 
-    /** Handles mouse-move events and refreshes hover feedback.
+    /**
+     * Handles mouse-move events and refreshes hover feedback.
      *
      * @param point the pointer location to evaluate
      * @return void
@@ -158,7 +185,8 @@ public class GameScreenPanel extends JPanel {
         updateHoverState(point);
     }
 
-    /** Handles mouse-press events and routes them through the click dispatcher.
+    /**
+     * Handles mouse-press events and routes them through the click dispatcher.
      *
      * @param point the pointer location to evaluate
      * @return void
@@ -167,7 +195,8 @@ public class GameScreenPanel extends JPanel {
         handleClick(point);
     }
 
-    /** Routes a pointer press to the back button, answer grid, or lifelines.
+    /**
+     * Routes a pointer press to the back button, answer grid, or lifelines.
      *
      * @param point the pointer location to evaluate
      * @return void
@@ -199,7 +228,8 @@ public class GameScreenPanel extends JPanel {
         }
     }
 
-    /** Recomputes hover state so the renderer can highlight the current target.
+    /**
+     * Recomputes hover state so the renderer can highlight the current target.
      *
      * @param point the pointer location to evaluate
      * @return void
@@ -226,7 +256,8 @@ public class GameScreenPanel extends JPanel {
         repaint();
     }
 
-    /** Advances the countdown and refreshes the display.
+    /**
+     * Advances the countdown and refreshes the display.
      *
      * @param none no parameters are required
      * @return void
@@ -236,7 +267,8 @@ public class GameScreenPanel extends JPanel {
         syncQuestionState();
     }
 
-    /** Dispatches lifeline actions by button index.
+    /**
+     * Dispatches lifeline actions by button index.
      *
      * @param index the lifeline button index
      * @return void
@@ -252,33 +284,46 @@ public class GameScreenPanel extends JPanel {
         }
     }
 
-    /** Uses Swap and clears any answer locks so the replacement question is interactive.
+    /**
+     * Uses Swap and clears any answer locks so the replacement question is
+     * interactive.
      *
      * @param none no parameters are required
      * @return void
      */
     private void useSwapLifeline() {
-        if (!session.useSwap()) { JOptionPane.showMessageDialog(this, "Swap is unavailable right now."); return; }
-        // A new question should never inherit locks from the swapped-out one.
+        if (!session.useSwap()) {
+            JOptionPane.showMessageDialog(this, "Swap is unavailable right now.");
+            return;
+        }
         Arrays.fill(answerLocks, false);
         JOptionPane.showMessageDialog(this, "Swap used. The current question has been refreshed.");
     }
 
-    /** Shows a lightweight audience-poll summary for the active question.
+    /**
+     * Shows a lightweight audience-poll summary for the active question.
      *
      * @param none no parameters are required
      * @return void
      */
     private void useAudiencePollLifeline() {
-        if (!session.useAudiencePoll()) { JOptionPane.showMessageDialog(this, "Audience Poll has already been used."); return; }
+        if (!session.useAudiencePoll()) {
+            JOptionPane.showMessageDialog(this, "Audience Poll has already been used.");
+            return;
+        }
 
         Question question = session.getCurrentQuestion();
-        if (question == null) { return; }
+        if (question == null) {
+            return;
+        }
 
-        JOptionPane.showMessageDialog(this, Lifelines.buildAudiencePollText(question), "Audience Poll", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, Lifelines.buildAudiencePollText(question), "Audience Poll",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
-    /** Locks two incorrect answers, leaving the correct answer and one wrong option available.
+    /**
+     * Locks two incorrect answers, leaving the correct answer and one wrong option
+     * available.
      *
      * @param none no parameters are required
      * @return void
@@ -295,7 +340,6 @@ public class GameScreenPanel extends JPanel {
         }
 
         Arrays.fill(answerLocks, false);
-        // Only non-correct answers are hidden, and the correct answer always stays available.
         int[] eliminatedIndices = Lifelines.getFiftyFiftyEliminatedIndices(question);
         for (int index : eliminatedIndices) {
             answerLocks[index] = true;
@@ -303,27 +347,46 @@ public class GameScreenPanel extends JPanel {
         repaint();
     }
 
-    /** Shows the active question's correct answer as the simulated phone-a-friend hint.
+    /**
+     * Shows the active question's correct answer as the simulated phone-a-friend
+     * hint.
      *
      * @param none no parameters are required
      * @return void
      */
     private void usePhoneAFriendLifeline() {
-        if (!session.usePhoneAFriend()) { JOptionPane.showMessageDialog(this, "Phone a Friend has already been used."); return; }
+        if (!session.usePhoneAFriend()) {
+            JOptionPane.showMessageDialog(this, "Phone a Friend has already been used.");
+            return;
+        }
 
         Question question = session.getCurrentQuestion();
-        if (question == null) { return; }
+        if (question == null) {
+            return;
+        }
 
-        JOptionPane.showMessageDialog(this, Lifelines.buildPhoneAFriendHint(question), "Phone a Friend", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, Lifelines.buildPhoneAFriendHint(question), "Phone a Friend",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
-    /** Resets local interaction state when the session advances, finishes, or restarts.
+    /**
+     * Resets local interaction state when the session advances, finishes, or
+     * restarts.
      *
      * @param none no parameters are required
      * @return void
      */
     private void syncQuestionState() {
-        if (session.getQuestionSerial() != lastQuestionSerial) { Arrays.fill(answerLocks, false); lastQuestionSerial = session.getQuestionSerial(); }
+        if (session.getQuestionSerial() != lastQuestionSerial) {
+            Arrays.fill(answerLocks, false);
+            lastQuestionSerial = session.getQuestionSerial();
+        }
+
+        // Highlight the ladder step matching the question the player is facing!
+        if (moneyLadder != null) {
+            moneyLadder.setCurrentLevel(session.getCurrentQuestionNumber());
+        }
+        // ---------------------------------
 
         if (session.isFinished() && session.getStatusType() == GameSession.StatusType.FAILURE) {
             countdownTimer.stop();
@@ -332,15 +395,23 @@ public class GameScreenPanel extends JPanel {
             return;
         }
 
-        if (!session.isFinished()) { completionDialogShowing = false; repaint(); return; }
-        if (completionDialogShowing) { repaint(); return; }
+        if (!session.isFinished()) {
+            completionDialogShowing = false;
+            repaint();
+            return;
+        }
+        if (completionDialogShowing) {
+            repaint();
+            return;
+        }
         completionDialogShowing = true;
         countdownTimer.stop();
         repaint();
         showCompletionDialog();
     }
 
-    /** Prompts the player to replay or return to the menu after the run ends.
+    /**
+     * Prompts the player to replay or return to the menu after the run ends.
      *
      * @param none no parameters are required
      * @return void
@@ -349,15 +420,24 @@ public class GameScreenPanel extends JPanel {
         boolean failed = session.getStatusType() == GameSession.StatusType.FAILURE;
         String title = failed ? "Game Over" : "Game Complete";
         String message = failed
-            ? "You lost at $" + String.format("%,d", session.getLastSafeMoney()) + ".\n\nWould you like to play again?"
-                : "You cleared Lock In with a score of $" + String.format("%,d", session.getScore()) + ".\n\nWould you like to play again?";
-        int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                ? "GAME OVER: You earned a grand total of " + String.format("%,d", session.getLastSafeMoney())
+                        + ".\n\nWould you like to play again?"
+                : "You cleared Lock In with a score of $" + String.format("%,d", session.getScore())
+                        + ".\n\nWould you like to play again?";
+        int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
 
         if (choice == JOptionPane.YES_OPTION) {
             session.restart();
             completionDialogShowing = false;
             lastQuestionSerial = -1;
             Arrays.fill(answerLocks, false);
+
+            // Re-sync the level capsule back to level 1 on restart
+            if (moneyLadder != null) {
+                moneyLadder.setCurrentMoney(session.getScore());
+            }
+
             countdownTimer.start();
             repaint();
             return;
@@ -366,7 +446,8 @@ public class GameScreenPanel extends JPanel {
         returnToMenu();
     }
 
-    /** Opens a fresh main menu and closes the current game window.
+    /**
+     * Opens a fresh main menu and closes the current game window.
      *
      * @param none no parameters are required
      * @return void
@@ -382,5 +463,4 @@ public class GameScreenPanel extends JPanel {
             window.dispose();
         }
     }
-
 }

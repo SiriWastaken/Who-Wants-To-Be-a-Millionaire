@@ -47,6 +47,17 @@ public final class QuestionBank {
             selectedQuestions.add(availableQuestions.remove(0));
         }
 
+        if (selectedQuestions.size() < 16) {
+            for (Question fallbackQuestion : createFallbackQuestions()) {
+                if (selectedQuestions.size() >= 16) {
+                    break;
+                }
+                if (!selectedQuestions.contains(fallbackQuestion)) {
+                    selectedQuestions.add(fallbackQuestion);
+                }
+            }
+        }
+
         return selectedQuestions.isEmpty() ? createFallbackQuestions() : selectedQuestions;
     }
 
@@ -107,6 +118,18 @@ public final class QuestionBank {
         fallback.add(new Question("How many days are in one week?", "5", "6", "7", "8", "C", 1, 10, "General Knowledge"));
         fallback.add(new Question("Which animal says meow?", "Dog", "Cat", "Cow", "Horse", "B", 1, 10, "Animals"));
         fallback.add(new Question("What is 5 + 3?", "6", "7", "8", "9", "C", 1, 10, "Math"));
+        fallback.add(new Question("What planet do we live on?", "Mars", "Venus", "Earth", "Jupiter", "C", 2, 10, "Science"));
+        fallback.add(new Question("What is the capital of Canada?", "Toronto", "Ottawa", "Montreal", "Vancouver", "B", 2, 10, "Geography"));
+        fallback.add(new Question("Which season comes after spring?", "Winter", "Summer", "Autumn", "Monsoon", "B", 2, 10, "General Knowledge"));
+        fallback.add(new Question("What is 12 divided by 3?", "2", "3", "4", "5", "C", 2, 10, "Math"));
+        fallback.add(new Question("How many letters are in the English alphabet?", "24", "25", "26", "27", "C", 3, 10, "General Knowledge"));
+        fallback.add(new Question("Which gas do humans breathe in?", "Oxygen", "Helium", "Nitrogen", "Carbon Dioxide", "A", 3, 10, "Science"));
+        fallback.add(new Question("What is the largest ocean on Earth?", "Atlantic", "Indian", "Arctic", "Pacific", "D", 4, 10, "Geography"));
+        fallback.add(new Question("What is 9 times 9?", "72", "81", "99", "108", "B", 4, 10, "Math"));
+        fallback.add(new Question("Which instrument has 88 keys?", "Guitar", "Piano", "Violin", "Drums", "B", 5, 10, "Music"));
+        fallback.add(new Question("Who wrote Romeo and Juliet?", "Shakespeare", "Dickens", "Austen", "Orwell", "A", 5, 10, "Literature"));
+        fallback.add(new Question("Which continent is Egypt in?", "Asia", "Africa", "Europe", "South America", "B", 6, 10, "Geography"));
+        fallback.add(new Question("What is 15 squared?", "200", "225", "250", "275", "B", 6, 10, "Math"));
         return fallback;
     }
 }

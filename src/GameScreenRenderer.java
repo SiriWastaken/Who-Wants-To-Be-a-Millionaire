@@ -8,9 +8,14 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 
-/** Draws the Lock In gameplay screen using the current session and panel state. */
+/** Draws the Lock In gameplay screen using the current session and panel state.
+ * @author Sri Ganty, with refactoring help from Copilot (GPT 5.4 Mini)
+ */
 public class GameScreenRenderer {
 
+    // Changes to be made: 1. Please fix the spacing between the timer and the question
+    // 2. Make the ring thicker
+    // 3. Make the ring color change from green to yellow to red as time runs out
     private final Font titleFont = new Font("SansSerif", Font.BOLD, 40);
     private final Font subtitleFont = new Font("SansSerif", Font.PLAIN, 15);
     private final Font bodyFont = new Font("SansSerif", Font.PLAIN, 22);

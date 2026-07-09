@@ -16,6 +16,8 @@ public class GameScreen extends JFrame {
         GameScreenPanel gamePanel = new GameScreenPanel();
         MoneyLadder moneyLadder = new MoneyLadder();
 
+        gamePanel.setMoneyLadder(moneyLadder);
+
         getContentPane().setLayout(new BorderLayout());
         add(gamePanel, BorderLayout.CENTER);
         add(moneyLadder, BorderLayout.EAST);

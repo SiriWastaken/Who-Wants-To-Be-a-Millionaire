@@ -2,6 +2,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,29 +16,38 @@ import javax.swing.JPanel;
  * The panel is custom-drawn using Java2D and includes:
  * - Background gradient
  * - Decorative curves
- * - Lifeline icons
- * - Prize ladder with a centered active level highlight glow
+ * - Prize ladder with perfectly centered active level highlights
  *
  * This class is purely responsible for drawing the interface and
  * does not contain any gameplay logic.
  *
  * @author Sri Ganty, some assistance with styling was done by Copilot,
- *         specifically GPT 5.4-mini
+ * specifically GPT 5.4-mini
  */
 public class MoneyLadder extends JPanel {
 
     private static final int PANEL_WIDTH = 320;
     private static final int PANEL_HEIGHT = 760;
 
-    // Track the active game state level (Values from 1 to 15; 0 means no active
-    // level yet)
+    // Track the active money tier (Values from 1 to 16; 0 means no active level yet)
     private int currentLevel = 1;
 
-    // Fonts used throughout the ladder to keep styling consistent
-    private final Font TIER_FONT = new Font("Serif", Font.BOLD, 34);
-    private final Font AMOUNT_FONT = new Font("Serif", Font.BOLD, 31);
-    private final Font BADGE_FONT = new Font("SansSerif", Font.BOLD, 27);
+    // Prize values used to map the live score onto the matching ladder row.
+    private final int[] moneyValues = {
+            100, 200, 300, 500, 1000, 2000, 4000, 8000,
+            16000, 32000, 64000, 125000, 250000, 500000, 750000, 1000000
+    };
 
+    // Prize values displayed from lowest to highest, in GBP
+    private final String[] amounts = {
+            "£100", "£200", "£300", "£500", "£1,000", "£2,000", "£4,000", "£8,000",
+            "£16,000", "£32,000", "£64,000", "£125,000", "£250,000", "£500,000", "£750,000", "£1 MILLION"
+    };
+
+    // Fonts used throughout the ladder to keep styling consistent
+    private final Font TIER_FONT = new Font("Serif", Font.BOLD, 30);
+    private final Font AMOUNT_FONT = new Font("Serif", Font.BOLD, 28);
+    
     // Background color components
     private final Color BACKGROUND_TOP = new Color(6, 6, 16);
     private final Color BACKGROUND_BOTTOM = new Color(18, 12, 36);
@@ -47,7 +57,6 @@ public class MoneyLadder extends JPanel {
     private final Color LINE_BLUE = new Color(95, 164, 236, 75);
     private final Color LINE_GOLD = new Color(245, 179, 92, 86);
     private final Color LINE_GREY = new Color(170, 176, 196, 36);
-    private final Color BADGE_BLUE = new Color(57, 146, 224);
     private final Color CREAM = new Color(246, 230, 194);
     private final Color ORANGE = new Color(255, 170, 36);
 
@@ -55,25 +64,6 @@ public class MoneyLadder extends JPanel {
     private final Color GLOW_GOLD_INNER = new Color(245, 170, 36, 140);
     private final Color GLOW_GOLD_OUTER = new Color(255, 215, 0, 40);
     private final Color GLOW_GOLD_BORDER = new Color(255, 230, 150, 220);
-
-    // Prize values displayed from lowest to highest, in GBP
-    private final String[] amounts = {
-            "£100",
-            "£200",
-            "£300",
-            "£500",
-            "£1,000",
-            "£2,000",
-            "£4,000",
-            "£8,000",
-            "£16,000",
-            "£32,000",
-            "£64,000",
-            "£125,000",
-            "£250,000",
-            "£500,000",
-            "£1 MILLION"
-    };
 
     /**
      * Creates the money ladder panel and sets its preferred size.
@@ -86,11 +76,21 @@ public class MoneyLadder extends JPanel {
     /**
      * Dynamically updates the active level highlighted on the board.
      *
-     * @param level the current active level tier (1 to 15)
+     * @param level the current active level tier (1 to 16)
      */
     public void setCurrentLevel(int level) {
-        this.currentLevel = level;
+        this.currentLevel = Math.max(1, Math.min(level, amounts.length));
         repaint(); // Re-trigger paint pipeline to update visual position
+    }
+
+    /**
+     * Updates the highlighted row to match the player's current money total.
+     *
+     * @param money the current score from the game session
+     */
+    public void setCurrentMoney(int money) {
+        this.currentLevel = resolveLevelForMoney(money);
+        repaint();
     }
 
     /**
@@ -119,7 +119,6 @@ public class MoneyLadder extends JPanel {
 
             // Render UI sub-layers
             drawBackdropCurves(g2);
-            drawLifelineBadges(g2);
             drawLadderRows(g2);
         } finally {
             g2.dispose();
@@ -128,7 +127,7 @@ public class MoneyLadder extends JPanel {
 
     /**
      * Draws the array of abstract intersecting background curves behind the ladder.
-     * * @param g2 the Graphics2D context used for drawing shapes
+     * @param g2 the Graphics2D context used for drawing shapes
      */
     private void drawBackdropCurves(Graphics2D g2) {
         g2.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -158,96 +157,102 @@ public class MoneyLadder extends JPanel {
     }
 
     /**
-     * Calculates layout grid tracking positions and draws the three top lifeline
-     * badges.
-     *
-     * @param g2 the Graphics2D context used for drawing the icons
-     */
-    private void drawLifelineBadges(Graphics2D g2) {
-        int badgeY = 36;
-        int badgeWidth = 98;
-        int badgeHeight = 64;
-        int gap = 14;
-        int startX = 18;
-
-        drawBadgeOutline(g2, startX, badgeY, badgeWidth, badgeHeight);
-
-        int phoneX = startX + badgeWidth + gap;
-        drawBadgeOutline(g2, phoneX, badgeY, badgeWidth, badgeHeight);
-
-        int audienceX = phoneX + badgeWidth + gap;
-        drawBadgeOutline(g2, audienceX, badgeY, badgeWidth, badgeHeight);
-    }
-
-    private void drawBadgeOutline(Graphics2D g2, int x, int y, int width, int height) {
-        g2.setColor(BADGE_BLUE);
-        g2.setStroke(new BasicStroke(5.0f));
-        g2.drawOval(x, y, width, height);
-    }
-
-    /**
      * Loops through all available prize values and draws each step of the ladder.
-     * Automatically overlays a custom gold glow plate on the currently active index
-     * tier.
+     * Center-aligns the labels and layout plates cleanly.
      *
      * @param g2 the Graphics2D context used to render the list text rows
      */
     private void drawLadderRows(Graphics2D g2) {
-        int startY = 212;
-        int rowHeight = 38;
-        int leftX = 20;
-        int amountX = 92;
+        int startY = 165; // Positioned for 16-tier layouts
+        int rowHeight = 35;
         int rowCount = amounts.length;
+        int panelWidth = getWidth();
+
+        FontMetrics tierMetrics = g2.getFontMetrics(TIER_FONT);
+        FontMetrics amountMetrics = g2.getFontMetrics(AMOUNT_FONT);
 
         for (int i = rowCount - 1; i >= 0; i--) {
             int y = startY + (rowCount - 1 - i) * rowHeight;
             boolean isCurrent = (i + 1) == currentLevel;
 
+            String tierLabel = String.valueOf(i + 1);
+            String amountLabel = amounts[i];
+
+            // Calculate total line width for precise side-by-side spacing center calculations
+            int spacing = 20;
+            int totalTextWidth = tierMetrics.stringWidth(tierLabel) + amountMetrics.stringWidth(amountLabel) + spacing;
+            
+            int startX = (panelWidth - totalTextWidth) / 2;
+            int tierX = startX;
+            int amountX = startX + tierMetrics.stringWidth(tierLabel) + spacing;
+
             // Render active level glow capsule BEFORE drawing text over it
             if (isCurrent) {
-                int capsuleHeight = 32;
-                int capsuleY = y - capsuleHeight + 6; // Center capsule over the baseline
-                int paddingX = 8;
+                int capsuleHeight = 30;
+                int capsuleY = y - capsuleHeight + 4; // Shift vertically to center behind font text path
+                int paddingX = 12;
                 int capsuleX = paddingX;
-                int capsuleWidth = getWidth() - (paddingX * 2);
+                int capsuleWidth = panelWidth - (paddingX * 2);
 
                 // 1. Draw broad ambient background glow
                 g2.setColor(GLOW_GOLD_OUTER);
-                g2.fillRoundRect(capsuleX - 4, capsuleY - 4, capsuleWidth + 8, capsuleHeight + 8, 16, 16);
+                g2.fillRoundRect(capsuleX - 3, capsuleY - 3, capsuleWidth + 6, capsuleHeight + 6, 14, 14);
 
                 // 2. Draw centered core gradient container plate
                 GradientPaint goldPlate = new GradientPaint(
                         capsuleX, capsuleY, GLOW_GOLD_INNER,
-                        capsuleX + capsuleWidth, capsuleY, new Color(255, 140, 0, 80));
+                        capsuleX + capsuleWidth, capsuleY, new Color(255, 140, 0, 95));
                 g2.setPaint(goldPlate);
-                g2.fillRoundRect(capsuleX, capsuleY, capsuleWidth, capsuleHeight, 12, 12);
+                g2.fillRoundRect(capsuleX, capsuleY, capsuleWidth, capsuleHeight, 10, 10);
 
                 // 3. Draw sharp outer metallic frame border
                 g2.setColor(GLOW_GOLD_BORDER);
-                g2.setStroke(new BasicStroke(1.75f));
-                g2.drawRoundRect(capsuleX, capsuleY, capsuleWidth, capsuleHeight, 12, 12);
+                g2.setStroke(new BasicStroke(1.5f));
+                g2.drawRoundRect(capsuleX, capsuleY, capsuleWidth, capsuleHeight, 10, 10);
             }
 
             // Milestone formatting configuration
-            boolean milestone = i == 14 || i == 9 || i == 4 || i == 0;
+            boolean milestone = i == 15 || i == 9 || i == 4 || i == 0;
 
-            // If active, keep text pure dark/white contrast so it jumps off the gold
-            // surface
-            Color rowColor;
-            if (isCurrent) {
-                rowColor = Color.WHITE;
-            } else {
-                rowColor = milestone ? CREAM : ORANGE;
-            }
+            // If active, keep text pure white contrast so it jumps off the gold surface
+            Color rowColor = isCurrent ? Color.WHITE : (milestone ? CREAM : ORANGE);
 
             // Draw level index number
             g2.setFont(TIER_FONT);
             g2.setColor(rowColor);
-            g2.drawString(String.format("%2d", i + 1).trim(), leftX, y);
+            g2.drawString(tierLabel, tierX, y);
 
             // Draw money values string
             g2.setFont(AMOUNT_FONT);
-            g2.drawString(amounts[i], amountX, y);
+            g2.drawString(amountLabel, amountX, y);
         }
+    }
+
+    /**
+     * Finds the ladder row that matches the current money total.
+     *
+     * @param money the current score from the game session
+     * @return the 1-based ladder row to highlight
+     */
+    private int resolveLevelForMoney(int money) {
+        if (money <= 0) {
+            return 1;
+        }
+
+        // Exact match lookup
+        for (int i = 0; i < moneyValues.length; i++) {
+            if (moneyValues[i] == money) {
+                return i + 1;
+            }
+        }
+
+        // Fallback closest bounds check
+        for (int i = moneyValues.length - 1; i >= 0; i--) {
+            if (money >= moneyValues[i]) {
+                return i + 1;
+            }
+        }
+
+        return 1;
     }
 }

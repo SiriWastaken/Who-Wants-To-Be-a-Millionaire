@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /** Utility methods for the game's lifeline behavior and messaging. */
 public final class Lifelines {
+
+    private static final Random RANDOM = new Random();
 
     /** Prevents instantiation of this utility class.
      *
@@ -31,26 +34,28 @@ public final class Lifelines {
         return poll.toString();
     }
 
-    /** Returns the two incorrect answer indices that should be hidden by 25/75.
+    /** Returns one incorrect answer index that should be hidden by 25/75.
      *
      * @param question the question used to determine the correct answer
-     * @return the answer indices that should be locked
+     * @return the answer index that should be locked
      */
     public static int[] getFiftyFiftyEliminatedIndices(Question question) {
         int correctIndex = question.getCorrectAnswer().trim().toUpperCase().charAt(0) - 'A';
-        List<Integer> eliminated = new ArrayList<>(2);
+        List<Integer> eliminated = new ArrayList<>(1);
 
-        for (int i = 0; i < 4 && eliminated.size() < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             if (i != correctIndex) {
                 eliminated.add(i);
             }
         }
 
-        int[] result = new int[eliminated.size()];
-        for (int i = 0; i < eliminated.size(); i++) {
-            result[i] = eliminated.get(i);
+        if (eliminated.isEmpty()) {
+            return new int[0];
         }
-        return result;
+
+        int chosenIndex = eliminated.get(RANDOM.nextInt(eliminated.size()));
+
+        return new int[] { chosenIndex };
     }
 
     /** Builds the phone-a-friend hint string for the current question.

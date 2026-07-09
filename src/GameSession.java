@@ -14,7 +14,7 @@ public class GameSession {
 
     private final ArrayList<Question> questionDeck = new ArrayList<>();
     private int currentIndex;
-    private int score;
+    public int score;
     private int timeRemaining;
     private int questionSerial;
     private boolean finished;
@@ -22,6 +22,7 @@ public class GameSession {
     private boolean audiencePollUsed;
     private boolean fiftyFiftyUsed;
     private boolean phoneAFriendUsed;
+    private boolean highStakesDecisionPending;
     private String statusMessage = "";
     private StatusType statusType;
     private int lastSafeMoney;
@@ -50,6 +51,7 @@ public class GameSession {
         audiencePollUsed = false;
         fiftyFiftyUsed = false;
         phoneAFriendUsed = false;
+        highStakesDecisionPending = false;
         questionSerial = 1;
         statusType = StatusType.NEUTRAL;
         statusMessage = "";
@@ -173,6 +175,31 @@ public class GameSession {
      * @return true when Phone a Friend has already been consumed, otherwise false
      */
     public boolean isPhoneAFriendUsed() { return phoneAFriendUsed; }
+
+    /** Returns whether the game is waiting for the high-stakes play or walk-away decision.
+     *
+     * @param none no parameters are required
+     * @return true when the next question is gated by the high-stakes choice
+     */
+    public boolean isHighStakesDecisionPending() { return highStakesDecisionPending; }
+
+    /** Returns whether the countdown timer should be visible for the current question.
+     *
+     * @param none no parameters are required
+     * @return true when the countdown should be shown, otherwise false
+     */
+    public boolean shouldShowTimer() {
+        return !finished && !highStakesDecisionPending && getCurrentQuestion() != null && score < QuestionBank.getMoneyForQuestion(8);
+    }
+
+    /** Returns whether the game has crossed into the high-stakes portion of the ladder.
+     *
+     * @param none no parameters are required
+     * @return true when the game is at or beyond £16,000
+     */
+    public boolean hasReachedHighStakes() {
+        return score >= QuestionBank.getMoneyForQuestion(8);
+    }
 
     /** Returns the time limit for the current question, or zero when there is no active question.
      *
@@ -304,6 +331,51 @@ public class GameSession {
         return true;
     }
 
+    /** Updates the banner message and style for transient UI feedback.
+     *
+     * @param message the message to display
+     * @param newStatusType the banner style to use
+     * @return void
+     */
+    public void setStatusMessage(String message, StatusType newStatusType) {
+        statusMessage = message == null ? "" : message;
+        statusType = newStatusType == null ? StatusType.NEUTRAL : newStatusType;
+    }
+
+    /** Clears any transient banner message.
+     *
+     * @param none no parameters are required
+     * @return void
+     */
+    public void clearStatusMessage() {
+        statusMessage = "";
+        statusType = StatusType.NEUTRAL;
+    }
+
+    /** Resolves the player's choice on the high-stakes transition screen.
+     *
+     * @param playRound true to continue to the next question, false to walk away
+     * @return true when the choice was accepted, otherwise false
+     */
+    public boolean chooseHighStakesDecision(boolean playRound) {
+        if (finished || !highStakesDecisionPending) {
+            return false;
+        }
+
+        highStakesDecisionPending = false;
+        if (playRound) {
+            timeRemaining = getCurrentQuestion() == null ? 0 : getCurrentQuestion().getTimeLimit();
+            clearStatusMessage();
+            return true;
+        }
+
+        finished = true;
+        timeRemaining = 0;
+        statusMessage = "You walked away with £" + String.format("%,d", score) + ".";
+        statusType = StatusType.COMPLETE;
+        return true;
+    }
+
     /** Advances to the next question and resolves completion state.
      *
      * @param message the status message to show for the transition
@@ -326,8 +398,16 @@ public class GameSession {
             return;
         }
 
-        timeRemaining = getCurrentQuestion().getTimeLimit();
         questionSerial++;
+        if (hasReachedHighStakes()) {
+            highStakesDecisionPending = true;
+            timeRemaining = 0;
+            statusMessage = "Would you like to play this round or walk away?";
+            statusType = StatusType.NEUTRAL;
+            return;
+        }
+
+        timeRemaining = getCurrentQuestion().getTimeLimit();
     }
 
     /** Ends the run with a failure state.
