@@ -13,9 +13,6 @@ import java.awt.geom.Point2D;
  */
 public class GameScreenRenderer {
 
-    // Changes to be made: 1. Please fix the spacing between the timer and the question
-    // 2. Make the ring thicker
-    // 3. Make the ring color change from green to yellow to red as time runs out
     private final Font titleFont = new Font("SansSerif", Font.BOLD, 40);
     private final Font subtitleFont = new Font("SansSerif", Font.PLAIN, 15);
     private final Font bodyFont = new Font("SansSerif", Font.PLAIN, 22);
@@ -29,7 +26,7 @@ public class GameScreenRenderer {
     private final Color glowColor = new Color(99, 102, 241, 25);
     private final Color accentGlow = new Color(245, 158, 11, 20);
     private final Color titlePrimary = Color.WHITE;
-    private final Color titleAccent = new Color(245, 158, 11);
+    private final Color titleAccent = new Color(245, 158, 11); // Orange
     private final Color titleShadow = new Color(168, 85, 247, 45);
     private final Color subtitleColor = new Color(156, 163, 175);
     private final Color cardBg = new Color(17, 24, 39, 175);
@@ -40,15 +37,10 @@ public class GameScreenRenderer {
     private final Color buttonBorderHover = new Color(245, 158, 11);
     private final Color buttonText = new Color(229, 231, 235);
     private final Color disabledText = new Color(107, 114, 128);
-    private final Color success = new Color(34, 197, 94);
-    private final Color failure = new Color(239, 68, 68);
+    private final Color success = new Color(34, 197, 94); // Green
+    private final Color failure = new Color(239, 68, 68); // Red
 
-    /** Paints the full gameplay screen.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param panel the gameplay panel being rendered
-     * @return void
-     */
+    /** Paints the full gameplay screen. */
     public void paint(Graphics2D g2, GameScreenPanel panel) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -76,12 +68,6 @@ public class GameScreenRenderer {
         drawFooter(g2, panel);
     }
 
-    /** Draws the back-to-menu button in the upper-left corner.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param panel the gameplay panel being rendered
-     * @return void
-     */
     private void drawBackButton(Graphics2D g2, GameScreenPanel panel) {
         Rectangle backButton = panel.getBackButtonBounds();
         boolean hover = panel.isHoveringBack();
@@ -96,12 +82,6 @@ public class GameScreenRenderer {
         drawCenteredText(g2, "MENU", backButton, 1);
     }
 
-    /** Draws the title row and the three status widgets beneath it.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param panel the gameplay panel being rendered
-     * @return void
-     */
     private void drawHeader(Graphics2D g2, GameScreenPanel panel) {
         g2.setFont(titleFont);
         g2.setColor(titleShadow);
@@ -120,17 +100,6 @@ public class GameScreenRenderer {
         drawStatCard(g2, 760, 140, 250, 68, "MONEY", "$" + String.format("%,d", panel.getSession().getScore()));
     }
 
-    /** Draws a simple stat card used for the question counter and money total.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param x the left edge of the card
-     * @param y the top edge of the card
-     * @param width the card width
-     * @param height the card height
-     * @param label the small label text shown on the card
-     * @param value the larger value text shown on the card
-     * @return void
-     */
     private void drawStatCard(Graphics2D g2, int x, int y, int width, int height, String label, String value) {
         g2.setColor(cardBg);
         g2.fillRoundRect(x, y, width, height, 18, 18);
@@ -147,16 +116,6 @@ public class GameScreenRenderer {
         g2.drawString(value, x + 18, y + 49);
     }
 
-    /** Draws the central circular countdown timer and its live progress ring.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param panel the gameplay panel being rendered
-     * @param x the left edge of the timer widget area
-     * @param y the top edge of the timer widget area
-     * @param width the widget width
-     * @param height the widget height
-     * @return void
-     */
     private void drawTimerWidget(Graphics2D g2, GameScreenPanel panel, int x, int y, int width, int height) {
         int diameter = Math.min(width, height);
         int circleX = x + (width - diameter) / 2;
@@ -174,19 +133,19 @@ public class GameScreenRenderer {
 
         int timeLimit = panel.getSession().getCurrentQuestionTimeLimit();
         int timeRemaining = panel.getSession().getTimeRemaining();
-        // Convert the remaining seconds into a 0..1 fraction for the progress ring.
         float fraction = timeLimit <= 0 ? 0.0f : Math.max(0.0f, Math.min(1.0f, timeRemaining / (float) timeLimit));
         int extent = Math.round(360f * fraction);
+        
         Color timerColor = timerColorForFraction(fraction);
 
-        // The ring is intentionally split into a background track and a live progress arc.
         g2.setColor(new Color(255, 255, 255, 24));
         g2.fillOval(ringX, ringY, ringSize, ringSize);
 
-        g2.setStroke(new BasicStroke(9f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        // Ring thickness remaining upgraded at 14f
+        g2.setStroke(new BasicStroke(14f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g2.setColor(new Color(255, 255, 255, 28));
         g2.drawArc(ringX, ringY, ringSize, ringSize, 90, -360);
-        // Negative extent makes the arc fill clockwise from the top.
+        
         g2.setColor(timerColor);
         g2.drawArc(ringX, ringY, ringSize, ringSize, 90, -extent);
 
@@ -199,28 +158,14 @@ public class GameScreenRenderer {
         drawCenteredText(g2, timeRemaining + "s", new Rectangle(circleX, circleY, diameter, diameter), 4);
     }
 
-    /** Picks the timer color from green to red as time runs out.
-     *
-     * @param fraction the remaining time as a fraction of the question limit
-     * @return the color used for the countdown ring
-     */
     private Color timerColorForFraction(float fraction) {
-        if (fraction > 0.5f) {
-            return success;
-        }
-        if (fraction > 0.25f) {
-            return titleAccent;
-        }
+        if (fraction > 0.60f) return success;
+        if (fraction > 0.25f) return titleAccent;
         return failure;
     }
 
-    /** Draws the question prompt and any active banner message.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param panel the gameplay panel being rendered
-     * @return void
-     */
     private void drawQuestionCard(Graphics2D g2, GameScreenPanel panel) {
+        // Reverted spacing back to original y coordinate (236)
         Rectangle card = new Rectangle(80, 236, 940, 132);
         g2.setColor(cardBg);
         g2.fillRoundRect(card.x, card.y, card.width, card.height, 26, 26);
@@ -229,9 +174,7 @@ public class GameScreenRenderer {
         g2.drawRoundRect(card.x, card.y, card.width, card.height, 26, 26);
 
         Question question = panel.getSession().getCurrentQuestion();
-        if (question == null) {
-            return;
-        }
+        if (question == null) return;
 
         g2.setFont(statSmallFont);
         g2.setColor(titleAccent);
@@ -249,17 +192,9 @@ public class GameScreenRenderer {
         }
     }
 
-    /** Draws the four answer buttons and their current hover/disabled states.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param panel the gameplay panel being rendered
-     * @return void
-     */
     private void drawAnswerButtons(Graphics2D g2, GameScreenPanel panel) {
         Question question = panel.getSession().getCurrentQuestion();
-        if (question == null) {
-            return;
-        }
+        if (question == null) return;
 
         String[] labels = {"A", "B", "C", "D"};
         String[] answers = {
@@ -269,19 +204,76 @@ public class GameScreenRenderer {
                 question.getAnswerD()
         };
 
+        int correctIndex = question.getCorrectAnswer().toUpperCase().trim().charAt(0) - 'A';
+
         for (int i = 0; i < panel.getAnswerBounds().length; i++) {
             Rectangle rect = panel.getAnswerBounds()[i];
             boolean hover = panel.getHoveredAnswerIndex() == i && !panel.isAnswerLocked(i) && !panel.getSession().isFinished();
             boolean disabled = panel.isAnswerLocked(i);
 
-            g2.setColor(disabled ? new Color(17, 24, 39, 110) : (hover ? buttonBgHover : buttonBg));
+            boolean animationRunning = panel.isAnswerAnimationRunning();
+            boolean isSelected = (panel.getSelectedAnswer() == i);
+            boolean flashState = panel.getFlashState();
+            boolean wasCorrect = panel.wasLastAnswerCorrect();
+
+            Color currentBg = disabled ? new Color(17, 24, 39, 110) : (hover ? buttonBgHover : buttonBg);
+            Color currentBorder = disabled ? new Color(55, 65, 81, 80) : (hover ? buttonBorderHover : buttonBorder);
+            Color currentLabelColor = disabled ? disabledText : (hover ? titlePrimary : buttonText);
+
+            if (isSelected || (animationRunning && i == correctIndex)) {
+                // If an animation is not currently running (the first 2 seconds), keep it steady orange.
+                if (!animationRunning) {
+                    if (isSelected) {
+                        currentBg = new Color(245, 158, 11, 40);
+                        currentBorder = titleAccent;
+                        currentLabelColor = titleAccent;
+                    }
+                } else {
+                    // Animation is running (the next 2 seconds) -> Start flashing sequence
+                    if (wasCorrect) {
+                        if (flashState) {
+                            currentBg = new Color(34, 197, 94, 50); // Green pulse
+                            currentBorder = success;
+                            currentLabelColor = success;
+                        } else {
+                            currentBg = new Color(245, 158, 11, 40); // Orange pulse
+                            currentBorder = titleAccent;
+                            currentLabelColor = titleAccent;
+                        }
+                    } else {
+                        if (isSelected) {
+                            if (flashState) {
+                                currentBg = new Color(239, 68, 68, 50); // Red pulse
+                                currentBorder = failure;
+                                currentLabelColor = failure;
+                            } else {
+                                currentBg = new Color(245, 158, 11, 40); // Orange pulse
+                                currentBorder = titleAccent;
+                                currentLabelColor = titleAccent;
+                            }
+                        }
+                        if (i == correctIndex) {
+                            if (flashState) {
+                                currentBg = new Color(34, 197, 94, 50); // Green pulse reveal
+                                currentBorder = success;
+                                currentLabelColor = success;
+                            } else {
+                                currentBg = new Color(17, 24, 39, 170);
+                                currentBorder = buttonBorder;
+                            }
+                        }
+                    }
+                }
+            }
+
+            g2.setColor(currentBg);
             g2.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 18, 18);
             g2.setStroke(new BasicStroke(1.4f));
-            g2.setColor(disabled ? new Color(55, 65, 81, 80) : (hover ? buttonBorderHover : buttonBorder));
+            g2.setColor(currentBorder);
             g2.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 18, 18);
 
             g2.setFont(buttonFont);
-            g2.setColor(disabled ? disabledText : (hover ? titlePrimary : buttonText));
+            g2.setColor(currentLabelColor);
             g2.drawString(labels[i], rect.x + 18, rect.y + 31);
 
             g2.setFont(bodySmallFont);
@@ -289,12 +281,6 @@ public class GameScreenRenderer {
         }
     }
 
-    /** Draws the lifeline buttons and dims any options the player has already used.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param panel the gameplay panel being rendered
-     * @return void
-     */
     private void drawLifelineButtons(Graphics2D g2, GameScreenPanel panel) {
         boolean[] used = {
                 panel.getSession().isSwapUsed(),
@@ -321,58 +307,26 @@ public class GameScreenRenderer {
         }
     }
 
-    /** Draws the short help text along the bottom edge of the game screen.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param panel the gameplay panel being rendered
-     * @return void
-     */
     private void drawFooter(Graphics2D g2, GameScreenPanel panel) {
         g2.setFont(subtitleFont);
         g2.setColor(subtitleColor);
+        // Reverted footer Y position to match original layout
         drawCentered(g2, "Use the mouse to answer, activate lifelines, or return to the menu.", 708, panel);
     }
 
-    /** Maps the banner state to a display color.
-     *
-     * @param statusType the current banner state
-     * @return the color associated with the banner state
-     */
     private Color colorForStatus(GameSession.StatusType statusType) {
-        if (statusType == GameSession.StatusType.SUCCESS) {
-            return success;
-        }
-        if (statusType == GameSession.StatusType.FAILURE) {
-            return failure;
-        }
-        if (statusType == GameSession.StatusType.COMPLETE) {
-            return titleAccent;
-        }
+        if (statusType == GameSession.StatusType.SUCCESS) return success;
+        if (statusType == GameSession.StatusType.FAILURE) return failure;
+        if (statusType == GameSession.StatusType.COMPLETE) return titleAccent;
         return subtitleColor;
     }
 
-    /** Centers a single line of text at the requested baseline.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param text the text to center
-     * @param y the baseline where the text should be drawn
-     * @param panel the panel used for width calculations
-     * @return void
-     */
     private void drawCentered(Graphics2D g2, String text, int y, GameScreenPanel panel) {
         FontMetrics fm = g2.getFontMetrics();
         int x = (panel.getWidth() - fm.stringWidth(text)) / 2;
         g2.drawString(text, x, y);
     }
 
-    /** Centers text within a rectangle, applying a small vertical offset when needed.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param text the text to center
-     * @param rect the target rectangle
-     * @param verticalOffset a small adjustment to nudge the text vertically
-     * @return void
-     */
     private void drawCenteredText(Graphics2D g2, String text, Rectangle rect, int verticalOffset) {
         FontMetrics fm = g2.getFontMetrics();
         int x = rect.x + (rect.width - fm.stringWidth(text)) / 2;
@@ -380,31 +334,10 @@ public class GameScreenRenderer {
         g2.drawString(text, x, y);
     }
 
-    /** Draws wrapped text using the default question-card color.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param text the text to wrap
-     * @param x the left edge of the text block
-     * @param y the top edge of the first line
-     * @param width the maximum line width
-     * @param lineHeight the distance between wrapped lines
-     * @return void
-     */
     private void drawWrappedText(Graphics2D g2, String text, int x, int y, int width, int lineHeight) {
         drawWrappedText(g2, text, x, y, width, lineHeight, titlePrimary);
     }
 
-    /** Draws wrapped text in the requested color.
-     *
-     * @param g2 the graphics context used for drawing
-     * @param text the text to wrap
-     * @param x the left edge of the text block
-     * @param y the top edge of the first line
-     * @param width the maximum line width
-     * @param lineHeight the distance between wrapped lines
-     * @param color the color used to draw the text
-     * @return void
-     */
     private void drawWrappedText(Graphics2D g2, String text, int x, int y, int width, int lineHeight, Color color) {
         g2.setColor(color);
         String[] words = text.split("\\s+");

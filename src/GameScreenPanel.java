@@ -40,6 +40,11 @@ public class GameScreenPanel extends JPanel {
     private boolean hoveringBack;
     private int lastQuestionSerial = -1;
     private boolean completionDialogShowing;
+    private boolean answerAnimationRunning = false;
+    private int selectedAnswer = -1;
+    private int flashCount = 0;
+    private boolean flashState = false;
+    private boolean lastAnswerCorrect = false;
 
     /** Creates the gameplay panel and starts the countdown timer. */
     public GameScreenPanel() {
@@ -175,6 +180,22 @@ public class GameScreenPanel extends JPanel {
         });
     }
 
+    boolean isAnswerAnimationRunning() {
+        return answerAnimationRunning;
+    }
+
+    int getSelectedAnswer() {
+        return selectedAnswer;
+    }
+
+    boolean getFlashState() {
+        return flashState;
+    }
+
+    boolean wasLastAnswerCorrect() {
+        return lastAnswerCorrect;
+    }
+
     /**
      * Handles mouse-move events and refreshes hover feedback.
      *
@@ -213,8 +234,7 @@ public class GameScreenPanel extends JPanel {
 
         for (int i = 0; i < answerBounds.length; i++) {
             if (answerBounds[i].contains(point) && !answerLocks[i]) {
-                session.submitAnswer(i);
-                syncQuestionState();
+                beginAnswerAnimation(i);
                 return;
             }
         }
@@ -463,4 +483,69 @@ public class GameScreenPanel extends JPanel {
             window.dispose();
         }
     }
+
+    /**
+     * Initiates and conducts the answer animation timeline.
+     * It waits 2 seconds (steady orange), then pulses for 2 seconds (orange/green
+     * or orange/red).
+     * If correct, it restarts the timer and advances. If incorrect, it triggers
+     * game over.
+     */
+    private void beginAnswerAnimation(int answerIndex) {
+        if (answerAnimationRunning || selectedAnswer != -1)
+            return;
+
+        // Stop the main countdown timer immediately so time doesn't drain during
+        // animations
+        countdownTimer.stop();
+
+        // Lock in the choice
+        selectedAnswer = answerIndex;
+        lastAnswerCorrect = session.isAnswerCorrect(answerIndex);
+        flashCount = 0;
+        flashState = false;
+
+        // STAGE 1: Wait 2 seconds while keeping the answer steady orange
+        Timer delayTimer = new Timer(2000, null);
+        delayTimer.setRepeats(false);
+        delayTimer.addActionListener(delayEvent -> {
+
+            // STAGE 2: 2 seconds are up! Turn on animation flags to start pulsing
+            answerAnimationRunning = true;
+
+            Timer flashTimer = new Timer(250, null);
+            flashTimer.addActionListener(flashEvent -> {
+                flashState = !flashState;
+                repaint();
+                flashCount++;
+
+                // 8 ticks at 250ms = 2 seconds of pulsing animation
+                if (flashCount >= 8) {
+                    flashTimer.stop();
+
+                    // Process the logic answer submission safely
+                    session.submitAnswer(selectedAnswer);
+
+                    // Clear visual tracking flags back to clean slate state
+                    answerAnimationRunning = false;
+                    selectedAnswer = -1;
+                    flashState = false;
+
+                    // Sync state immediately pushes UI updates or triggers game over dialog if
+                    // failed
+                    syncQuestionState();
+
+                    // STAGE 3: If the user survived, restart the timer for the next question!
+                    if (!session.isFinished()) {
+                        countdownTimer.restart();
+                    }
+                }
+            });
+            flashTimer.start();
+        });
+
+        delayTimer.start();
+        repaint(); // Force paint update for initial steady orange lock
+    }
+
 }
