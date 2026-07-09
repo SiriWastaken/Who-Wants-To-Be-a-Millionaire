@@ -18,34 +18,35 @@ import javax.swing.SwingUtilities;
 /* Class responsible for rendering the game over screen */
 public class GameOverPanel extends JPanel {
 
-    private final Font titleFont = new Font("SansSerif", Font.BOLD, 46);
-    private final Font bodyFont = new Font("SansSerif", Font.PLAIN, 18);
-    private final Font highlightFont = new Font("SansSerif", Font.BOLD, 20);
-    private final Font buttonFont = new Font("SansSerif", Font.BOLD, 16);
+    // --- Styling Constants ---
+    private final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 46);
+    private final Font BODY_FONT = new Font("SansSerif", Font.PLAIN, 18);
+    private final Font HIGHLIGHT_FONT = new Font("SansSerif", Font.BOLD, 20);
+    private final Font BUTTON_FONT = new Font("SansSerif", Font.BOLD, 16);
 
-    private final Color backgroundTop = new Color(10, 8, 28);
-    private final Color backgroundBottom = new Color(3, 2, 10);
-    private final Color glowColor = new Color(239, 68, 68, 15); 
-    private final Color titlePrimary = Color.WHITE;
-    private final Color titleAccent = new Color(245, 158, 11); 
-    private final Color cardBg = new Color(17, 24, 39, 195);
-    private final Color cardBorder = new Color(55, 65, 81, 140);
+    private final Color BACKGROUND_TOP = new Color(10, 8, 28);
+    private final Color BACKGROUND_BOTTOM = new Color(3, 2, 10);
+    private final Color GLOW_COLOR = new Color(239, 68, 68, 15); 
+    private final Color TITLE_PRIMARY = Color.WHITE;
+    private final Color TITLE_ACCENT = new Color(245, 158, 11); 
+    private final Color CARD_BG = new Color(17, 24, 39, 195);
+    private final Color CARD_BORDER = new Color(55, 65, 81, 140);
     
-    private final Color buttonBg = new Color(17, 24, 39, 170);
-    private final Color buttonBgHover = new Color(30, 27, 75, 210);
-    private final Color buttonBorder = new Color(55, 65, 81, 130);
-    private final Color buttonBorderHover = new Color(245, 158, 11);
+    private final Color BUTTON_BG = new Color(17, 24, 39, 170);
+    private final Color BUTTON_BG_HOVER = new Color(30, 27, 75, 210);
+    private final Color BUTTON_BORDER = new Color(55, 65, 81, 130);
+    private final Color BUTTON_BORDER_HOVER = new Color(245, 158, 11);
     
-    private final Color success = new Color(34, 197, 94); 
-    private final Color failure = new Color(239, 68, 68); 
+    private final Color FAILURE = new Color(239, 68, 68); 
 
-    // Dynamic buttons track actual dimensions inside paintComponent
-    private final Rectangle tryAgainButton = new Rectangle(0, 0, 180, 46);
-    private final Rectangle goHomeButton = new Rectangle(0, 0, 180, 46);
+    // Dynamic layout bounds (mutated inside paintComponent)
+    private final Rectangle TRY_AGAIN_BUTTON = new Rectangle(0, 0, 180, 46);
+    private final Rectangle GO_HOME_BUTTON = new Rectangle(0, 0, 180, 46);
 
     private boolean hoverTryAgain = false;
     private boolean hoverGoHome = false;
 
+    // Instance-specific properties
     private final String finalWinnings;
     private final Runnable onPlayAgain;
 
@@ -66,8 +67,8 @@ public class GameOverPanel extends JPanel {
             @Override
             public void mouseMoved(MouseEvent e) {
                 Point p = e.getPoint();
-                hoverTryAgain = tryAgainButton.contains(p);
-                hoverGoHome = goHomeButton.contains(p);
+                hoverTryAgain = TRY_AGAIN_BUTTON.contains(p);
+                hoverGoHome = GO_HOME_BUTTON.contains(p);
                 repaint();
             }
         });
@@ -76,9 +77,9 @@ public class GameOverPanel extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 Point p = e.getPoint();
-                if (tryAgainButton.contains(p)) {
+                if (TRY_AGAIN_BUTTON.contains(p)) {
                     onPlayAgain.run();
-                } else if (goHomeButton.contains(p)) {
+                } else if (GO_HOME_BUTTON.contains(p)) {
                     returnToMenu();
                 }
             }
@@ -102,73 +103,73 @@ public class GameOverPanel extends JPanel {
         int cardY = (h - cardHeight) / 2 - 20;
 
         // Reposition controls perfectly inside screen context
-        tryAgainButton.x = cardX + (cardWidth / 2) - 190;
-        tryAgainButton.y = cardY + cardHeight + 30;
-        goHomeButton.x = cardX + (cardWidth / 2) + 10;
-        goHomeButton.y = cardY + cardHeight + 30;
+        TRY_AGAIN_BUTTON.x = cardX + (cardWidth / 2) - 190;
+        TRY_AGAIN_BUTTON.y = cardY + cardHeight + 30;
+        GO_HOME_BUTTON.x = cardX + (cardWidth / 2) + 10;
+        GO_HOME_BUTTON.y = cardY + cardHeight + 30;
 
         // Draw Full Screen Gradients
-        GradientPaint background = new GradientPaint(0, 0, backgroundTop, 0, h, backgroundBottom);
+        GradientPaint background = new GradientPaint(0, 0, BACKGROUND_TOP, 0, h, BACKGROUND_BOTTOM);
         g2.setPaint(background);
         g2.fillRect(0, 0, w, h);
 
         Point2D center = new Point2D.Float(w / 2.0f, h / 2.0f);
         float[] dist = {0.0f, 1.0f};
-        Color[] colors = {glowColor, new Color(0, 0, 0, 0)};
+        Color[] colors = {GLOW_COLOR, new Color(0, 0, 0, 0)};
         g2.setPaint(new java.awt.RadialGradientPaint(center, Math.max(w, h) * 0.6f, dist, colors));
         g2.fillRect(0, 0, w, h);
 
         // Display Central Slate Envelope Box
-        g2.setColor(cardBg);
+        g2.setColor(CARD_BG);
         g2.fillRoundRect(cardX, cardY, cardWidth, cardHeight, 24, 24);
         g2.setStroke(new BasicStroke(1.5f));
-        g2.setColor(cardBorder);
+        g2.setColor(CARD_BORDER);
         g2.drawRoundRect(cardX, cardY, cardWidth, cardHeight, 24, 24);
 
         // Title
-        g2.setFont(titleFont);
-        g2.setColor(failure);
+        g2.setFont(TITLE_FONT);
+        g2.setColor(FAILURE);
         drawCenteredText(g2, "GAME OVER", cardY - 40);
 
         // Text Row: Ouch String
-        g2.setFont(bodyFont);
-        g2.setColor(titlePrimary);
+        g2.setFont(BODY_FONT);
+        g2.setColor(TITLE_PRIMARY);
         drawCenteredText(g2, "Ouch... That's gotta sting... You are not joining 1.5% of the adult population who are millionaires (yet).", cardY + 80);
 
         // Score metrics display
-        FontMetrics fm = g2.getFontMetrics(bodyFont);
-        FontMetrics fmBold = g2.getFontMetrics(highlightFont);
+        FontMetrics fm = g2.getFontMetrics(BODY_FONT);
+        FontMetrics fmBold = g2.getFontMetrics(HIGHLIGHT_FONT);
         
-        g2.setFont(bodyFont);
-        g2.setColor(titlePrimary);
+        g2.setFont(BODY_FONT);
+        g2.setColor(TITLE_PRIMARY);
         String winningsLabel = "You have won: ";
         int winningsWidth = fm.stringWidth(winningsLabel) + fmBold.stringWidth(finalWinnings);
         int startXWinnings = (w - winningsWidth) / 2;
         g2.drawString(winningsLabel, startXWinnings, cardY + 180);
         
-        g2.setFont(highlightFont);
-        g2.setColor(titleAccent);
+        g2.setFont(HIGHLIGHT_FONT);
+        g2.setColor(TITLE_ACCENT);
         g2.drawString(finalWinnings, startXWinnings + fm.stringWidth(winningsLabel), cardY + 180);
 
         // Prompt Row
-        g2.setFont(bodyFont);
-        g2.setColor(titlePrimary);
+        g2.setFont(BODY_FONT);
+        g2.setColor(TITLE_PRIMARY);
         drawCenteredText(g2, "Would you like to go home or try again?", cardY + 260);
 
         // Render Action Control elements
-        drawCustomButton(g2, tryAgainButton, "TRY AGAIN", hoverTryAgain);
-        drawCustomButton(g2, goHomeButton, "GO HOME", hoverGoHome);
+        drawCustomButton(g2, TRY_AGAIN_BUTTON, "TRY AGAIN", hoverTryAgain);
+        drawCustomButton(g2, GO_HOME_BUTTON, "GO HOME", hoverGoHome);
     }
 
     private void drawCustomButton(Graphics2D g2, Rectangle r, String text, boolean isHovered) {
-        g2.setColor(isHovered ? buttonBgHover : buttonBg);
+        g2.setColor(isHovered ? BUTTON_BG_HOVER : BUTTON_BG);
         g2.fillRoundRect(r.x, r.y, r.width, r.height, 12, 12);
         g2.setStroke(new BasicStroke(1.4f));
-        g2.setColor(isHovered ? buttonBorderHover : buttonBorder);
+        g2.setColor(isHovered ? BUTTON_BORDER_HOVER : BUTTON_BORDER);
         g2.drawRoundRect(r.x, r.y, r.width, r.height, 12, 12);
 
-        g2.setFont(buttonFont);
-        g2.setColor(isHovered ? titlePrimary : titleAccent);
+        g2.setFont(BUTTON_FONT);
+        g2.setColor(isHovered ? TITLE_PRIMARY : TITLE_ACCENT);
         FontMetrics fm = g2.getFontMetrics();
         int x = r.x + (r.width - fm.stringWidth(text)) / 2;
         int y = r.y + ((r.height - fm.getHeight()) / 2) + fm.getAscent();

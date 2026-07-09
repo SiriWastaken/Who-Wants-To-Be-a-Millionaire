@@ -1,14 +1,17 @@
+/**
+ * Represents a trivia question record with choices, answers, and game metadata.
+ */
 public class Question {
 
-    private final String question;
-    private final String answerA;
-    private final String answerB;
-    private final String answerC;
-    private final String answerD;
-    private final String correctAnswer;
-    private final int difficulty;
-    private final int timeLimit;
-    private final String category;
+    private final String QUESTION;
+    private final String ANSWER_A;
+    private final String ANSWER_B;
+    private final String ANSWER_C;
+    private final String ANSWER_D;
+    private final String CORRECT_ANSWER;
+    private final int DIFFICULTY;
+    private final int TIME_LIMIT;
+    private final String CATEGORY;
 
     /** Creates a question record for the game database.
      *
@@ -21,22 +24,21 @@ public class Question {
      * @param difficulty the question difficulty tier
      * @param timeLimit the number of seconds allowed for this question
      * @param category the category label displayed in the UI
-     * @return void
      */
     public Question(String question, String answerA, String answerB,
                     String answerC, String answerD,
                     String correctAnswer, int difficulty,
                     int timeLimit, String category) {
 
-        this.question = question;
-        this.answerA = answerA;
-        this.answerB = answerB;
-        this.answerC = answerC;
-        this.answerD = answerD;
-        this.correctAnswer = correctAnswer;
-        this.difficulty = difficulty;
-        this.timeLimit = timeLimit;
-        this.category = category;
+        this.QUESTION = question;
+        this.ANSWER_A = answerA;
+        this.ANSWER_B = answerB;
+        this.ANSWER_C = answerC;
+        this.ANSWER_D = answerD;
+        this.CORRECT_ANSWER = correctAnswer;
+        this.DIFFICULTY = difficulty;
+        this.TIME_LIMIT = timeLimit;
+        this.CATEGORY = category;
     }
 
     /** Returns the question text.
@@ -45,7 +47,7 @@ public class Question {
      * @return the question text
      */
     public String getQuestion() {
-        return question;
+        return QUESTION;
     }
 
     /** Returns the A answer choice.
@@ -54,7 +56,7 @@ public class Question {
      * @return the A answer choice
      */
     public String getAnswerA() {
-        return answerA;
+        return ANSWER_A;
     }
 
     /** Returns the B answer choice.
@@ -63,7 +65,7 @@ public class Question {
      * @return the B answer choice
      */
     public String getAnswerB() {
-        return answerB;
+        return ANSWER_B;
     }
 
     /** Returns the C answer choice.
@@ -72,7 +74,7 @@ public class Question {
      * @return the C answer choice
      */
     public String getAnswerC() {
-        return answerC;
+        return ANSWER_C;
     }
 
     /** Returns the D answer choice.
@@ -81,7 +83,7 @@ public class Question {
      * @return the D answer choice
      */
     public String getAnswerD() {
-        return answerD;
+        return ANSWER_D;
     }
 
     /** Returns the correct answer label.
@@ -90,7 +92,7 @@ public class Question {
      * @return the correct answer label
      */
     public String getCorrectAnswer() {
-        return correctAnswer;
+        return CORRECT_ANSWER;
     }
 
     /** Returns the difficulty tier.
@@ -99,7 +101,7 @@ public class Question {
      * @return the difficulty tier
      */
     public int getDifficulty() {
-        return difficulty;
+        return DIFFICULTY;
     }
 
     /** Returns the time limit in seconds.
@@ -108,7 +110,7 @@ public class Question {
      * @return the time limit in seconds
      */
     public int getTimeLimit() {
-        return timeLimit;
+        return TIME_LIMIT;
     }
 
     /** Returns the category label.
@@ -117,6 +119,6 @@ public class Question {
      * @return the category label
      */
     public String getCategory() {
-        return category;
+        return CATEGORY;
     }
 }

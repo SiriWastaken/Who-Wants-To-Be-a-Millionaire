@@ -15,26 +15,26 @@ import javax.swing.Timer;
 /** Handles gameplay input, timers, and small UI state for the game screen. */
 public class GameScreenPanel extends JPanel {
 
-    private final GameSession session = new GameSession();
-    private final GameScreenRenderer renderer = new GameScreenRenderer();
+    private final GameSession SESSION = new GameSession();
+    private final GameScreenRenderer RENDERER = new GameScreenRenderer();
 
     private MoneyLadder moneyLadder;
 
-    private final Rectangle backButton = new Rectangle(34, 26, 128, 38);
-    private final Rectangle[] answerBounds = {
+    private final Rectangle BACK_BUTTON = new Rectangle(34, 26, 128, 38);
+    private final Rectangle[] ANSWER_BOUNDS = {
             new Rectangle(90, 390, 420, 88),
             new Rectangle(590, 390, 420, 88),
             new Rectangle(90, 495, 420, 88),
             new Rectangle(590, 495, 420, 88)
     };
-    private final Rectangle[] lifelineBounds = {
+    private final Rectangle[] LIFELINE_BOUNDS = {
             new Rectangle(90, 620, 200, 42),
             new Rectangle(305, 620, 200, 42),
             new Rectangle(520, 620, 200, 42),
             new Rectangle(735, 620, 200, 42)
     };
-    private final boolean[] answerLocks = new boolean[4];
-    private final Timer countdownTimer;
+    private final boolean[] ANSWER_LOCKS = new boolean[4];
+    private final Timer COUNTDOWN_TIMER;
     private int hoveredAnswerIndex = -1;
     private int hoveredLifelineIndex = -1;
     private boolean hoveringBack;
@@ -50,24 +50,23 @@ public class GameScreenPanel extends JPanel {
     public GameScreenPanel() {
         setFocusable(true);
         setPreferredSize(new Dimension(1100, 760));
-        countdownTimer = new Timer(1000, event -> onTick());
+        COUNTDOWN_TIMER = new Timer(1000, event -> onTick());
         installListeners();
         syncQuestionState();
-        if (!session.isFinished()) {
-            countdownTimer.start();
+        if (!SESSION.isFinished()) {
+            COUNTDOWN_TIMER.start();
         }
     }
 
     /**
-     * * Registers the MoneyLadder reference so this panel can push live step
-     * highlights.
+     * Registers the MoneyLadder reference so this panel can push live step highlights.
      * * @param ladder the instantiated MoneyLadder UI instance
      */
     public void setMoneyLadder(MoneyLadder ladder) {
         this.moneyLadder = ladder;
         // Seed initial level placement matching active state
         if (this.moneyLadder != null) {
-            this.moneyLadder.setCurrentMoney(session.getScore());
+            this.moneyLadder.setCurrentMoney(SESSION.getScore());
         }
     }
 
@@ -78,7 +77,7 @@ public class GameScreenPanel extends JPanel {
      * @return the active game session used by the renderer
      */
     GameSession getSession() {
-        return session;
+        return SESSION;
     }
 
     /**
@@ -88,7 +87,7 @@ public class GameScreenPanel extends JPanel {
      * @return the menu-button bounds used for hit testing and drawing
      */
     Rectangle getBackButtonBounds() {
-        return backButton;
+        return BACK_BUTTON;
     }
 
     /**
@@ -98,7 +97,7 @@ public class GameScreenPanel extends JPanel {
      * @return the four answer-button bounds used for hit testing and drawing
      */
     Rectangle[] getAnswerBounds() {
-        return answerBounds;
+        return ANSWER_BOUNDS;
     }
 
     /**
@@ -108,7 +107,7 @@ public class GameScreenPanel extends JPanel {
      * @return the lifeline-button bounds used for hit testing and drawing
      */
     Rectangle[] getLifelineBounds() {
-        return lifelineBounds;
+        return LIFELINE_BOUNDS;
     }
 
     /**
@@ -148,13 +147,13 @@ public class GameScreenPanel extends JPanel {
      * @return true when the answer is locked, otherwise false
      */
     boolean isAnswerLocked(int index) {
-        return answerLocks[index];
+        return ANSWER_LOCKS[index];
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        renderer.paint((Graphics2D) g, this);
+        RENDERER.paint((Graphics2D) g, this);
     }
 
     /**
@@ -223,24 +222,24 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void handleClick(Point point) {
-        if (backButton.contains(point)) {
+        if (BACK_BUTTON.contains(point)) {
             returnToMenu();
             return;
         }
 
-        if (session.isFinished() || session.getCurrentQuestion() == null) {
+        if (SESSION.isFinished() || SESSION.getCurrentQuestion() == null) {
             return;
         }
 
-        for (int i = 0; i < answerBounds.length; i++) {
-            if (answerBounds[i].contains(point) && !answerLocks[i]) {
+        for (int i = 0; i < ANSWER_BOUNDS.length; i++) {
+            if (ANSWER_BOUNDS[i].contains(point) && !ANSWER_LOCKS[i]) {
                 beginAnswerAnimation(i);
                 return;
             }
         }
 
-        for (int i = 0; i < lifelineBounds.length; i++) {
-            if (lifelineBounds[i].contains(point)) {
+        for (int i = 0; i < LIFELINE_BOUNDS.length; i++) {
+            if (LIFELINE_BOUNDS[i].contains(point)) {
                 useLifeline(i);
                 syncQuestionState();
                 return;
@@ -255,19 +254,19 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void updateHoverState(Point point) {
-        hoveringBack = backButton.contains(point);
+        hoveringBack = BACK_BUTTON.contains(point);
 
         hoveredAnswerIndex = -1;
-        for (int i = 0; i < answerBounds.length; i++) {
-            if (answerBounds[i].contains(point)) {
+        for (int i = 0; i < ANSWER_BOUNDS.length; i++) {
+            if (ANSWER_BOUNDS[i].contains(point)) {
                 hoveredAnswerIndex = i;
                 break;
             }
         }
 
         hoveredLifelineIndex = -1;
-        for (int i = 0; i < lifelineBounds.length; i++) {
-            if (lifelineBounds[i].contains(point)) {
+        for (int i = 0; i < LIFELINE_BOUNDS.length; i++) {
+            if (LIFELINE_BOUNDS[i].contains(point)) {
                 hoveredLifelineIndex = i;
                 break;
             }
@@ -283,7 +282,7 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void onTick() {
-        session.tick();
+        SESSION.tick();
         syncQuestionState();
     }
 
@@ -312,11 +311,11 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void useSwapLifeline() {
-        if (!session.useSwap()) {
+        if (!SESSION.useSwap()) {
             JOptionPane.showMessageDialog(this, "Swap is unavailable right now.");
             return;
         }
-        Arrays.fill(answerLocks, false);
+        Arrays.fill(ANSWER_LOCKS, false);
         JOptionPane.showMessageDialog(this, "Swap used. The current question has been refreshed.");
     }
 
@@ -327,12 +326,12 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void useAudiencePollLifeline() {
-        if (!session.useAudiencePoll()) {
+        if (!SESSION.useAudiencePoll()) {
             JOptionPane.showMessageDialog(this, "Audience Poll has already been used.");
             return;
         }
 
-        Question question = session.getCurrentQuestion();
+        Question question = SESSION.getCurrentQuestion();
         if (question == null) {
             return;
         }
@@ -349,20 +348,20 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void useFiftyFiftyLifeline() {
-        if (!session.useFiftyFifty()) {
+        if (!SESSION.useFiftyFifty()) {
             JOptionPane.showMessageDialog(this, "25/75 has already been used.");
             return;
         }
 
-        Question question = session.getCurrentQuestion();
+        Question question = SESSION.getCurrentQuestion();
         if (question == null) {
             return;
         }
 
-        Arrays.fill(answerLocks, false);
+        Arrays.fill(ANSWER_LOCKS, false);
         int[] eliminatedIndices = Lifelines.getFiftyFiftyEliminatedIndices(question);
         for (int index : eliminatedIndices) {
-            answerLocks[index] = true;
+            ANSWER_LOCKS[index] = true;
         }
         repaint();
     }
@@ -375,12 +374,12 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void usePhoneAFriendLifeline() {
-        if (!session.usePhoneAFriend()) {
+        if (!SESSION.usePhoneAFriend()) {
             JOptionPane.showMessageDialog(this, "Phone a Friend has already been used.");
             return;
         }
 
-        Question question = session.getCurrentQuestion();
+        Question question = SESSION.getCurrentQuestion();
         if (question == null) {
             return;
         }
@@ -394,21 +393,21 @@ public class GameScreenPanel extends JPanel {
      * restarts.
      */
     private void syncQuestionState() {
-        if (session.getQuestionSerial() != lastQuestionSerial) {
-            Arrays.fill(answerLocks, false);
-            lastQuestionSerial = session.getQuestionSerial();
+        if (SESSION.getQuestionSerial() != lastQuestionSerial) {
+            Arrays.fill(ANSWER_LOCKS, false);
+            lastQuestionSerial = SESSION.getQuestionSerial();
         }
 
         // Highlight the ladder step matching the question the player is facing!
         if (moneyLadder != null) {
-            moneyLadder.setCurrentLevel(session.getCurrentQuestionNumber());
+            moneyLadder.setCurrentLevel(SESSION.getCurrentQuestionNumber());
         }
 
-        if (session.isFinished() && session.getStatusType() == GameSession.StatusType.FAILURE) {
-            countdownTimer.stop();
+        if (SESSION.isFinished() && SESSION.getStatusType() == GameSession.StatusType.FAILURE) {
+            COUNTDOWN_TIMER.stop();
             completionDialogShowing = true;
 
-            Question q = session.getCurrentQuestion();
+            Question q = SESSION.getCurrentQuestion();
             String selectedAnsText = "Time Ran Out!";
             String correctAnsText = "Not found";
 
@@ -438,10 +437,10 @@ public class GameScreenPanel extends JPanel {
                 GameOverPanel gameOver = new GameOverPanel(
                     selectedAnsText, 
                     correctAnsText, 
-                    session.getLastSafeMoney(), 
+                    SESSION.getLastSafeMoney(), 
                     () -> {
                         // Play Again Action
-                        session.restart();
+                        SESSION.RESTART();
                         GameScreenPanel newGamePanel = new GameScreenPanel();
                         if (ladderRef != null) {
                             newGamePanel.setMoneyLadder(ladderRef);
@@ -476,7 +475,7 @@ public class GameScreenPanel extends JPanel {
             return;
         }
 
-        if (!session.isFinished()) {
+        if (!SESSION.isFinished()) {
             completionDialogShowing = false;
             repaint();
             return;
@@ -486,7 +485,7 @@ public class GameScreenPanel extends JPanel {
             return;
         }
         completionDialogShowing = true;
-        countdownTimer.stop();
+        COUNTDOWN_TIMER.stop();
         repaint();
         showCompletionDialog();
     }
@@ -498,28 +497,28 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void showCompletionDialog() {
-        boolean failed = session.getStatusType() == GameSession.StatusType.FAILURE;
+        boolean failed = SESSION.getStatusType() == GameSession.StatusType.FAILURE;
         String title = failed ? "Game Over" : "Game Complete";
         String message = failed
-                ? "GAME OVER: You earned a grand total of " + String.format("%,d", session.getLastSafeMoney())
+                ? "GAME OVER: You earned a grand total of " + String.format("%,d", SESSION.getLastSafeMoney())
                         + ".\n\nWould you like to play again?"
-                : "You cleared Lock In with a score of $" + String.format("%,d", session.getScore())
+                : "You cleared Lock In with a score of $" + String.format("%,d", SESSION.getScore())
                         + ".\n\nWould you like to play again?";
         int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
 
         if (choice == JOptionPane.YES_OPTION) {
-            session.restart();
+            SESSION.RESTART();
             completionDialogShowing = false;
             lastQuestionSerial = -1;
-            Arrays.fill(answerLocks, false);
+            Arrays.fill(ANSWER_LOCKS, false);
 
             // Re-sync the level capsule back to level 1 on restart
             if (moneyLadder != null) {
-                moneyLadder.setCurrentMoney(session.getScore());
+                moneyLadder.setCurrentMoney(SESSION.getScore());
             }
 
-            countdownTimer.start();
+            COUNTDOWN_TIMER.start();
             repaint();
             return;
         }
@@ -554,14 +553,14 @@ public class GameScreenPanel extends JPanel {
         if (answerAnimationRunning || selectedAnswer != -1)
             return;
 
-        countdownTimer.stop();
+        COUNTDOWN_TIMER.stop();
 
         selectedAnswer = answerIndex;
-        lastAnswerCorrect = session.isAnswerCorrect(answerIndex);
+        lastAnswerCorrect = SESSION.isAnswerCorrect(answerIndex);
         flashCount = 0;
         flashState = false;
 
-        // STAGE 1: Wait 2 seconds (Steady Orange Lock)
+        // Wait 2 seconds (Orange answer lock)
         Timer delayTimer = new Timer(2000, null);
         delayTimer.setRepeats(false);
         delayTimer.addActionListener(delayEvent -> {
@@ -578,7 +577,7 @@ public class GameScreenPanel extends JPanel {
                 if (flashCount >= 8) {
                     flashTimer.stop();
 
-                    session.submitAnswer(selectedAnswer);
+                    SESSION.submitAnswer(selectedAnswer);
 
                     // STAGE 3: Call sync first so it captures the active selectedAnswer
                     syncQuestionState();
@@ -588,8 +587,8 @@ public class GameScreenPanel extends JPanel {
                     selectedAnswer = -1;
                     flashState = false;
 
-                    if (!session.isFinished()) {
-                        countdownTimer.restart();
+                    if (!SESSION.isFinished()) {
+                        COUNTDOWN_TIMER.restart();
                     }
                 }
             });
@@ -599,5 +598,4 @@ public class GameScreenPanel extends JPanel {
         delayTimer.start();
         repaint(); 
     }
-
 }

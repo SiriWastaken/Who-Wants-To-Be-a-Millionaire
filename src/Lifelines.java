@@ -3,7 +3,8 @@ import java.util.List;
 import java.util.Random;
 
 /** Utility methods for the game's lifeline behavior and messaging. */
-public final class Lifelines {
+
+public class Lifelines {
 
     private static final Random RANDOM = new Random();
 

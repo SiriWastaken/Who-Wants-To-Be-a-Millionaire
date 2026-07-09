@@ -8,6 +8,8 @@ import java.util.Random;
 
 public class QuestionParser {
 
+    // In case if one version of the file is changed or corrupted, fallback to the other path. The first path is for VS Code (so it shuts up about failing to find it)
+    // ...the second is for the compiled JAR.
     private static final String[] SEARCH_PATHS = {
             "src/Assets/QuestionsList.csv",
             "bin/Assets/QuestionsList.csv"

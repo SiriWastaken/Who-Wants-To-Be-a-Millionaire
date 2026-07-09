@@ -29,11 +29,11 @@ public class GameSession {
 
     /** Builds a fresh session and loads a new deck of questions. */
     public GameSession() {
-        restart();
+        RESTART();
     }
 
     /** Reloads the deck, resets score and timer state, and starts from the first question. */
-    public final void restart() {
+    public final void RESTART() {
         questionDeck.clear();
         questionDeck.addAll(QuestionBank.buildQuestionDeck());
 
