@@ -10,7 +10,7 @@ public class GameScreen extends JFrame {
      * @return void
      */
     public GameScreen() {
-        setTitle("LOCK IN");
+        setTitle("FINAL ANSWER?");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         GameScreenPanel gamePanel = new GameScreenPanel();

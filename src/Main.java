@@ -12,5 +12,6 @@ public class Main {
             MainMenu menu = new MainMenu();
             menu.setVisible(true);
         });
+        
     }
 }

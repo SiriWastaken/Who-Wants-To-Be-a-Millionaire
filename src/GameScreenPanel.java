@@ -392,9 +392,6 @@ public class GameScreenPanel extends JPanel {
     /**
      * Resets local interaction state when the session advances, finishes, or
      * restarts.
-     *
-     * @param none no parameters are required
-     * @return void
      */
     private void syncQuestionState() {
         if (session.getQuestionSerial() != lastQuestionSerial) {
@@ -406,12 +403,76 @@ public class GameScreenPanel extends JPanel {
         if (moneyLadder != null) {
             moneyLadder.setCurrentLevel(session.getCurrentQuestionNumber());
         }
-        // ---------------------------------
 
         if (session.isFinished() && session.getStatusType() == GameSession.StatusType.FAILURE) {
             countdownTimer.stop();
             completionDialogShowing = true;
-            showCompletionDialog();
+
+            Question q = session.getCurrentQuestion();
+            String selectedAnsText = "Time Ran Out!";
+            String correctAnsText = "Not found";
+
+            if (q != null) {
+                String[] choices = { q.getAnswerA(), q.getAnswerB(), q.getAnswerC(), q.getAnswerD() };
+                
+                // Read from our selectedAnswer before it is reset
+                if (selectedAnswer >= 0 && selectedAnswer < 4) {
+                    selectedAnsText = (char)('A' + selectedAnswer) + ": " + choices[selectedAnswer];
+                }
+
+                int cIdx = q.getCorrectAnswer().toUpperCase().trim().charAt(0) - 'A';
+                if (cIdx >= 0 && cIdx < 4) {
+                    correctAnsText = q.getCorrectAnswer().toUpperCase().trim() + ": " + choices[cIdx];
+                }
+            }
+
+            // Swap panels gracefully inside the immediate parent container
+            java.awt.Container parent = this.getParent();
+            if (parent != null) {
+                // Keep a reference to the ladder to pass back on restart
+                final MoneyLadder ladderRef = this.moneyLadder;
+
+                // FIX: Use a final single-element array to bypass the lambda initialization scope trap
+                final GameOverPanel[] gameOverHolder = new GameOverPanel[1];
+
+                GameOverPanel gameOver = new GameOverPanel(
+                    selectedAnsText, 
+                    correctAnsText, 
+                    session.getLastSafeMoney(), 
+                    () -> {
+                        // Play Again Action
+                        session.restart();
+                        GameScreenPanel newGamePanel = new GameScreenPanel();
+                        if (ladderRef != null) {
+                            newGamePanel.setMoneyLadder(ladderRef);
+                        }
+
+                        // Swap the fresh gameplay panel directly back into the primary layout
+                        parent.add(newGamePanel);
+                        
+                        // Safely remove the game over panel using our wrapper holder reference
+                        if (gameOverHolder[0] != null && gameOverHolder[0].getParent() != null) {
+                            java.awt.Container goParent = gameOverHolder[0].getParent();
+                            goParent.remove(gameOverHolder[0]);
+                            goParent.revalidate();
+                            goParent.repaint();
+                        }
+                        
+                        parent.revalidate();
+                        parent.repaint();
+                        newGamePanel.requestFocusInWindow();
+                    }
+                );
+
+                // Assign to the wrapper array so the lambda closure can access it later when invoked
+                gameOverHolder[0] = gameOver;
+
+                // Add the game over panel to the layout and remove this game screen
+                parent.add(gameOver);
+                parent.remove(this);
+                parent.revalidate();
+                parent.repaint();
+            }
             return;
         }
 
@@ -486,31 +547,26 @@ public class GameScreenPanel extends JPanel {
 
     /**
      * Initiates and conducts the answer animation timeline.
-     * It waits 2 seconds (steady orange), then pulses for 2 seconds (orange/green
-     * or orange/red).
-     * If correct, it restarts the timer and advances. If incorrect, it triggers
-     * game over.
+     * It waits 2 seconds (steady orange), then pulses for 2 seconds (orange/green or orange/red).
+     * If correct, it restarts the timer and advances. If incorrect, it triggers game over.
      */
     private void beginAnswerAnimation(int answerIndex) {
         if (answerAnimationRunning || selectedAnswer != -1)
             return;
 
-        // Stop the main countdown timer immediately so time doesn't drain during
-        // animations
         countdownTimer.stop();
 
-        // Lock in the choice
         selectedAnswer = answerIndex;
         lastAnswerCorrect = session.isAnswerCorrect(answerIndex);
         flashCount = 0;
         flashState = false;
 
-        // STAGE 1: Wait 2 seconds while keeping the answer steady orange
+        // STAGE 1: Wait 2 seconds (Steady Orange Lock)
         Timer delayTimer = new Timer(2000, null);
         delayTimer.setRepeats(false);
         delayTimer.addActionListener(delayEvent -> {
-
-            // STAGE 2: 2 seconds are up! Turn on animation flags to start pulsing
+            
+            // STAGE 2: Start Pulsing
             answerAnimationRunning = true;
 
             Timer flashTimer = new Timer(250, null);
@@ -519,23 +575,19 @@ public class GameScreenPanel extends JPanel {
                 repaint();
                 flashCount++;
 
-                // 8 ticks at 250ms = 2 seconds of pulsing animation
                 if (flashCount >= 8) {
                     flashTimer.stop();
 
-                    // Process the logic answer submission safely
                     session.submitAnswer(selectedAnswer);
 
-                    // Clear visual tracking flags back to clean slate state
+                    // STAGE 3: Call sync first so it captures the active selectedAnswer
+                    syncQuestionState();
+
+                    // Clean up variables AFTER sync has run
                     answerAnimationRunning = false;
                     selectedAnswer = -1;
                     flashState = false;
 
-                    // Sync state immediately pushes UI updates or triggers game over dialog if
-                    // failed
-                    syncQuestionState();
-
-                    // STAGE 3: If the user survived, restart the timer for the next question!
                     if (!session.isFinished()) {
                         countdownTimer.restart();
                     }
@@ -543,9 +595,9 @@ public class GameScreenPanel extends JPanel {
             });
             flashTimer.start();
         });
-
+        
         delayTimer.start();
-        repaint(); // Force paint update for initial steady orange lock
+        repaint(); 
     }
 
 }
