@@ -15,7 +15,7 @@ public class MainMenu extends JFrame {
      * @return void
      */
     public MainMenu() {
-        setTitle("LOCK IN");
+        setTitle("FINAL ANSWER?");
         setSize(900, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -47,10 +47,11 @@ public class MainMenu extends JFrame {
         private final Color BUTTON_BORDER_HOVER = new Color(245, 158, 11);
         private final Color BUTTON_TEXT = new Color(209, 213, 219);
 
-        // --- Button Bounds ---
-        private final Rectangle play = new Rectangle(300, 360, 300, 56);
-        private final Rectangle settings = new Rectangle(300, 440, 300, 56);
-        private final Rectangle credits = new Rectangle(300, 520, 300, 56);
+        // --- Adjusted Button Bounds to accommodate 4 buttons cleanly ---
+        private final Rectangle play = new Rectangle(300, 320, 300, 50);
+        private final Rectangle settings = new Rectangle(300, 390, 300, 50);
+        private final Rectangle credits = new Rectangle(300, 460, 300, 50);
+        private final Rectangle quit = new Rectangle(300, 530, 300, 50);
 
         // Track currently hovered menu item
         private String hovered = "";
@@ -72,8 +73,9 @@ public class MainMenu extends JFrame {
 
             addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    handleMouseClicked(e.getPoint());
+                public void mousePressed(MouseEvent e) {
+                    // Changed from mouseClicked to mousePressed for instantaneous, single-click activation
+                    handleMousePressed(e.getPoint());
                 }
             });
         }
@@ -90,18 +92,20 @@ public class MainMenu extends JFrame {
                 hovered = "SETTINGS";
             } else if (credits.contains(point)) {
                 hovered = "CREDITS";
+            } else if (quit.contains(point)) {
+                hovered = "QUIT";
             } else {
                 hovered = "";
             }
             repaint();
         }
 
-        /** Routes a click to the selected menu action.
+        /** Routes a press event to the selected menu action immediately.
          *
          * @param point the click location to evaluate
          * @return void
          */
-        private void handleMouseClicked(Point point) {
+        private void handleMousePressed(Point point) {
             if (play.contains(point)) {
                 GameScreen game = new GameScreen();
                 game.setVisible(true);
@@ -111,7 +115,17 @@ public class MainMenu extends JFrame {
                 JOptionPane.showMessageDialog(MainMenu.this, "Settings Menu");
             }
             if (credits.contains(point)) {
-                JOptionPane.showMessageDialog(MainMenu.this, "Developed by Sri Ganty");
+                // Instantly swap the panel structure for the Credits view
+                Credits creditsView = new Credits();
+                MainMenu.this.getContentPane().removeAll();
+                MainMenu.this.add(creditsView);
+                MainMenu.this.revalidate();
+                MainMenu.this.repaint();
+            }
+            if (quit.contains(point)) {
+                // Instantly break the process and terminate program
+                MainMenu.this.dispose();
+                System.exit(0);
             }
         }
 
@@ -140,22 +154,22 @@ public class MainMenu extends JFrame {
             Point2D center = new Point2D.Float(getWidth() / 2.0f, getHeight() / 2.0f);
             float radius = 500f;
             float[] dist = {0.0f, 1.0f};
-                Color[] colors = {GLOW_COLOR, new Color(0, 0, 0, 0)};
+            Color[] colors = {GLOW_COLOR, new Color(0, 0, 0, 0)};
             RadialGradientPaint glow = new RadialGradientPaint(center, radius, dist, colors);
             g2.setPaint(glow);
             g2.fillRect(0, 0, getWidth(), getHeight());
 
             g2.setStroke(new BasicStroke(1f));
-                g2.setColor(ACCENT_GLOW);
+            g2.setColor(ACCENT_GLOW);
             g2.drawOval(-200, -200, 600, 600);
             g2.drawOval(getWidth() - 400, getHeight() - 400, 600, 600);
 
             g2.setFont(TITLE_FONT);
             
-                g2.setColor(TITLE_SHADOW);
-                drawCentered(g2, "LOCK IN", 172);
+            g2.setColor(TITLE_SHADOW);
+            drawCentered(g2, "LOCK IN", 172);
 
-                g2.setColor(TITLE_PRIMARY);
+            g2.setColor(TITLE_PRIMARY);
             drawCentered(g2, "LOCK IN", 170);
 
             FontMetrics titleMetrics = g2.getFontMetrics();
@@ -165,13 +179,14 @@ public class MainMenu extends JFrame {
             g2.fillRoundRect(titleX + 40, 188, titleWidth - 80, 4, 4, 4);
 
             g2.setFont(SUBTITLE_FONT);
-                g2.setColor(SUBTITLE_COLOR); 
+            g2.setColor(SUBTITLE_COLOR); 
             drawCentered(g2, "ONE MILLION REASONS TO PLAY", 255);
 
             // --- Draw Navigation Buttons ---
             drawButton(g2, play, "PLAY", hovered.equals("PLAY"));
             drawButton(g2, settings, "SETTINGS", hovered.equals("SETTINGS"));
             drawButton(g2, credits, "CREDITS", hovered.equals("CREDITS"));
+            drawButton(g2, quit, "QUIT", hovered.equals("QUIT"));
         }
 
         /** Draws an isolated rounded rectangle menu button dynamically changing color on hover.
