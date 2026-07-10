@@ -45,6 +45,7 @@ public class GameOverPanel extends JPanel {
 
     private boolean hoverTryAgain = false;
     private boolean hoverGoHome = false;
+    
 
     // Instance-specific properties
     private final String finalWinnings;

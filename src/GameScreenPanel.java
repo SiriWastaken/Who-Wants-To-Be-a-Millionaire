@@ -6,6 +6,8 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -45,6 +47,12 @@ public class GameScreenPanel extends JPanel {
     private int flashCount = 0;
     private boolean flashState = false;
     private boolean lastAnswerCorrect = false;
+    
+    // Lifeline display state
+    private int[] audiencePollPercentages = null;
+    private String phoneAFriendSuggestion = null;
+    private int phoneAFriendSuggestedIndex = -1;
+    private Timer lifelineDisplayTimer = null;
 
     /** Creates the gameplay panel and starts the countdown timer. */
     public GameScreenPanel() {
@@ -59,7 +67,8 @@ public class GameScreenPanel extends JPanel {
     }
 
     /**
-     * Registers the MoneyLadder reference so this panel can push live step highlights.
+     * Registers the MoneyLadder reference so this panel can push live step
+     * highlights.
      * * @param ladder the instantiated MoneyLadder UI instance
      */
     public void setMoneyLadder(MoneyLadder ladder) {
@@ -148,6 +157,37 @@ public class GameScreenPanel extends JPanel {
      */
     boolean isAnswerLocked(int index) {
         return ANSWER_LOCKS[index];
+    }
+
+    /**
+     * Returns the audience poll percentage for a given answer index.
+     *
+     * @param index the answer index (0-3)
+     * @return the percentage, or -1 if not available
+     */
+    public int getAudiencePollPercentage(int index) {
+        if (audiencePollPercentages != null && index >= 0 && index < audiencePollPercentages.length) {
+            return audiencePollPercentages[index];
+        }
+        return -1;
+    }
+
+    /**
+     * Returns the phone a friend suggestion text.
+     *
+     * @return the suggestion text, or null if not available
+     */
+    public String getPhoneAFriendSuggestion() {
+        return phoneAFriendSuggestion;
+    }
+
+    /**
+     * Returns the index of the answer suggested by phone a friend.
+     *
+     * @return the suggested index, or -1 if not available
+     */
+    public int getPhoneAFriendSuggestedIndex() {
+        return phoneAFriendSuggestedIndex;
     }
 
     @Override
@@ -296,48 +336,11 @@ public class GameScreenPanel extends JPanel {
         switch (index) {
             case 0 -> useSwapLifeline();
             case 1 -> useAudiencePollLifeline();
-            case 2 -> useFiftyFiftyLifeline();
+            case 2 -> useTwentyFiveSeventyFiveLifeline();
             case 3 -> usePhoneAFriendLifeline();
             default -> {
             }
         }
-    }
-
-    /**
-     * Uses Swap and clears any answer locks so the replacement question is
-     * interactive.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void useSwapLifeline() {
-        if (!SESSION.useSwap()) {
-            JOptionPane.showMessageDialog(this, "Swap is unavailable right now.");
-            return;
-        }
-        Arrays.fill(ANSWER_LOCKS, false);
-        JOptionPane.showMessageDialog(this, "Swap used. The current question has been refreshed.");
-    }
-
-    /**
-     * Shows a lightweight audience-poll summary for the active question.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void useAudiencePollLifeline() {
-        if (!SESSION.useAudiencePoll()) {
-            JOptionPane.showMessageDialog(this, "Audience Poll has already been used.");
-            return;
-        }
-
-        Question question = SESSION.getCurrentQuestion();
-        if (question == null) {
-            return;
-        }
-
-        JOptionPane.showMessageDialog(this, Lifelines.buildAudiencePollText(question), "Audience Poll",
-                JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -347,7 +350,7 @@ public class GameScreenPanel extends JPanel {
      * @param none no parameters are required
      * @return void
      */
-    private void useFiftyFiftyLifeline() {
+    private void useTwentyFiveSeventyFiveLifeline() {
         if (!SESSION.useFiftyFifty()) {
             JOptionPane.showMessageDialog(this, "25/75 has already been used.");
             return;
@@ -367,8 +370,98 @@ public class GameScreenPanel extends JPanel {
     }
 
     /**
-     * Shows the active question's correct answer as the simulated phone-a-friend
-     * hint.
+     * Uses Swap and clears any answer locks so the replacement question is
+     * interactive.
+     *
+     * @param none no parameters are required
+     * @return void
+     */
+    private void useSwapLifeline() {
+        if (!SESSION.useSwap()) {
+            JOptionPane.showMessageDialog(this, "Swap is unavailable right now.");
+            return;
+        }
+        // Clear any lifeline displays
+        clearLifelineDisplay();
+
+        Arrays.fill(ANSWER_LOCKS, false);
+        JOptionPane.showMessageDialog(this, "Swap used. The current question has been refreshed.");
+    }
+
+    /**
+     * Shows the audience poll results as percentages under each answer option.
+     *
+     * @param none no parameters are required
+     * @return void
+     */
+    private void useAudiencePollLifeline() {
+        if (!SESSION.useAudiencePoll()) {
+            JOptionPane.showMessageDialog(this, "Audience Poll has already been used.");
+            return;
+        }
+
+        Question question = SESSION.getCurrentQuestion();
+        if (question == null) {
+            return;
+        }
+
+        // Calculate percentages
+        audiencePollPercentages = calculateAudiencePercentages(question);
+        repaint();
+
+        // Auto-remove after 8 seconds
+        if (lifelineDisplayTimer != null) {
+            lifelineDisplayTimer.stop();
+        }
+        lifelineDisplayTimer = new Timer(8000, e -> {
+            audiencePollPercentages = null;
+            repaint();
+            lifelineDisplayTimer = null;
+        });
+        lifelineDisplayTimer.setRepeats(false);
+        lifelineDisplayTimer.start();
+    }
+
+    /**
+     * Calculates audience poll percentages.
+     */
+    private int[] calculateAudiencePercentages(Question question) {
+        int[] result = new int[4];
+        int correctIdx = question.getCorrectAnswer().trim().toUpperCase().charAt(0) - 'A';
+
+        // Correct answer gets 40-55%
+        int correctPercent = 40 + (int) (Math.random() * 15);
+        result[correctIdx] = correctPercent;
+
+        // Distribute remaining among wrong answers
+        int remaining = 100 - correctPercent;
+        for (int i = 0; i < 4; i++) {
+            if (i != correctIdx && remaining > 0) {
+                int share = (int) (remaining * (0.15 + Math.random() * 0.25));
+                result[i] = Math.min(share, remaining);
+                remaining -= result[i];
+            }
+        }
+
+        // Add any leftover to correct answer
+        if (remaining > 0) {
+            result[correctIdx] += remaining;
+        }
+
+        // Ensure all values sum to 100
+        int total = 0;
+        for (int i = 0; i < 4; i++) {
+            total += result[i];
+        }
+        if (total != 100 && total > 0) {
+            result[correctIdx] += (100 - total);
+        }
+
+        return result;
+    }
+
+    /**
+     * Shows the Phone a Friend suggestion under the suggested answer option.
      *
      * @param none no parameters are required
      * @return void
@@ -384,8 +477,40 @@ public class GameScreenPanel extends JPanel {
             return;
         }
 
-        JOptionPane.showMessageDialog(this, Lifelines.buildPhoneAFriendHint(question), "Phone a Friend",
-                JOptionPane.INFORMATION_MESSAGE);
+        String[] friendNames = { "Alex", "Jordan", "Taylor", "Morgan", "Casey", "Riley", "Avery", "Quinn" };
+        String friendName = friendNames[(int) (Math.random() * friendNames.length)];
+        String correctAnswer = question.getCorrectAnswer().trim().toUpperCase();
+        
+        // Convert the answer letter to an index
+        phoneAFriendSuggestedIndex = correctAnswer.charAt(0) - 'A';
+        phoneAFriendSuggestion = friendName + " thinks this is the answer!";
+        repaint();
+
+        // Auto-remove after 8 seconds
+        if (lifelineDisplayTimer != null) {
+            lifelineDisplayTimer.stop();
+        }
+        lifelineDisplayTimer = new Timer(8000, e -> {
+            phoneAFriendSuggestion = null;
+            phoneAFriendSuggestedIndex = -1;
+            repaint();
+            lifelineDisplayTimer = null;
+        });
+        lifelineDisplayTimer.setRepeats(false);
+        lifelineDisplayTimer.start();
+    }
+
+    /**
+     * Clears any lifeline display state.
+     */
+    private void clearLifelineDisplay() {
+        audiencePollPercentages = null;
+        phoneAFriendSuggestion = null;
+        phoneAFriendSuggestedIndex = -1;
+        if (lifelineDisplayTimer != null) {
+            lifelineDisplayTimer.stop();
+            lifelineDisplayTimer = null;
+        }
     }
 
     /**
@@ -394,6 +519,9 @@ public class GameScreenPanel extends JPanel {
      */
     private void syncQuestionState() {
         if (SESSION.getQuestionSerial() != lastQuestionSerial) {
+            // Clear any lifeline display state when question changes
+            clearLifelineDisplay();
+
             Arrays.fill(ANSWER_LOCKS, false);
             lastQuestionSerial = SESSION.getQuestionSerial();
         }
@@ -413,10 +541,10 @@ public class GameScreenPanel extends JPanel {
 
             if (q != null) {
                 String[] choices = { q.getAnswerA(), q.getAnswerB(), q.getAnswerC(), q.getAnswerD() };
-                
+
                 // Read from our selectedAnswer before it is reset
                 if (selectedAnswer >= 0 && selectedAnswer < 4) {
-                    selectedAnsText = (char)('A' + selectedAnswer) + ": " + choices[selectedAnswer];
+                    selectedAnsText = (char) ('A' + selectedAnswer) + ": " + choices[selectedAnswer];
                 }
 
                 int cIdx = q.getCorrectAnswer().toUpperCase().trim().charAt(0) - 'A';
@@ -431,39 +559,40 @@ public class GameScreenPanel extends JPanel {
                 // Keep a reference to the ladder to pass back on restart
                 final MoneyLadder ladderRef = this.moneyLadder;
 
-                // FIX: Use a final single-element array to bypass the lambda initialization scope trap
+                // FIX: Use a final single-element array to bypass the lambda initialization
+                // scope trap
                 final GameOverPanel[] gameOverHolder = new GameOverPanel[1];
 
                 GameOverPanel gameOver = new GameOverPanel(
-                    selectedAnsText, 
-                    correctAnsText, 
-                    SESSION.getLastSafeMoney(), 
-                    () -> {
-                        // Play Again Action
-                        SESSION.RESTART();
-                        GameScreenPanel newGamePanel = new GameScreenPanel();
-                        if (ladderRef != null) {
-                            newGamePanel.setMoneyLadder(ladderRef);
-                        }
+                        selectedAnsText,
+                        correctAnsText,
+                        SESSION.getLastSafeMoney(),
+                        () -> {
+                            // Play Again Action
+                            SESSION.RESTART();
+                            GameScreenPanel newGamePanel = new GameScreenPanel();
+                            if (ladderRef != null) {
+                                newGamePanel.setMoneyLadder(ladderRef);
+                            }
 
-                        // Swap the fresh gameplay panel directly back into the primary layout
-                        parent.add(newGamePanel);
-                        
-                        // Safely remove the game over panel using our wrapper holder reference
-                        if (gameOverHolder[0] != null && gameOverHolder[0].getParent() != null) {
-                            java.awt.Container goParent = gameOverHolder[0].getParent();
-                            goParent.remove(gameOverHolder[0]);
-                            goParent.revalidate();
-                            goParent.repaint();
-                        }
-                        
-                        parent.revalidate();
-                        parent.repaint();
-                        newGamePanel.requestFocusInWindow();
-                    }
-                );
+                            // Swap the fresh gameplay panel directly back into the primary layout
+                            parent.add(newGamePanel);
 
-                // Assign to the wrapper array so the lambda closure can access it later when invoked
+                            // Safely remove the game over panel using our wrapper holder reference
+                            if (gameOverHolder[0] != null && gameOverHolder[0].getParent() != null) {
+                                java.awt.Container goParent = gameOverHolder[0].getParent();
+                                goParent.remove(gameOverHolder[0]);
+                                goParent.revalidate();
+                                goParent.repaint();
+                            }
+
+                            parent.revalidate();
+                            parent.repaint();
+                            newGamePanel.requestFocusInWindow();
+                        });
+
+                // Assign to the wrapper array so the lambda closure can access it later when
+                // invoked
                 gameOverHolder[0] = gameOver;
 
                 // Add the game over panel to the layout and remove this game screen
@@ -512,6 +641,7 @@ public class GameScreenPanel extends JPanel {
             completionDialogShowing = false;
             lastQuestionSerial = -1;
             Arrays.fill(ANSWER_LOCKS, false);
+            clearLifelineDisplay();
 
             // Re-sync the level capsule back to level 1 on restart
             if (moneyLadder != null) {
@@ -533,6 +663,8 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void returnToMenu() {
+        clearLifelineDisplay();
+
         SwingUtilities.invokeLater(() -> {
             MainMenu menu = new MainMenu();
             menu.setVisible(true);
@@ -546,8 +678,10 @@ public class GameScreenPanel extends JPanel {
 
     /**
      * Initiates and conducts the answer animation timeline.
-     * It waits 2 seconds (steady orange), then pulses for 2 seconds (orange/green or orange/red).
-     * If correct, it restarts the timer and advances. If incorrect, it triggers game over.
+     * It waits 2 seconds (steady orange), then pulses for 2 seconds (orange/green
+     * or orange/red).
+     * If correct, it restarts the timer and advances. If incorrect, it triggers
+     * game over.
      */
     private void beginAnswerAnimation(int answerIndex) {
         if (answerAnimationRunning || selectedAnswer != -1)
@@ -564,7 +698,7 @@ public class GameScreenPanel extends JPanel {
         Timer delayTimer = new Timer(2000, null);
         delayTimer.setRepeats(false);
         delayTimer.addActionListener(delayEvent -> {
-            
+
             // STAGE 2: Start Pulsing
             answerAnimationRunning = true;
 
@@ -594,8 +728,23 @@ public class GameScreenPanel extends JPanel {
             });
             flashTimer.start();
         });
-        
+
         delayTimer.start();
-        repaint(); 
+        repaint();
+    }
+
+    /**
+     * Adds a window listener to clean up resources when the window closes.
+     *
+     * @param window the window to attach the listener to
+     * @return void
+     */
+    public void addWindowListenerForAudio(java.awt.Window window) {
+        window.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                clearLifelineDisplay();
+            }
+        });
     }
 }

@@ -67,6 +67,7 @@ public class GameScreenRenderer {
         drawHeader(g2, panel);
         drawQuestionCard(g2, panel);
         drawAnswerButtons(g2, panel);
+        drawLifelineInfo(g2, panel);
         drawLifelineButtons(g2, panel);
         drawFooter(g2, panel);
     }
@@ -178,8 +179,16 @@ public class GameScreenRenderer {
         g2.drawRoundRect(card.x, card.y, card.width, card.height, 26, 26);
 
         Question question = panel.getSession().getCurrentQuestion();
-        if (question == null)
+        if (question == null) {
+            // Draw a placeholder message if no question is available
+            g2.setFont(BODY_FONT);
+            g2.setColor(SUBTITLE_COLOR);
+            String noQuestionText = "No question available";
+            FontMetrics fm = g2.getFontMetrics();
+            int textX = card.x + (card.width - fm.stringWidth(noQuestionText)) / 2;
+            g2.drawString(noQuestionText, textX, card.y + card.height / 2 + fm.getAscent() / 2);
             return;
+        }
 
         g2.setFont(STAT_SMALL_FONT);
         g2.setColor(TITLE_ACCENT);
@@ -284,7 +293,31 @@ public class GameScreenRenderer {
             g2.setFont(BODY_SMALL_FONT);
             drawWrappedText(g2, answers[i], rect.x + 58, rect.y + 28, rect.width - 74, 20,
                     disabled ? DISABLED_TEXT : BUTTON_TEXT);
+            
+            // Draw audience poll percentage if available
+            int percentage = panel.getAudiencePollPercentage(i);
+            if (percentage >= 0) {
+                g2.setFont(new Font("SansSerif", Font.BOLD, 14));
+                g2.setColor(TITLE_ACCENT);
+                String percentText = "Audience: " + percentage + "%";
+                FontMetrics fm = g2.getFontMetrics();
+                g2.drawString(percentText, rect.x + rect.width - fm.stringWidth(percentText) - 15, rect.y + rect.height - 10);
+            }
+            
+            // Draw phone a friend suggestion if this is the suggested answer
+            String suggestion = panel.getPhoneAFriendSuggestion();
+            int suggestedIndex = panel.getPhoneAFriendSuggestedIndex();
+            if (suggestion != null && suggestedIndex == i) {
+                g2.setFont(new Font("SansSerif", Font.ITALIC, 14));
+                g2.setColor(SUCCESS);
+                g2.drawString(suggestion, rect.x + 60, rect.y + rect.height - 10);
+            }
         }
+    }
+
+    private void drawLifelineInfo(Graphics2D g2, GameScreenPanel panel) {
+        // This method is now integrated into drawAnswerButtons above
+        // Keeping it for compatibility but it does nothing
     }
 
     private void drawLifelineButtons(Graphics2D g2, GameScreenPanel panel) {
