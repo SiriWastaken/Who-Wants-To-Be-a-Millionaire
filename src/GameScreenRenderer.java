@@ -11,8 +11,6 @@ import java.awt.geom.Point2D;
 /**
  * Draws the Final Answer? gameplay screen using the current session and panel
  * state.
- * 
- * @author Sri Ganty, with refactoring help from Copilot (GPT 5.4 Mini)
  */
 public class GameScreenRenderer {
 
@@ -23,13 +21,15 @@ public class GameScreenRenderer {
     private final Font BUTTON_FONT = new Font("SansSerif", Font.BOLD, 18);
     private final Font STAT_FONT = new Font("SansSerif", Font.BOLD, 19);
     private final Font STAT_SMALL_FONT = new Font("SansSerif", Font.PLAIN, 14);
+    private final Font LIFELINE_FONT = new Font("SansSerif", Font.BOLD, 14);
+    private final Font SUGGESTION_FONT = new Font("SansSerif", Font.ITALIC, 14);
 
     private final Color BACKGROUND_TOP = new Color(10, 8, 28);
     private final Color BACKGROUND_BOTTOM = new Color(3, 2, 10);
     private final Color GLOW_COLOR = new Color(99, 102, 241, 25);
     private final Color ACCENT_GLOW = new Color(245, 158, 11, 20);
     private final Color TITLE_PRIMARY = Color.WHITE;
-    private final Color TITLE_ACCENT = new Color(245, 158, 11); // Orange
+    private final Color TITLE_ACCENT = new Color(245, 158, 11);
     private final Color TITLE_SHADOW = new Color(168, 85, 247, 45);
     private final Color SUBTITLE_COLOR = new Color(156, 163, 175);
     private final Color CARD_BG = new Color(17, 24, 39, 175);
@@ -40,8 +40,8 @@ public class GameScreenRenderer {
     private final Color BUTTON_BORDER_HOVER = new Color(245, 158, 11);
     private final Color BUTTON_TEXT = new Color(229, 231, 235);
     private final Color DISABLED_TEXT = new Color(107, 114, 128);
-    private final Color SUCCESS = new Color(34, 197, 94); // Green
-    private final Color FAILURE = new Color(239, 68, 68); // Red
+    private final Color SUCCESS = new Color(34, 197, 94);
+    private final Color FAILURE = new Color(239, 68, 68);
 
     /** Paints the full gameplay screen. */
     public void paint(Graphics2D g2, GameScreenPanel panel) {
@@ -67,7 +67,6 @@ public class GameScreenRenderer {
         drawHeader(g2, panel);
         drawQuestionCard(g2, panel);
         drawAnswerButtons(g2, panel);
-        drawLifelineInfo(g2, panel);
         drawLifelineButtons(g2, panel);
         drawFooter(g2, panel);
     }
@@ -130,7 +129,6 @@ public class GameScreenRenderer {
         int ringX = circleX + padding;
         int ringY = circleY + padding;
 
-        // Base smooth background circle
         g2.setColor(CARD_BG);
         g2.fillOval(circleX, circleY, diameter, diameter);
         g2.setColor(CARD_BORDER);
@@ -144,12 +142,10 @@ public class GameScreenRenderer {
 
         Color timerColor = timerColorForFraction(fraction);
 
-        // Draw the background track for the timer ring
         g2.setStroke(new BasicStroke(14f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g2.setColor(new Color(255, 255, 255, 28));
         g2.drawArc(ringX, ringY, ringSize, ringSize, 90, -360);
 
-        // Draw the active countdown progress arc
         g2.setColor(timerColor);
         g2.drawArc(ringX, ringY, ringSize, ringSize, 90, -extent);
 
@@ -163,10 +159,8 @@ public class GameScreenRenderer {
     }
 
     private Color timerColorForFraction(float fraction) {
-        if (fraction > 0.60f)
-            return SUCCESS;
-        if (fraction > 0.25f)
-            return TITLE_ACCENT;
+        if (fraction > 0.60f) return SUCCESS;
+        if (fraction > 0.25f) return TITLE_ACCENT;
         return FAILURE;
     }
 
@@ -180,7 +174,6 @@ public class GameScreenRenderer {
 
         Question question = panel.getSession().getCurrentQuestion();
         if (question == null) {
-            // Draw a placeholder message if no question is available
             g2.setFont(BODY_FONT);
             g2.setColor(SUBTITLE_COLOR);
             String noQuestionText = "No question available";
@@ -208,8 +201,7 @@ public class GameScreenRenderer {
 
     private void drawAnswerButtons(Graphics2D g2, GameScreenPanel panel) {
         Question question = panel.getSession().getCurrentQuestion();
-        if (question == null)
-            return;
+        if (question == null) return;
 
         String[] labels = { "A", "B", "C", "D" };
         String[] answers = {
@@ -293,31 +285,26 @@ public class GameScreenRenderer {
             g2.setFont(BODY_SMALL_FONT);
             drawWrappedText(g2, answers[i], rect.x + 58, rect.y + 28, rect.width - 74, 20,
                     disabled ? DISABLED_TEXT : BUTTON_TEXT);
-            
+
             // Draw audience poll percentage if available
             int percentage = panel.getAudiencePollPercentage(i);
             if (percentage >= 0) {
-                g2.setFont(new Font("SansSerif", Font.BOLD, 14));
+                g2.setFont(LIFELINE_FONT);
                 g2.setColor(TITLE_ACCENT);
                 String percentText = "Audience: " + percentage + "%";
                 FontMetrics fm = g2.getFontMetrics();
                 g2.drawString(percentText, rect.x + rect.width - fm.stringWidth(percentText) - 15, rect.y + rect.height - 10);
             }
-            
+
             // Draw phone a friend suggestion if this is the suggested answer
             String suggestion = panel.getPhoneAFriendSuggestion();
             int suggestedIndex = panel.getPhoneAFriendSuggestedIndex();
             if (suggestion != null && suggestedIndex == i) {
-                g2.setFont(new Font("SansSerif", Font.ITALIC, 14));
+                g2.setFont(SUGGESTION_FONT);
                 g2.setColor(SUCCESS);
                 g2.drawString(suggestion, rect.x + 60, rect.y + rect.height - 10);
             }
         }
-    }
-
-    private void drawLifelineInfo(Graphics2D g2, GameScreenPanel panel) {
-        // This method is now integrated into drawAnswerButtons above
-        // Keeping it for compatibility but it does nothing
     }
 
     private void drawLifelineButtons(Graphics2D g2, GameScreenPanel panel) {
@@ -353,12 +340,9 @@ public class GameScreenRenderer {
     }
 
     private Color colorForStatus(GameSession.StatusType statusType) {
-        if (statusType == GameSession.StatusType.SUCCESS)
-            return SUCCESS;
-        if (statusType == GameSession.StatusType.FAILURE)
-            return FAILURE;
-        if (statusType == GameSession.StatusType.COMPLETE)
-            return TITLE_ACCENT;
+        if (statusType == GameSession.StatusType.SUCCESS) return SUCCESS;
+        if (statusType == GameSession.StatusType.FAILURE) return FAILURE;
+        if (statusType == GameSession.StatusType.COMPLETE) return TITLE_ACCENT;
         return SUBTITLE_COLOR;
     }
 
@@ -393,9 +377,7 @@ public class GameScreenRenderer {
                 currentY += lineHeight;
                 line = new StringBuilder(word);
             } else {
-                if (line.length() > 0) {
-                    line.append(' ');
-                }
+                if (line.length() > 0) line.append(' ');
                 line.append(word);
             }
         }
