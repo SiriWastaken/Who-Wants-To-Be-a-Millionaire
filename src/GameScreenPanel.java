@@ -502,7 +502,7 @@ public class GameScreenPanel extends JPanel {
         String message = failed
                 ? "GAME OVER: You earned a grand total of " + String.format("%,d", SESSION.getLastSafeMoney())
                         + ".\n\nWould you like to play again?"
-                : "You cleared Lock In with a score of $" + String.format("%,d", SESSION.getScore())
+                : "You cleared Final Answer? with a score of $" + String.format("%,d", SESSION.getScore())
                         + ".\n\nWould you like to play again?";
         int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);

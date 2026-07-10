@@ -8,7 +8,10 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 
-/** Draws the Lock In gameplay screen using the current session and panel state.
+/**
+ * Draws the Final Answer? gameplay screen using the current session and panel
+ * state.
+ * 
  * @author Sri Ganty, with refactoring help from Copilot (GPT 5.4 Mini)
  */
 public class GameScreenRenderer {
@@ -50,8 +53,8 @@ public class GameScreenRenderer {
         g2.fillRect(0, 0, panel.getWidth(), panel.getHeight());
 
         Point2D center = new Point2D.Float(panel.getWidth() / 2.0f, panel.getHeight() / 2.0f);
-        float[] dist = {0.0f, 1.0f};
-        Color[] colors = {GLOW_COLOR, new Color(0, 0, 0, 0)};
+        float[] dist = { 0.0f, 1.0f };
+        Color[] colors = { GLOW_COLOR, new Color(0, 0, 0, 0) };
         g2.setPaint(new java.awt.RadialGradientPaint(center, 560f, dist, colors));
         g2.fillRect(0, 0, panel.getWidth(), panel.getHeight());
 
@@ -85,17 +88,18 @@ public class GameScreenRenderer {
     private void drawHeader(Graphics2D g2, GameScreenPanel panel) {
         g2.setFont(TITLE_FONT);
         g2.setColor(TITLE_SHADOW);
-        drawCentered(g2, "LOCK IN", 70, panel);
+        drawCentered(g2, "FINAL ANSWER?", 70, panel);
         g2.setColor(TITLE_PRIMARY);
-        drawCentered(g2, "LOCK IN", 68, panel);
+        drawCentered(g2, "FINAL ANSWER?", 68, panel);
 
         FontMetrics titleMetrics = g2.getFontMetrics();
-        int titleWidth = titleMetrics.stringWidth("LOCK IN");
+        int titleWidth = titleMetrics.stringWidth("FINAL ANSWER?");
         int titleX = (panel.getWidth() - titleWidth) / 2;
         g2.setColor(TITLE_ACCENT);
         g2.fillRoundRect(titleX + 34, 80, titleWidth - 68, 4, 4, 4);
 
-        drawStatCard(g2, 90, 140, 250, 68, "QUESTION", panel.getSession().getCurrentQuestionNumber() + " / " + panel.getSession().getTotalQuestions());
+        drawStatCard(g2, 90, 140, 250, 68, "QUESTION",
+                panel.getSession().getCurrentQuestionNumber() + " / " + panel.getSession().getTotalQuestions());
         drawTimerWidget(g2, panel, 438, 118, 214, 116);
         drawStatCard(g2, 760, 140, 250, 68, "MONEY", "$" + String.format("%,d", panel.getSession().getScore()));
     }
@@ -125,6 +129,7 @@ public class GameScreenRenderer {
         int ringX = circleX + padding;
         int ringY = circleY + padding;
 
+        // Base smooth background circle
         g2.setColor(CARD_BG);
         g2.fillOval(circleX, circleY, diameter, diameter);
         g2.setColor(CARD_BORDER);
@@ -135,16 +140,15 @@ public class GameScreenRenderer {
         int timeRemaining = panel.getSession().getTimeRemaining();
         float fraction = timeLimit <= 0 ? 0.0f : Math.max(0.0f, Math.min(1.0f, timeRemaining / (float) timeLimit));
         int extent = Math.round(360f * fraction);
-        
+
         Color timerColor = timerColorForFraction(fraction);
 
-        g2.setColor(new Color(255, 255, 255, 24));
-        g2.fillOval(ringX, ringY, ringSize, ringSize);
-
+        // Draw the background track for the timer ring
         g2.setStroke(new BasicStroke(14f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g2.setColor(new Color(255, 255, 255, 28));
         g2.drawArc(ringX, ringY, ringSize, ringSize, 90, -360);
-        
+
+        // Draw the active countdown progress arc
         g2.setColor(timerColor);
         g2.drawArc(ringX, ringY, ringSize, ringSize, 90, -extent);
 
@@ -158,8 +162,10 @@ public class GameScreenRenderer {
     }
 
     private Color timerColorForFraction(float fraction) {
-        if (fraction > 0.60f) return SUCCESS;
-        if (fraction > 0.25f) return TITLE_ACCENT;
+        if (fraction > 0.60f)
+            return SUCCESS;
+        if (fraction > 0.25f)
+            return TITLE_ACCENT;
         return FAILURE;
     }
 
@@ -172,7 +178,8 @@ public class GameScreenRenderer {
         g2.drawRoundRect(card.x, card.y, card.width, card.height, 26, 26);
 
         Question question = panel.getSession().getCurrentQuestion();
-        if (question == null) return;
+        if (question == null)
+            return;
 
         g2.setFont(STAT_SMALL_FONT);
         g2.setColor(TITLE_ACCENT);
@@ -192,9 +199,10 @@ public class GameScreenRenderer {
 
     private void drawAnswerButtons(Graphics2D g2, GameScreenPanel panel) {
         Question question = panel.getSession().getCurrentQuestion();
-        if (question == null) return;
+        if (question == null)
+            return;
 
-        String[] labels = {"A", "B", "C", "D"};
+        String[] labels = { "A", "B", "C", "D" };
         String[] answers = {
                 question.getAnswerA(),
                 question.getAnswerB(),
@@ -206,7 +214,8 @@ public class GameScreenRenderer {
 
         for (int i = 0; i < panel.getAnswerBounds().length; i++) {
             Rectangle rect = panel.getAnswerBounds()[i];
-            boolean hover = panel.getHoveredAnswerIndex() == i && !panel.isAnswerLocked(i) && !panel.getSession().isFinished();
+            boolean hover = panel.getHoveredAnswerIndex() == i && !panel.isAnswerLocked(i)
+                    && !panel.getSession().isFinished();
             boolean disabled = panel.isAnswerLocked(i);
 
             boolean animationRunning = panel.isAnswerAnimationRunning();
@@ -273,7 +282,8 @@ public class GameScreenRenderer {
             g2.drawString(labels[i], rect.x + 18, rect.y + 31);
 
             g2.setFont(BODY_SMALL_FONT);
-            drawWrappedText(g2, answers[i], rect.x + 58, rect.y + 28, rect.width - 74, 20, disabled ? DISABLED_TEXT : BUTTON_TEXT);
+            drawWrappedText(g2, answers[i], rect.x + 58, rect.y + 28, rect.width - 74, 20,
+                    disabled ? DISABLED_TEXT : BUTTON_TEXT);
         }
     }
 
@@ -284,7 +294,7 @@ public class GameScreenRenderer {
                 panel.getSession().isFiftyFiftyUsed(),
                 panel.getSession().isPhoneAFriendUsed()
         };
-        String[] labels = {"SWAP", "AUDIENCE", "25/75", "PHONE"};
+        String[] labels = { "SWAP", "AUDIENCE", "25/75", "PHONE" };
 
         for (int i = 0; i < panel.getLifelineBounds().length; i++) {
             Rectangle rect = panel.getLifelineBounds()[i];
@@ -310,9 +320,12 @@ public class GameScreenRenderer {
     }
 
     private Color colorForStatus(GameSession.StatusType statusType) {
-        if (statusType == GameSession.StatusType.SUCCESS) return SUCCESS;
-        if (statusType == GameSession.StatusType.FAILURE) return FAILURE;
-        if (statusType == GameSession.StatusType.COMPLETE) return TITLE_ACCENT;
+        if (statusType == GameSession.StatusType.SUCCESS)
+            return SUCCESS;
+        if (statusType == GameSession.StatusType.FAILURE)
+            return FAILURE;
+        if (statusType == GameSession.StatusType.COMPLETE)
+            return TITLE_ACCENT;
         return SUBTITLE_COLOR;
     }
 
