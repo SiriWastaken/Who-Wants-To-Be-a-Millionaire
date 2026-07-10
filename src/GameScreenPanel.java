@@ -47,7 +47,7 @@ public class GameScreenPanel extends JPanel {
     private int flashCount = 0;
     private boolean flashState = false;
     private boolean lastAnswerCorrect = false;
-
+    
     // Lifeline display state
     private int[] audiencePollPercentages = null;
     private String phoneAFriendSuggestion = null;
@@ -62,6 +62,7 @@ public class GameScreenPanel extends JPanel {
     public GameScreenPanel() {
         setFocusable(true);
         setPreferredSize(new Dimension(1100, 760));
+        setLayout(null); // Use null layout so we can position the overlay
         COUNTDOWN_TIMER = new Timer(1000, event -> onTick());
         installListeners();
         syncQuestionState();
@@ -206,15 +207,8 @@ public class GameScreenPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        // Render the main game
+        // Only render the main game - the overlay is now a child component
         RENDERER.paint((Graphics2D) g, this);
-
-        // Render Play or Walk Away panel on top if showing
-        if (playOrWalkPanel != null && isPlayOrWalkShowing) {
-            // Use paintComponent instead of paint to avoid NullPointerException
-            playOrWalkPanel.paintComponent(g);
-        }
     }
 
     /**
@@ -228,9 +222,8 @@ public class GameScreenPanel extends JPanel {
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent event) {
-                // If Play or Walk is showing, pass events to it
-                if (isPlayOrWalkShowing && playOrWalkPanel != null) {
-                    playOrWalkPanel.dispatchEvent(event);
+                // If Play or Walk is showing, don't process game mouse events
+                if (isPlayOrWalkShowing) {
                     return;
                 }
                 handleMouseMoved(event.getPoint());
@@ -240,9 +233,8 @@ public class GameScreenPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent event) {
-                // If Play or Walk is showing, pass events to it
-                if (isPlayOrWalkShowing && playOrWalkPanel != null) {
-                    playOrWalkPanel.dispatchEvent(event);
+                // If Play or Walk is showing, don't process game mouse events
+                if (isPlayOrWalkShowing) {
                     return;
                 }
                 handleMousePressed(event.getPoint());
@@ -515,7 +507,7 @@ public class GameScreenPanel extends JPanel {
         String[] friendNames = { "Alex", "Jordan", "Taylor", "Morgan", "Casey", "Riley", "Avery", "Quinn" };
         String friendName = friendNames[(int) (Math.random() * friendNames.length)];
         String correctAnswer = question.getCorrectAnswer().trim().toUpperCase();
-
+        
         // Convert the answer letter to an index
         phoneAFriendSuggestedIndex = correctAnswer.charAt(0) - 'A';
         phoneAFriendSuggestion = friendName + " thinks this is the answer!";
@@ -568,37 +560,54 @@ public class GameScreenPanel extends JPanel {
 
         // Create the panel
         playOrWalkPanel = new PlayOrWalkPanel(
-                safeMoney,
-                nextMoney,
-                () -> {
-                    // Walk Away
-                    SwingUtilities.invokeLater(() -> {
-                        // This will end the game with the safe money
-                        SESSION.chooseHighStakesDecision(false);
-                        isPlayOrWalkShowing = false;
+            safeMoney,
+            nextMoney,
+            () -> {
+                // Walk Away - this runs after the confirmation screen
+                SwingUtilities.invokeLater(() -> {
+                    // Remove the overlay panel
+                    if (playOrWalkPanel != null) {
+                        remove(playOrWalkPanel);
+                        playOrWalkPanel.cleanup();
                         playOrWalkPanel = null;
-                        // Show completion dialog with the walk-away message
-                        showCompletionDialog();
-                        repaint();
-                    });
-                },
-                () -> {
-                    // Continue Playing
-                    SwingUtilities.invokeLater(() -> {
-                        SESSION.chooseHighStakesDecision(true);
-                        isPlayOrWalkShowing = false;
-                        playOrWalkPanel = null;
-                        // Restart the timer for the next question
-                        if (!SESSION.isFinished()) {
-                            COUNTDOWN_TIMER.start();
-                        }
-                        syncQuestionState();
-                        repaint();
-                    });
+                    }
+                    isPlayOrWalkShowing = false;
+                    // This will end the game with the safe money
+                    SESSION.chooseHighStakesDecision(false);
+                    // Show completion dialog with the walk-away message
+                    showCompletionDialog();
+                    repaint();
+                    revalidate();
                 });
+            },
+            () -> {
+                // Continue Playing
+                SwingUtilities.invokeLater(() -> {
+                    // Remove the overlay panel
+                    if (playOrWalkPanel != null) {
+                        remove(playOrWalkPanel);
+                        playOrWalkPanel.cleanup();
+                        playOrWalkPanel = null;
+                    }
+                    isPlayOrWalkShowing = false;
+                    SESSION.chooseHighStakesDecision(true);
+                    // Restart the timer for the next question
+                    if (!SESSION.isFinished()) {
+                        COUNTDOWN_TIMER.start();
+                    }
+                    syncQuestionState();
+                    repaint();
+                    revalidate();
+                });
+            }
+        );
 
-        isPlayOrWalkShowing = true;
+        // Add the panel as a child component
         playOrWalkPanel.setBounds(0, 0, getWidth(), getHeight());
+        playOrWalkPanel.setOpaque(false);
+        add(playOrWalkPanel);
+        isPlayOrWalkShowing = true;
+        revalidate();
         repaint();
     }
 
@@ -626,12 +635,10 @@ public class GameScreenPanel extends JPanel {
         }
 
         // Check if we need to show Play or Walk Away
-        if (SESSION.hasReachedHighStakes() && !SESSION.isFinished() &&
-                SESSION.getStatusType() != GameSession.StatusType.COMPLETE) {
+        if (SESSION.hasReachedHighStakes() && !SESSION.isFinished() && 
+            SESSION.getStatusType() != GameSession.StatusType.COMPLETE) {
             // Check if we haven't already shown it for this question
-            if (!SESSION.isHighStakesDecisionPending()) {
-                // It's already been decided, continue
-            } else {
+            if (SESSION.isHighStakesDecisionPending()) {
                 showPlayOrWalkPanel();
                 return;
             }
@@ -640,6 +647,15 @@ public class GameScreenPanel extends JPanel {
         if (SESSION.isFinished() && SESSION.getStatusType() == GameSession.StatusType.FAILURE) {
             COUNTDOWN_TIMER.stop();
             completionDialogShowing = true;
+
+            // Clean up any Play or Walk panel if it's still showing
+            if (playOrWalkPanel != null) {
+                remove(playOrWalkPanel);
+                playOrWalkPanel.cleanup();
+                playOrWalkPanel = null;
+                isPlayOrWalkShowing = false;
+                revalidate();
+            }
 
             Question q = SESSION.getCurrentQuestion();
             String selectedAnsText = "Time Ran Out!";
@@ -710,6 +726,25 @@ public class GameScreenPanel extends JPanel {
             return;
         }
 
+        if (SESSION.isFinished() && SESSION.getStatusType() == GameSession.StatusType.COMPLETE) {
+            // Check if this was a walk-away (status message contains "walked away")
+            String status = SESSION.getStatusMessage();
+            if (status.contains("walked away")) {
+                // Walk away completion - show dialog directly
+                completionDialogShowing = true;
+                COUNTDOWN_TIMER.stop();
+                repaint();
+                showCompletionDialog();
+                return;
+            }
+            // Normal completion
+            completionDialogShowing = true;
+            COUNTDOWN_TIMER.stop();
+            repaint();
+            showCompletionDialog();
+            return;
+        }
+
         if (!SESSION.isFinished()) {
             completionDialogShowing = false;
             repaint();
@@ -732,13 +767,22 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void showCompletionDialog() {
+        // Clean up any Play or Walk panel
+        if (playOrWalkPanel != null) {
+            remove(playOrWalkPanel);
+            playOrWalkPanel.cleanup();
+            playOrWalkPanel = null;
+        }
+        isPlayOrWalkShowing = false;
+        revalidate();
+
         boolean failed = SESSION.getStatusType() == GameSession.StatusType.FAILURE;
         String title = failed ? "Game Over" : "Game Complete";
-
+        
         // Check if this was a walk-away
-        boolean walkedAway = SESSION.getStatusType() == GameSession.StatusType.COMPLETE &&
-                SESSION.getStatusMessage().contains("walked away");
-
+        String statusMsg = SESSION.getStatusMessage();
+        boolean walkedAway = statusMsg != null && statusMsg.contains("walked away");
+        
         String message;
         if (walkedAway) {
             message = "You walked away with " + String.format("£%,d", SESSION.getScore()) +
@@ -750,7 +794,7 @@ public class GameScreenPanel extends JPanel {
             message = "You cleared Final Answer? with a score of " + String.format("£%,d", SESSION.getScore()) +
                     ".\n\nWould you like to play again?";
         }
-
+        
         int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
 
@@ -786,8 +830,10 @@ public class GameScreenPanel extends JPanel {
         clearLifelineDisplay();
         isPlayOrWalkShowing = false;
         if (playOrWalkPanel != null) {
+            remove(playOrWalkPanel);
             playOrWalkPanel.cleanup();
             playOrWalkPanel = null;
+            revalidate();
         }
 
         SwingUtilities.invokeLater(() -> {
@@ -870,10 +916,12 @@ public class GameScreenPanel extends JPanel {
             public void windowClosing(WindowEvent e) {
                 clearLifelineDisplay();
                 if (playOrWalkPanel != null) {
+                    remove(playOrWalkPanel);
                     playOrWalkPanel.cleanup();
                     playOrWalkPanel = null;
                 }
                 isPlayOrWalkShowing = false;
+                revalidate();
             }
         });
     }

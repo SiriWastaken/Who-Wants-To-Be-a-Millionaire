@@ -55,10 +55,15 @@ public class PlayOrWalkPanel extends JPanel {
     // Button bounds
     private final Rectangle WALK_AWAY_BUTTON = new Rectangle(0, 0, 200, 50);
     private final Rectangle CONTINUE_BUTTON = new Rectangle(0, 0, 200, 50);
+    private final Rectangle PLAY_AGAIN_BUTTON = new Rectangle(0, 0, 200, 50);
+    private final Rectangle GO_HOME_BUTTON = new Rectangle(0, 0, 200, 50);
 
     private boolean hoverWalkAway = false;
     private boolean hoverContinue = false;
+    private boolean hoverPlayAgain = false;
+    private boolean hoverGoHome = false;
     private boolean isDisappearing = false;
+    private boolean showWalkAwayConfirmation = false;
     private Timer fadeTimer;
     private float fadeAlpha = 1.0f;
 
@@ -87,8 +92,13 @@ public class PlayOrWalkPanel extends JPanel {
             @Override
             public void mouseMoved(MouseEvent e) {
                 Point p = e.getPoint();
-                hoverWalkAway = WALK_AWAY_BUTTON.contains(p);
-                hoverContinue = CONTINUE_BUTTON.contains(p);
+                if (!showWalkAwayConfirmation) {
+                    hoverWalkAway = WALK_AWAY_BUTTON.contains(p);
+                    hoverContinue = CONTINUE_BUTTON.contains(p);
+                } else {
+                    hoverPlayAgain = PLAY_AGAIN_BUTTON.contains(p);
+                    hoverGoHome = GO_HOME_BUTTON.contains(p);
+                }
                 repaint();
             }
         });
@@ -97,10 +107,22 @@ public class PlayOrWalkPanel extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 Point p = e.getPoint();
-                if (WALK_AWAY_BUTTON.contains(p)) {
-                    startFadeAndRun(onWalkAway);
-                } else if (CONTINUE_BUTTON.contains(p)) {
-                    startFadeAndRun(onContinue);
+                if (!showWalkAwayConfirmation) {
+                    if (WALK_AWAY_BUTTON.contains(p)) {
+                        // Show the confirmation screen
+                        showWalkAwayConfirmation = true;
+                        repaint();
+                    } else if (CONTINUE_BUTTON.contains(p)) {
+                        startFadeAndRun(onContinue);
+                    }
+                } else {
+                    if (PLAY_AGAIN_BUTTON.contains(p)) {
+                        // Play again - execute the walk away callback (which triggers restart)
+                        startFadeAndRun(onWalkAway);
+                    } else if (GO_HOME_BUTTON.contains(p)) {
+                        // Go home - execute the walk away callback (which triggers menu)
+                        startFadeAndRun(onWalkAway);
+                    }
                 }
             }
         });
@@ -161,67 +183,139 @@ public class PlayOrWalkPanel extends JPanel {
             g2.drawOval(-170, -170, 540, 540);
             g2.drawOval(w - 390, h - 440, 620, 620);
 
-            // Card dimensions
-            int cardWidth = Math.min(680, w - 80);
-            int cardHeight = 360;
-            int cardX = (w - cardWidth) / 2;
-            int cardY = (h - cardHeight) / 2 - 20;
-
-            // Position buttons
-            int buttonY = cardY + cardHeight - 70;
-            WALK_AWAY_BUTTON.x = cardX + 50;
-            WALK_AWAY_BUTTON.y = buttonY;
-            CONTINUE_BUTTON.x = cardX + cardWidth - 50 - CONTINUE_BUTTON.width;
-            CONTINUE_BUTTON.y = buttonY;
-
-            // Card background (matching your game's card style)
-            g2.setColor(CARD_BG);
-            g2.fillRoundRect(cardX, cardY, cardWidth, cardHeight, 26, 26);
-            g2.setStroke(new BasicStroke(1.5f));
-            g2.setColor(CARD_BORDER);
-            g2.drawRoundRect(cardX, cardY, cardWidth, cardHeight, 26, 26);
-
-            // Title with shadow (matching your game's title style)
-            g2.setFont(TITLE_FONT);
-            g2.setColor(TITLE_SHADOW);
-            String title = "HIGH STAKES!";
-            FontMetrics fm = g2.getFontMetrics();
-            g2.drawString(title, (w - fm.stringWidth(title)) / 2 + 2, cardY + 78);
-            g2.setColor(TITLE_PRIMARY);
-            g2.drawString(title, (w - fm.stringWidth(title)) / 2, cardY + 76);
-
-            // Gold underline (matching your game)
-            g2.setColor(TITLE_ACCENT);
-            g2.fillRoundRect(w / 2 - 80, cardY + 85, 160, 3, 3, 3);
-
-            // Subtitle
-            g2.setFont(BODY_FONT);
-            g2.setColor(SUBTITLE_COLOR);
-            String subtitle = "You've reached a guaranteed payout!";
-            fm = g2.getFontMetrics();
-            g2.drawString(subtitle, (w - fm.stringWidth(subtitle)) / 2, cardY + 125);
-
-            // Money display with gold accent
-            g2.setFont(MONEY_FONT);
-            g2.setColor(TITLE_ACCENT);
-            String moneyText = "£" + String.format("%,d", safeMoney);
-            fm = g2.getFontMetrics();
-            g2.drawString(moneyText, (w - fm.stringWidth(moneyText)) / 2, cardY + 195);
-
-            // Next level info
-            g2.setFont(BODY_FONT);
-            g2.setColor(SUBTITLE_COLOR);
-            String nextText = "Next question: £" + String.format("%,d", nextLevelMoney);
-            fm = g2.getFontMetrics();
-            g2.drawString(nextText, (w - fm.stringWidth(nextText)) / 2, cardY + 235);
-
-            // Buttons (matching your game's button style)
-            drawCustomButton(g2, WALK_AWAY_BUTTON, "WALK AWAY", hoverWalkAway);
-            drawCustomButton(g2, CONTINUE_BUTTON, "CONTINUE", hoverContinue);
+            if (!showWalkAwayConfirmation) {
+                drawPlayOrWalkScreen(g2, w, h);
+            } else {
+                drawWalkAwayConfirmationScreen(g2, w, h);
+            }
 
         } finally {
             g2.dispose();
         }
+    }
+
+    private void drawPlayOrWalkScreen(Graphics2D g2, int w, int h) {
+        // Card dimensions
+        int cardWidth = Math.min(680, w - 80);
+        int cardHeight = 360;
+        int cardX = (w - cardWidth) / 2;
+        int cardY = (h - cardHeight) / 2 - 20;
+
+        // Position buttons
+        int buttonY = cardY + cardHeight - 70;
+        WALK_AWAY_BUTTON.x = cardX + 50;
+        WALK_AWAY_BUTTON.y = buttonY;
+        CONTINUE_BUTTON.x = cardX + cardWidth - 50 - CONTINUE_BUTTON.width;
+        CONTINUE_BUTTON.y = buttonY;
+
+        // Card background (matching your game's card style)
+        g2.setColor(CARD_BG);
+        g2.fillRoundRect(cardX, cardY, cardWidth, cardHeight, 26, 26);
+        g2.setStroke(new BasicStroke(1.5f));
+        g2.setColor(CARD_BORDER);
+        g2.drawRoundRect(cardX, cardY, cardWidth, cardHeight, 26, 26);
+
+        // Title with shadow (matching your game's title style)
+        g2.setFont(TITLE_FONT);
+        g2.setColor(TITLE_SHADOW);
+        String title = "HIGH STAKES!";
+        FontMetrics fm = g2.getFontMetrics();
+        g2.drawString(title, (w - fm.stringWidth(title)) / 2 + 2, cardY + 78);
+        g2.setColor(TITLE_PRIMARY);
+        g2.drawString(title, (w - fm.stringWidth(title)) / 2, cardY + 76);
+
+        // Gold underline (matching your game)
+        g2.setColor(TITLE_ACCENT);
+        g2.fillRoundRect(w / 2 - 80, cardY + 85, 160, 3, 3, 3);
+
+        // Subtitle
+        g2.setFont(BODY_FONT);
+        g2.setColor(SUBTITLE_COLOR);
+        String subtitle = "You've reached a guaranteed payout!";
+        fm = g2.getFontMetrics();
+        g2.drawString(subtitle, (w - fm.stringWidth(subtitle)) / 2, cardY + 125);
+
+        // Money display with gold accent
+        g2.setFont(MONEY_FONT);
+        g2.setColor(TITLE_ACCENT);
+        String moneyText = "£" + String.format("%,d", safeMoney);
+        fm = g2.getFontMetrics();
+        g2.drawString(moneyText, (w - fm.stringWidth(moneyText)) / 2, cardY + 195);
+
+        // Next level info
+        g2.setFont(BODY_FONT);
+        g2.setColor(SUBTITLE_COLOR);
+        String nextText = "Next question: £" + String.format("%,d", nextLevelMoney);
+        fm = g2.getFontMetrics();
+        g2.drawString(nextText, (w - fm.stringWidth(nextText)) / 2, cardY + 235);
+
+        // Buttons (matching your game's button style)
+        drawCustomButton(g2, WALK_AWAY_BUTTON, "WALK AWAY", hoverWalkAway);
+        drawCustomButton(g2, CONTINUE_BUTTON, "CONTINUE", hoverContinue);
+    }
+
+    private void drawWalkAwayConfirmationScreen(Graphics2D g2, int w, int h) {
+        // Card dimensions
+        int cardWidth = Math.min(680, w - 80);
+        int cardHeight = 380;
+        int cardX = (w - cardWidth) / 2;
+        int cardY = (h - cardHeight) / 2 - 20;
+
+        // Position buttons
+        int buttonY = cardY + cardHeight - 70;
+        PLAY_AGAIN_BUTTON.x = cardX + 50;
+        PLAY_AGAIN_BUTTON.y = buttonY;
+        GO_HOME_BUTTON.x = cardX + cardWidth - 50 - GO_HOME_BUTTON.width;
+        GO_HOME_BUTTON.y = buttonY;
+
+        // Card background
+        g2.setColor(CARD_BG);
+        g2.fillRoundRect(cardX, cardY, cardWidth, cardHeight, 26, 26);
+        g2.setStroke(new BasicStroke(1.5f));
+        g2.setColor(CARD_BORDER);
+        g2.drawRoundRect(cardX, cardY, cardWidth, cardHeight, 26, 26);
+
+        // Title with shadow - "CONGRATULATIONS!" in gold
+        g2.setFont(TITLE_FONT);
+        g2.setColor(TITLE_SHADOW);
+        String title = "CONGRATS!";
+        FontMetrics fm = g2.getFontMetrics();
+        g2.drawString(title, (w - fm.stringWidth(title)) / 2 + 2, cardY + 78);
+        g2.setColor(TITLE_ACCENT);
+        g2.drawString(title, (w - fm.stringWidth(title)) / 2, cardY + 76);
+
+        // Gold underline
+        g2.setColor(TITLE_ACCENT);
+        g2.fillRoundRect(w / 2 - 100, cardY + 85, 200, 3, 3, 3);
+
+        // Walk away message
+        g2.setFont(BODY_FONT);
+        g2.setColor(SUBTITLE_COLOR);
+        String message = "You've walked away with:";
+        fm = g2.getFontMetrics();
+        g2.drawString(message, (w - fm.stringWidth(message)) / 2, cardY + 135);
+
+        // Big money display
+        g2.setFont(MONEY_FONT);
+        g2.setColor(TITLE_ACCENT);
+        String moneyText = "£" + String.format("%,d", safeMoney);
+        fm = g2.getFontMetrics();
+        g2.drawString(moneyText, (w - fm.stringWidth(moneyText)) / 2, cardY + 210);
+
+        // Smart decision message
+        g2.setFont(new Font("SansSerif", Font.ITALIC, 16));
+        g2.setColor(SUBTITLE_COLOR);
+        String smartText = "A smart decision!";
+        fm = g2.getFontMetrics();
+        g2.drawString(smartText, (w - fm.stringWidth(smartText)) / 2, cardY + 250);
+
+        // Divider line
+        g2.setColor(CARD_BORDER);
+        g2.drawLine(cardX + 80, cardY + 270, cardX + cardWidth - 80, cardY + 270);
+
+        // Buttons
+        drawCustomButton(g2, PLAY_AGAIN_BUTTON, "PLAY AGAIN", hoverPlayAgain);
+        drawCustomButton(g2, GO_HOME_BUTTON, "GO HOME", hoverGoHome);
     }
 
     private void drawCustomButton(Graphics2D g2, Rectangle r, String text, boolean isHovered) {

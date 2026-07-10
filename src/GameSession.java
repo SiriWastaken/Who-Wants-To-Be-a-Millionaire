@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
-/** Maintains the game state, question deck, score, timer, and lifeline usage. */
+/**
+ * Maintains the game state, question deck, score, timer, and lifeline usage.
+ */
 public class GameSession {
 
     /** Represents the latest state change for the status banner. */
@@ -32,7 +34,10 @@ public class GameSession {
         RESTART();
     }
 
-    /** Reloads the deck, resets score and timer state, and starts from the first question. */
+    /**
+     * Reloads the deck, resets score and timer state, and starts from the first
+     * question.
+     */
     public final void RESTART() {
         questionDeck.clear();
         questionDeck.addAll(QuestionBank.buildQuestionDeck());
@@ -146,8 +151,14 @@ public class GameSession {
                 && score < QuestionBank.getMoneyForQuestion(8);
     }
 
+    /**
+     * Returns whether the player has reached the high stakes threshold.
+     * The high stakes threshold is £32,000 (Question 10), which is a safe point.
+     *
+     * @return true if the player has reached £32,000 or more
+     */
     public boolean hasReachedHighStakes() {
-        return score >= QuestionBank.getMoneyForQuestion(8);
+        return score >= 32000; // £32,000 is the second safe point
     }
 
     public int getCurrentQuestionTimeLimit() {
@@ -174,7 +185,6 @@ public class GameSession {
         return matchesCorrectAnswer(answerIndex,
                 currentQuestion.getCorrectAnswer());
     }
-    
 
     /**
      * Returns the correct answer index (0=A, 1=B, 2=C, 3=D).
@@ -303,7 +313,8 @@ public class GameSession {
 
         return true;
     }
-        /** Updates the banner message and style for transient UI feedback. */
+
+    /** Updates the banner message and style for transient UI feedback. */
     public void setStatusMessage(String message, StatusType newStatusType) {
 
         statusMessage = message == null ? "" : message;
@@ -352,7 +363,7 @@ public class GameSession {
 
     /** Advances to the next question or completes the game. */
     private void advanceToNextQuestion(String message,
-                                       StatusType nextStatusType) {
+            StatusType nextStatusType) {
 
         statusMessage = message;
         statusType = nextStatusType;
@@ -383,8 +394,7 @@ public class GameSession {
 
             timeRemaining = 0;
 
-            statusMessage =
-                    "Would you like to play this round or walk away?";
+            statusMessage = "Would you like to play this round or walk away?";
 
             statusType = StatusType.NEUTRAL;
 
@@ -413,12 +423,9 @@ public class GameSession {
             return -1;
         }
 
-        for (int i = currentIndex + 1;
-             i < questionDeck.size();
-             i++) {
+        for (int i = currentIndex + 1; i < questionDeck.size(); i++) {
 
-            if (questionDeck.get(i).getDifficulty()
-                    == currentQuestion.getDifficulty()) {
+            if (questionDeck.get(i).getDifficulty() == currentQuestion.getDifficulty()) {
 
                 return i;
             }
@@ -433,10 +440,9 @@ public class GameSession {
 
     /** Compares an answer index against the stored answer label. */
     private boolean matchesCorrectAnswer(int answerIndex,
-                                         String correctAnswer) {
+            String correctAnswer) {
 
-        String selectedLabel =
-                String.valueOf((char) ('A' + answerIndex));
+        String selectedLabel = String.valueOf((char) ('A' + answerIndex));
 
         return selectedLabel.equals(
                 correctAnswer.trim().toUpperCase());
