@@ -47,12 +47,16 @@ public class GameScreenPanel extends JPanel {
     private int flashCount = 0;
     private boolean flashState = false;
     private boolean lastAnswerCorrect = false;
-    
+
     // Lifeline display state
     private int[] audiencePollPercentages = null;
     private String phoneAFriendSuggestion = null;
     private int phoneAFriendSuggestedIndex = -1;
     private Timer lifelineDisplayTimer = null;
+
+    // Play or Walk Away state
+    private PlayOrWalkPanel playOrWalkPanel = null;
+    private boolean isPlayOrWalkShowing = false;
 
     /** Creates the gameplay panel and starts the countdown timer. */
     public GameScreenPanel() {
@@ -190,10 +194,27 @@ public class GameScreenPanel extends JPanel {
         return phoneAFriendSuggestedIndex;
     }
 
+    /**
+     * Returns whether the Play or Walk Away panel is currently showing.
+     *
+     * @return true if showing, false otherwise
+     */
+    public boolean isPlayOrWalkShowing() {
+        return isPlayOrWalkShowing;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        // Render the main game
         RENDERER.paint((Graphics2D) g, this);
+
+        // Render Play or Walk Away panel on top if showing
+        if (playOrWalkPanel != null && isPlayOrWalkShowing) {
+            // Use paintComponent instead of paint to avoid NullPointerException
+            playOrWalkPanel.paintComponent(g);
+        }
     }
 
     /**
@@ -207,6 +228,11 @@ public class GameScreenPanel extends JPanel {
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent event) {
+                // If Play or Walk is showing, pass events to it
+                if (isPlayOrWalkShowing && playOrWalkPanel != null) {
+                    playOrWalkPanel.dispatchEvent(event);
+                    return;
+                }
                 handleMouseMoved(event.getPoint());
             }
         });
@@ -214,6 +240,11 @@ public class GameScreenPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent event) {
+                // If Play or Walk is showing, pass events to it
+                if (isPlayOrWalkShowing && playOrWalkPanel != null) {
+                    playOrWalkPanel.dispatchEvent(event);
+                    return;
+                }
                 handleMousePressed(event.getPoint());
             }
         });
@@ -322,6 +353,10 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void onTick() {
+        // Don't tick timer if Play or Walk is showing
+        if (isPlayOrWalkShowing) {
+            return;
+        }
         SESSION.tick();
         syncQuestionState();
     }
@@ -480,7 +515,7 @@ public class GameScreenPanel extends JPanel {
         String[] friendNames = { "Alex", "Jordan", "Taylor", "Morgan", "Casey", "Riley", "Avery", "Quinn" };
         String friendName = friendNames[(int) (Math.random() * friendNames.length)];
         String correctAnswer = question.getCorrectAnswer().trim().toUpperCase();
-        
+
         // Convert the answer letter to an index
         phoneAFriendSuggestedIndex = correctAnswer.charAt(0) - 'A';
         phoneAFriendSuggestion = friendName + " thinks this is the answer!";
@@ -514,10 +549,69 @@ public class GameScreenPanel extends JPanel {
     }
 
     /**
+     * Shows the Play or Walk Away panel when the player reaches a safe point.
+     */
+    private void showPlayOrWalkPanel() {
+        if (isPlayOrWalkShowing) {
+            return;
+        }
+
+        // Clear any lifeline displays
+        clearLifelineDisplay();
+
+        int currentLevel = SESSION.getCurrentQuestionNumber() - 1;
+        int safeMoney = SESSION.getLastSafeMoney();
+        int nextMoney = QuestionBank.getMoneyForQuestion(currentLevel + 1);
+
+        // Stop the timer while player decides
+        COUNTDOWN_TIMER.stop();
+
+        // Create the panel
+        playOrWalkPanel = new PlayOrWalkPanel(
+                safeMoney,
+                nextMoney,
+                () -> {
+                    // Walk Away
+                    SwingUtilities.invokeLater(() -> {
+                        // This will end the game with the safe money
+                        SESSION.chooseHighStakesDecision(false);
+                        isPlayOrWalkShowing = false;
+                        playOrWalkPanel = null;
+                        // Show completion dialog with the walk-away message
+                        showCompletionDialog();
+                        repaint();
+                    });
+                },
+                () -> {
+                    // Continue Playing
+                    SwingUtilities.invokeLater(() -> {
+                        SESSION.chooseHighStakesDecision(true);
+                        isPlayOrWalkShowing = false;
+                        playOrWalkPanel = null;
+                        // Restart the timer for the next question
+                        if (!SESSION.isFinished()) {
+                            COUNTDOWN_TIMER.start();
+                        }
+                        syncQuestionState();
+                        repaint();
+                    });
+                });
+
+        isPlayOrWalkShowing = true;
+        playOrWalkPanel.setBounds(0, 0, getWidth(), getHeight());
+        repaint();
+    }
+
+    /**
      * Resets local interaction state when the session advances, finishes, or
      * restarts.
      */
     private void syncQuestionState() {
+        // If Play or Walk is showing, don't update state
+        if (isPlayOrWalkShowing) {
+            return;
+        }
+
         if (SESSION.getQuestionSerial() != lastQuestionSerial) {
             // Clear any lifeline display state when question changes
             clearLifelineDisplay();
@@ -529,6 +623,18 @@ public class GameScreenPanel extends JPanel {
         // Highlight the ladder step matching the question the player is facing!
         if (moneyLadder != null) {
             moneyLadder.setCurrentLevel(SESSION.getCurrentQuestionNumber());
+        }
+
+        // Check if we need to show Play or Walk Away
+        if (SESSION.hasReachedHighStakes() && !SESSION.isFinished() &&
+                SESSION.getStatusType() != GameSession.StatusType.COMPLETE) {
+            // Check if we haven't already shown it for this question
+            if (!SESSION.isHighStakesDecisionPending()) {
+                // It's already been decided, continue
+            } else {
+                showPlayOrWalkPanel();
+                return;
+            }
         }
 
         if (SESSION.isFinished() && SESSION.getStatusType() == GameSession.StatusType.FAILURE) {
@@ -628,11 +734,23 @@ public class GameScreenPanel extends JPanel {
     private void showCompletionDialog() {
         boolean failed = SESSION.getStatusType() == GameSession.StatusType.FAILURE;
         String title = failed ? "Game Over" : "Game Complete";
-        String message = failed
-                ? "GAME OVER: You earned a grand total of " + String.format("%,d", SESSION.getLastSafeMoney())
-                        + ".\n\nWould you like to play again?"
-                : "You cleared Final Answer? with a score of $" + String.format("%,d", SESSION.getScore())
-                        + ".\n\nWould you like to play again?";
+
+        // Check if this was a walk-away
+        boolean walkedAway = SESSION.getStatusType() == GameSession.StatusType.COMPLETE &&
+                SESSION.getStatusMessage().contains("walked away");
+
+        String message;
+        if (walkedAway) {
+            message = "You walked away with " + String.format("£%,d", SESSION.getScore()) +
+                    ".\n\nWould you like to play again?";
+        } else if (failed) {
+            message = "GAME OVER: You earned a grand total of " + String.format("£%,d", SESSION.getLastSafeMoney()) +
+                    ".\n\nWould you like to play again?";
+        } else {
+            message = "You cleared Final Answer? with a score of " + String.format("£%,d", SESSION.getScore()) +
+                    ".\n\nWould you like to play again?";
+        }
+
         int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
 
@@ -642,6 +760,8 @@ public class GameScreenPanel extends JPanel {
             lastQuestionSerial = -1;
             Arrays.fill(ANSWER_LOCKS, false);
             clearLifelineDisplay();
+            isPlayOrWalkShowing = false;
+            playOrWalkPanel = null;
 
             // Re-sync the level capsule back to level 1 on restart
             if (moneyLadder != null) {
@@ -664,6 +784,11 @@ public class GameScreenPanel extends JPanel {
      */
     private void returnToMenu() {
         clearLifelineDisplay();
+        isPlayOrWalkShowing = false;
+        if (playOrWalkPanel != null) {
+            playOrWalkPanel.cleanup();
+            playOrWalkPanel = null;
+        }
 
         SwingUtilities.invokeLater(() -> {
             MainMenu menu = new MainMenu();
@@ -684,7 +809,7 @@ public class GameScreenPanel extends JPanel {
      * game over.
      */
     private void beginAnswerAnimation(int answerIndex) {
-        if (answerAnimationRunning || selectedAnswer != -1)
+        if (answerAnimationRunning || selectedAnswer != -1 || isPlayOrWalkShowing)
             return;
 
         COUNTDOWN_TIMER.stop();
@@ -721,7 +846,7 @@ public class GameScreenPanel extends JPanel {
                     selectedAnswer = -1;
                     flashState = false;
 
-                    if (!SESSION.isFinished()) {
+                    if (!SESSION.isFinished() && !isPlayOrWalkShowing) {
                         COUNTDOWN_TIMER.restart();
                     }
                 }
@@ -744,6 +869,11 @@ public class GameScreenPanel extends JPanel {
             @Override
             public void windowClosing(WindowEvent e) {
                 clearLifelineDisplay();
+                if (playOrWalkPanel != null) {
+                    playOrWalkPanel.cleanup();
+                    playOrWalkPanel = null;
+                }
+                isPlayOrWalkShowing = false;
             }
         });
     }
