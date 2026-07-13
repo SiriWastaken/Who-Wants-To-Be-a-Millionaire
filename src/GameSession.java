@@ -1,5 +1,7 @@
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Maintains the game state, question deck, score, timer, and lifeline usage.
@@ -15,6 +17,7 @@ public class GameSession {
     }
 
     private final ArrayList<Question> questionDeck = new ArrayList<>();
+    private Set<Question> usedQuestions = new HashSet<>();
     private int currentIndex;
     public int score;
     private int timeRemaining;
@@ -40,7 +43,14 @@ public class GameSession {
      */
     public final void RESTART() {
         questionDeck.clear();
-        questionDeck.addAll(QuestionBank.buildQuestionDeck());
+        usedQuestions.clear();
+
+        // Build deck with tracking
+        Object[] result = QuestionBank.buildQuestionDeckWithTracking();
+        @SuppressWarnings("unchecked")
+        List<Question> deck = (List<Question>) result[0];
+        questionDeck.addAll(deck);
+        usedQuestions = (Set<Question>) result[1];
 
         currentIndex = 0;
         score = 0;
@@ -75,7 +85,6 @@ public class GameSession {
         if (finished || currentIndex < 0 || currentIndex >= questionDeck.size()) {
             return null;
         }
-
         return questionDeck.get(currentIndex);
     }
 
@@ -151,16 +160,6 @@ public class GameSession {
                 && score < QuestionBank.getMoneyForQuestion(8);
     }
 
-    /**
-     * Returns whether the player has reached the high stakes threshold.
-     * The high stakes threshold is £32,000 (Question 10), which is a safe point.
-     *
-     * @return true if the player has reached £32,000 or more
-     */
-    public boolean hasReachedHighStakes() {
-        return score >= 32000; // £32,000 is the second safe point
-    }
-
     public int getCurrentQuestionTimeLimit() {
         Question currentQuestion = getCurrentQuestion();
         return currentQuestion == null ? 0 : currentQuestion.getTimeLimit();
@@ -171,79 +170,57 @@ public class GameSession {
      * state.
      */
     public boolean isAnswerCorrect(int answerIndex) {
-
         if (finished) {
             return false;
         }
-
         Question currentQuestion = getCurrentQuestion();
-
         if (currentQuestion == null) {
             return false;
         }
-
-        return matchesCorrectAnswer(answerIndex,
-                currentQuestion.getCorrectAnswer());
+        return matchesCorrectAnswer(answerIndex, currentQuestion.getCorrectAnswer());
     }
 
     /**
      * Returns the correct answer index (0=A, 1=B, 2=C, 3=D).
      */
     public int getCorrectAnswerIndex() {
-
         Question currentQuestion = getCurrentQuestion();
-
         if (currentQuestion == null) {
             return -1;
         }
-
-        return currentQuestion.getCorrectAnswer()
-                .trim()
-                .toUpperCase()
-                .charAt(0) - 'A';
+        return currentQuestion.getCorrectAnswer().trim().toUpperCase().charAt(0) - 'A';
     }
 
     /**
      * Commits the player's answer AFTER the animation has completed.
      */
     public void submitAnswer(int answerIndex) {
-
         if (finished) {
             return;
         }
-
         Question currentQuestion = getCurrentQuestion();
-
         if (currentQuestion == null) {
             return;
         }
 
         if (isAnswerCorrect(answerIndex)) {
-
             score = QuestionBank.getMoneyForQuestion(currentIndex);
-
+            // Update safe money if this is a safe point
             if (QuestionBank.isSafeMoney(score)) {
                 lastSafeMoney = score;
             }
-
             advanceToNextQuestion("", StatusType.NEUTRAL);
-
         } else {
-
             finishWithFailure("Incorrect answer.");
-
         }
     }
 
     /** Decrements the timer once per second. */
     public void tick() {
-
-        if (finished || getCurrentQuestion() == null) {
+        if (finished || getCurrentQuestion() == null || highStakesDecisionPending) {
             return;
         }
-
         timeRemaining = Math.max(0, timeRemaining - 1);
-
         if (timeRemaining == 0) {
             finishWithFailure("Time expired.");
         }
@@ -251,201 +228,167 @@ public class GameSession {
 
     /** Uses the Swap lifeline. */
     public boolean useSwap() {
-
         if (finished || swapUsed || questionDeck.size() < 2 || getCurrentQuestion() == null) {
             return false;
         }
 
-        int swapIndex = findSwapIndex();
+        Question currentQuestion = getCurrentQuestion();
+        int currentDifficulty = currentQuestion.getDifficulty();
 
-        if (swapIndex < 0) {
+        // Find a replacement question that hasn't been used
+        Question replacement = QuestionBank.findSwapReplacement(
+                currentDifficulty, usedQuestions, questionDeck, currentIndex);
+
+        if (replacement == null) {
+            // No replacement found
             return false;
         }
 
-        Collections.swap(questionDeck, currentIndex, swapIndex);
+        // Add the current question to used set (it won't be used again)
+        usedQuestions.add(currentQuestion);
+
+        // Replace the question in the deck
+        questionDeck.set(currentIndex, replacement);
+        usedQuestions.add(replacement);
 
         swapUsed = true;
         questionSerial++;
-
         timeRemaining = getCurrentQuestion().getTimeLimit();
-
         statusMessage = "Swap used. The question has been replaced.";
         statusType = StatusType.NEUTRAL;
-
         return true;
     }
 
     public boolean useAudiencePoll() {
-
         if (finished || audiencePollUsed) {
             return false;
         }
-
         audiencePollUsed = true;
         statusMessage = "Audience Poll used.";
         statusType = StatusType.NEUTRAL;
-
         return true;
     }
 
     public boolean useFiftyFifty() {
-
         if (finished || fiftyFiftyUsed) {
             return false;
         }
-
         fiftyFiftyUsed = true;
         statusMessage = "25/75 used.";
         statusType = StatusType.NEUTRAL;
-
         return true;
     }
 
     public boolean usePhoneAFriend() {
-
         if (finished || phoneAFriendUsed) {
             return false;
         }
-
         phoneAFriendUsed = true;
         statusMessage = "Phone a Friend used.";
         statusType = StatusType.NEUTRAL;
-
         return true;
     }
 
     /** Updates the banner message and style for transient UI feedback. */
     public void setStatusMessage(String message, StatusType newStatusType) {
-
         statusMessage = message == null ? "" : message;
-        statusType = newStatusType == null
-                ? StatusType.NEUTRAL
-                : newStatusType;
+        statusType = newStatusType == null ? StatusType.NEUTRAL : newStatusType;
     }
 
     /** Clears any transient banner message. */
     public void clearStatusMessage() {
-
         statusMessage = "";
         statusType = StatusType.NEUTRAL;
     }
 
     /** Resolves the player's choice on the high-stakes transition screen. */
     public boolean chooseHighStakesDecision(boolean playRound) {
-
         if (finished || !highStakesDecisionPending) {
             return false;
         }
-
         highStakesDecisionPending = false;
 
         if (playRound) {
-
-            timeRemaining = getCurrentQuestion() == null
-                    ? 0
-                    : getCurrentQuestion().getTimeLimit();
-
+            // Continue playing - set timer for the current question
+            timeRemaining = getCurrentQuestion() == null ? 0 : getCurrentQuestion().getTimeLimit();
             clearStatusMessage();
-
             return true;
         }
 
+        // Walk away
         finished = true;
         timeRemaining = 0;
-
-        statusMessage = "You walked away with £"
-                + String.format("%,d", score) + ".";
-
+        statusMessage = "You walked away with £" + String.format("%,d", lastSafeMoney) + ".";
         statusType = StatusType.COMPLETE;
-
         return true;
     }
 
     /** Advances to the next question or completes the game. */
-    private void advanceToNextQuestion(String message,
-            StatusType nextStatusType) {
-
+    private void advanceToNextQuestion(String message, StatusType nextStatusType) {
         statusMessage = message;
         statusType = nextStatusType;
+
+        // Add the current question to used set before moving on
+        Question currentQuestion = getCurrentQuestion();
+        if (currentQuestion != null) {
+            usedQuestions.add(currentQuestion);
+        }
 
         currentIndex++;
 
         if (currentIndex >= questionDeck.size()) {
-
             finished = true;
             timeRemaining = 0;
-
-            score = QuestionBank.getMoneyForQuestion(
-                    questionDeck.size() - 1);
-
+            score = QuestionBank.getMoneyForQuestion(questionDeck.size() - 1);
             lastSafeMoney = score;
-
-            statusMessage = "You cleared the board.";
+            statusMessage = "You cleared the board!";
             statusType = StatusType.COMPLETE;
-
             return;
         }
 
         questionSerial++;
 
-        if (hasReachedHighStakes()) {
-
+        // Show Play or Walk before EVERY question if score >= 32000
+        if (score >= 32000 && !finished) {
             highStakesDecisionPending = true;
-
-            timeRemaining = 0;
-
-            statusMessage = "Would you like to play this round or walk away?";
-
+            timeRemaining = 0; // Stop timer while player decides
+            statusMessage = "Would you like to continue or walk away?";
             statusType = StatusType.NEUTRAL;
-
             return;
         }
 
+        // Otherwise, start the timer for the next question
         timeRemaining = getCurrentQuestion().getTimeLimit();
     }
 
     /** Ends the run with a failure. */
     private void finishWithFailure(String message) {
-
         finished = true;
         timeRemaining = 0;
-
         statusMessage = message;
         statusType = StatusType.FAILURE;
     }
 
     /** Finds a suitable replacement question for Swap. */
     private int findSwapIndex() {
-
         Question currentQuestion = getCurrentQuestion();
-
         if (currentQuestion == null) {
             return -1;
         }
-
         for (int i = currentIndex + 1; i < questionDeck.size(); i++) {
-
             if (questionDeck.get(i).getDifficulty() == currentQuestion.getDifficulty()) {
-
                 return i;
             }
         }
-
         if (currentIndex + 1 < questionDeck.size()) {
             return currentIndex + 1;
         }
-
         return -1;
     }
 
     /** Compares an answer index against the stored answer label. */
-    private boolean matchesCorrectAnswer(int answerIndex,
-            String correctAnswer) {
-
+    private boolean matchesCorrectAnswer(int answerIndex, String correctAnswer) {
         String selectedLabel = String.valueOf((char) ('A' + answerIndex));
-
-        return selectedLabel.equals(
-                correctAnswer.trim().toUpperCase());
+        return selectedLabel.equals(correctAnswer.trim().toUpperCase());
     }
-
 }

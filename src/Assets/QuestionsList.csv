@@ -5,253 +5,1021 @@ ID,Question,AnswerA,AnswerB,AnswerC,AnswerD,CorrectAnswer,Difficulty,TimeLimit,C
 4,What is 5 + 3?,6,7,8,9,C,1,10,Math
 5,What is the first month of the year?,March,January,June,December,B,1,10,General Knowledge
 6,Which of these is a primary color?,Green,Orange,Red,Purple,C,1,10,Art
-7,"What is the opposite of the word ""hot""?",Cold,Warm,Wet,Dry,A,1,10,General Knowledge
-8,How many legs does a standard spider have?,6,8,10,12,B,1,10,Animals
-9,Which fruit is traditionally used to make apple cider?,Orange,Apple,Banana,Grape,B,1,10,Food
-10,What is the capital city of France?,London,Berlin,Rome,Paris,D,1,10,Geography
-Z,In which direction does the sun rise each morning?,North,South,East,West,C,1,10,Science
-12,How many letters are in the standard English alphabet?,24,25,26,27,C,1,10,General Knowledge
-13,Which of these is a frozen solid form of water?,Steam,Ice,Rain,Mist,B,1,10,Science
-14,What sweet substance do bees produce inside hives?,Milk,Honey,Cheese,Butter,B,1,10,Animals
-15,What shape is a standard road stop sign?,Square,Hexagon,Octagon,Circle,C,1,10,General Knowledge
-16,Who is Mickey Mouse's famous cartoon partner?,Minnie,Daisy,Clarabelle,Pluto,A,1,10,Pop Culture
-17,Which planet in our solar system is known as the Red Planet?,Earth,Mars,Jupiter,Venus,B,2,12,Space
-18,How many continents are there on planet Earth?,5,6,7,8,C,2,12,Geography
-19,What is the essential chemical symbol for water?,O2,CO2,H2O,H2,C,2,12,Science
-20,Who wrote the famous romantic play Romeo and Juliet?,Charles Dickens,Mark Twain,William Shakespeare,Jane Austen,C,2,12,Literature
-21,What is the largest living mammal in the world today?,Elephant,Blue Whale,Giraffe,Hippopotamus,B,2,12,Animals
-22,How many degrees are in a perfect right angle?,45,90,180,360,B,2,12,Math
-23,Which country is famous for the ancient Pyramids of Giza?,Greece,Italy,Egypt,Mexico,C,2,12,History
-24,What is the capital city of Japan?,Beijing,Seoul,Tokyo,Bangkok,C,2,12,Geography
-25,Which musical instrument features exactly 88 keys?,Guitar,Violin,Piano,Flute,C,2,12,Music
-26,What official currency is used across the United Kingdom?,Euro,Dollar,Pound,Yen,C,2,12,General Knowledge
-27,Which gas do humans need to breathe to survive?,Nitrogen,Oxygen,Carbon Dioxide,Hydrogen,B,2,12,Science
-28,Who painted the iconic portrait known as the Mona Lisa?,Vincent van Gogh,Leonardo da Vinci,Pablo Picasso,Claude Monet,B,2,12,Art
-29,What is the primary green ingredient in guacamole?,Tomato,Avocado,Onion,Pepper,B,2,12,Food
-30,How many elements or individual items are in a dozen?,10,12,14,16,B,2,12,Math
-31,Which organ primarily pumps blood through the human body?,Brain,Lungs,Heart,Liver,C,2,12,Science
-32,What is the traditional gemstone color of an emerald?,Red,Blue,Yellow,Green,D,2,12,General Knowledge
-33,Which ocean is the largest by surface area on Earth?,Atlantic,Indian,Arctic,Pacific,D,3,15,Geography
-34,Who served as the very first President of the United States?,Thomas Jefferson,Abraham Lincoln,George Washington,John Adams,C,3,15,History
-35,What is the hardest known natural substance on Earth?,Gold,Iron,Diamond,Quartz,C,3,15,Science
-36,How many teeth does an adult human typically have?,28,30,32,34,C,3,15,Science
-37,Which fictional young wizard attends school at Hogwarts?,Gandalf,Merlin,Harry Potter,Dumbledore,C,3,15,Pop Culture
-38,What is the exact mathematical square root of 64?,6,7,8,9,C,3,15,Math
-39,In what calendar year did the historic Titanic sink?,1905,1912,1918,1925,B,3,15,History
-40,Which southern hemisphere country is native to the kangaroo?,South Africa,Australia,Brazil,India,B,3,15,Animals
-41,What is the historic capital city of Italy?,Milan,Naples,Venice,Rome,D,3,15,Geography
-42,Who is widely credited with inventing the telephone?,Thomas Edison,Alexander Graham Bell,Nikola Tesla,Albert Einstein,B,3,15,Technology
-43,Which fairy tale character famously loses her glass slipper?,Snow White,Cinderella,Sleeping Beauty,Rapunzel,B,3,15,Literature
-44,What is the primary official language spoken in Brazil?,Spanish,Portuguese,French,English,B,3,15,Geography
-45,How many strings does a standard classical violin possess?,4,5,6,7,A,3,15,Music
-46,Which element is a metal that remains liquid at room temperature?,Iron,Lead,Mercury,Copper,C,3,15,Science
-47,What is the most abundant gas found in Earth's atmosphere?,Oxygen,Nitrogen,Carbon Dioxide,Argon,B,3,15,Science
-48,Which South American country hosted the 2016 Summer Olympics?,Argentina,Colombia,Brazil,Chile,C,3,15,Sports
-49,What is the exact boiling point of water in Celsius?,50,100,150,200,B,4,15,Science
-50,"Who wrote the highly influential political novel ""1984""?",George Orwell,Aldous Huxley,Ray Bradbury,HG Wells,A,4,15,Literature
-51,Which planet is positioned closest to our Sun?,Venus,Earth,Mercury,Mars,C,4,15,Space
-52,What is the largest country in the world by land area?,Canada,China,USA,Russia,D,4,15,Geography
-53,How many permanent teeth does an adult domestic cat have?,26,30,32,34,B,4,15,Animals
-54,What is the administrative capital city of Spain?,Barcelona,Madrid,Seville,Valencia,B,4,15,Geography
-55,Which historical figure was famously called the Maid of Orleans?,Marie Antoinette,Joan of Arc,Queen Elizabeth I,Cleopatra,B,4,15,History
-56,What is the official chemical symbol for Gold?,Go,Gd,Ag,Au,D,4,15,Science
-57,How many individual bones comprise an adult human body?,106,206,306,406,B,4,15,Science
-58,"Who directed the iconic 1975 summer thriller movie ""Jaws""?",George Lucas,Steven Spielberg,Martin Scorsese,Francis Coppola,B,4,15,Movies
-59,Which ancient Greek mythological god ruled the underworld?,Zeus,Poseidon,Hades,Hermes,C,4,15,Mythology
-60,What is the mathematical calculation of 12 squared?,122,144,166,188,B,4,15,Math
-61,Which scientific instrument measures atmospheric pressure?,Thermometer,Barometer,Anemometer,Hygrometer,B,4,15,Technology
-62,What is the official national capital city of Canada?,Toronto,Vancouver,Montreal,Ottawa,D,4,15,Geography
-63,In which modern country is the ancient city of Petra located?,Egypt,Jordan,Turkey,Greece,B,4,15,History
-64,Which vitamin is synthesized when skin meets sunlight?,Vitamin A,Vitamin B,Vitamin C,Vitamin D,D,4,15,Science
-65,What is widely considered the longest river on Earth?,Amazon,Nile,Mississippi,Yangtze,B,5,18,Geography
-66,"Who painted the post-impressionist piece ""The Starry Night""?",Pablo Picasso,Claude Monet,Vincent van Gogh,Salvador Dali,C,5,18,Art
-67,Which Asian country is poetically called Land of the Rising Sun?,China,South Korea,Japan,Thailand,C,5,18,Geography
-68,What is the correct chemical symbol for Sodium?,So,Sd,Na,Nu,C,5,18,Science
-69,Who was the ancient Greek god of music light and poetry?,Ares,Apollo,Hermes,Dionysus,B,5,18,Mythology
-70,How many active players per team are allowed on a soccer pitch?,9,10,11,12,C,5,18,Sports
-71,What is the federal capital city of Australia?,Sydney,Melbourne,Brisbane,Canberra,D,5,18,Geography
-72,Which Shakespearean tragedy features Banquo and Lady Macbeth?,Hamlet,Othello,Macbeth,King Lear,C,5,18,Literature
-73,What is the smallest official planet in our solar system?,Mercury,Mars,Venus,Neptune,A,5,18,Space
-74,In what calendar year did World War I officially begin?,1912,1914,1916,1918,B,5,18,History
-75,What type of rock forms directly from cooled magma or lava?,Sedimentary,Metamorphic,Igneous,Sandstone,C,5,18,Science
-76,Which chemical element features the atomic number 1?,Helium,Hydrogen,Lithium,Carbon,B,5,18,Science
-77,"Who wrote the classic book ""Charlie and the Chocolate Factory""?",Roald Dahl,CS Lewis,JK Rowling,Dr Seuss,A,5,18,Literature
-78,What is the official national currency of Japan?,Yuan,Won,Yen,Baht,C,5,18,General Knowledge
-79,Which body system protects humans against invasive pathogens?,Digestive,Nervous,Immune,Endocrine,C,5,18,Science
-80,What boundary separates Earth's crust from the underlying mantle?,Moho,Gutenberg,Lehmann,Conrad,A,5,18,Science
-81,Which vast empire was famously expanded by Julius Caesar?,Greek,Persian,Roman,Ottoman,C,6,18,History
-82,What is the central capital city of Germany?,Munich,Frankfurt,Berlin,Hamburg,C,6,18,Geography
-83,"Who is credited with writing the epic ancient Greek poem ""The Odyssey""?",Virgil,Homer,Aristotle,Plato,B,6,18,Literature
-84,What is considered the basic structural and functional unit of life?,Atom,Molecule,Cell,Tissue,C,6,18,Science
-85,Which classic cocktail consists primarily of gin and dry vermouth?,Margarita,Martini,Manhattan,Daiquiri,B,6,18,Food
-86,In what city is the administrative European Parliament headquartered?,Paris,Brussels,Geneva,Vienna,B,6,18,Geography
-87,"Which Dutch artist painted ""Girl with a Pearl Earring""?",Rembrandt,Johannes Vermeer,Vincent van Gogh,Piet Mondrian,B,6,18,Art
-88,What is the predominant organic acid found naturally in lemons?,Acetic acid,Citric acid,Lactic acid,Malic acid,B,6,18,Science
-89,Which scientist is famously credited with discovering penicillin?,Louis Pasteur,Alexander Fleming,Gregor Mendel,Robert Koch,B,6,18,Science
-90,Which planet currently holds the most confirmed orbital moons?,Saturn,Jupiter,Neptune,Uranus,A,6,18,Space
-91,What is the mathematical value of Pi to two decimal places?,3.12,3.14,3.16,3.18,B,6,18,Math
-92,Which country won the inaugural FIFA World Cup in 1930?,Argentina,Brazil,Uruguay,Italy,C,6,18,Sports
-93,What is the designated federal capital city of India?,Mumbai,New Delhi,Calcutta,Bangalore,B,6,18,Geography
-94,"Who is the celebrated author of ""To Kill a Mockingbird""?",Harper Lee,Mark Twain,F Scott Fitzgerald,Ernest Hemingway,A,6,18,Literature
-95,What scale measures the seismic energy released by earthquakes?,Richter,Celsius,Kelvin,Beaufort,A,6,18,Science
-96,Which gas makes up the absolute majority of Jupiter's mass?,Helium,Hydrogen,Methane,Ammonia,B,6,18,Space
-97,Where is the administrative executive capital of South Africa?,Johannesburg,Cape Town,Pretoria,Durban,C,7,20,Geography
-98,"In Norse mythology, who is the powerful god of thunder?",Odin,Thor,Loki,Baldur,B,7,20,Mythology
-99,Which US state possesses the largest total land area?,Texas,California,Alaska,Montana,C,7,20,Geography
-100,In what year did the historic Berlin Wall finally fall?,1985,1989,1991,1993,B,7,20,History
-101,What is the exact chemical formula for standard table salt?,HCl,NaOH,NaCl,KCl,C,7,20,Science
-102,"Which brilliant composer wrote the famous ""Moonlight Sonata""?",Mozart,Beethoven,Bach,Chopin,B,7,20,Music
-103,Which internal organ in the human body produces insulin?,Liver,Pancreas,Kidney,Gallbladder,B,7,20,Science
-104,What is the exact mathematical square root of 225?,13,14,15,16,C,7,20,Math
-105,Which island nation was formerly known as Ceylon until 1972?,Thailand,Myanmar,Sri Lanka,Vietnam,C,7,20,Geography
-106,"Who wrote the classic American novel ""The Great Gatsby""?",Ernest Hemingway,F Scott Fitzgerald,William Faulkner,John Steinbeck,B,7,20,Literature
-107,What is the official national currency of South Korea?,Yen,Yuan,Won,Ringgit,C,7,20,General Knowledge
-108,Which human internal organ can uniquely regenerate lost tissue?,Heart,Lung,Liver,Brain,C,7,20,Science
-109,What was the name of the first artificial satellite sent to space?,Apollo 11,Sputnik 1,Voyager 1,Hubble,B,7,20,Space
-110,Who was the British Prime Minister during most of World War II?,Neville Chamberlain,Winston Churchill,Clement Attlee,Anthony Eden,B,7,20,History
-111,What is the true political capital city of Turkey?,Istanbul,Ankara,Izmir,Antalya,B,7,20,Geography
-112,Which layer of Earth's atmosphere holds the protective ozone layer?,Troposphere,Stratosphere,Mesosphere,Thermosphere,B,7,20,Science
-113,What is the official capital city of New Zealand?,Auckland,Wellington,Christchurch,Hamilton,B,8,20,Geography
-114,"Who authored the famous English epic poem ""Paradise Lost""?",John Milton,Dante Alighieri,Geoffrey Chaucer,William Blake,A,8,20,Literature
-115,What is the biological study of mushrooms and fungi called?,Botany,Mycology,Phycology,Entomology,B,8,20,Science
-116,Which Roman emperor famously planned to make his horse a consul?,Nero,Caligula,Commodus,Tiberius,B,8,20,History
-117,What is the most abundant metallic element in Earth's crust?,Iron,Aluminum,Copper,Zinc,B,8,20,Science
-118,Which instrument is closely linked with jazz icon Miles Davis?,Saxophone,Trumpet,Piano,Drums,B,8,20,Music
-119,What city serves as the official federal capital of Switzerland?,Zurich,Geneva,Bern,Basel,C,8,20,Geography
-120,Which chemical element possesses the atomic number 79?,Silver,Platinum,Gold,Mercury,C,8,20,Science
-121,"Who painted the legendary Renaissance mural ""The Last Supper""?",Michelangelo,Raphael,Donatello,Leonardo da Vinci,D,8,20,Art
-122,How many total curves are found in a standard metal paperclip?,2,3,4,5,B,8,20,General Knowledge
-123,Which country ranks as the largest global producer of coffee?,Colombia,Vietnam,Brazil,Ethiopia,C,8,20,Food
-124,What ship famously transported the Pilgrims to America in 1620?,Speedwell,Discovery,Mayflower,Susan Constant,C,8,20,History
-125,What strange marine animal is a Portuguese Man o' War?,Jellyfish,Siphonophore,Anemone,Coral,B,8,20,Animals
-126,Which vital gas is released as a byproduct of photosynthesis?,Carbon Dioxide,Oxygen,Nitrogen,Hydrogen,B,8,20,Science
-127,"Who wrote the famous 1818 Gothic horror novel ""Frankenstein""?",Mary Shelley,Bram Stoker,Jane Austen,Charlotte Bronte,A,8,20,Literature
-128,What is the primary unit of national currency in South Africa?,Shilling,Rand,Kwanza,Pula,B,8,20,General Knowledge
-129,Which active volcano catastrophically buried Pompeii in 79 AD?,Mount Etna,Mount Vesuvius,Mount Stromboli,Mount Kilimanjaro,B,9,22,History
-130,What is the historic capital city of Egypt?,Alexandria,Luxor,Cairo,Giza,C,9,22,Geography
-131,Who is widely recognized as the father of modern chemistry?,Antoine Lavoisier,Dmitri Mendeleev,John Dalton,Robert Boyle,A,9,22,Science
-132,Which oceanic trench marks the absolute deepest point on Earth?,Puerto Rico Trench,Mariana Trench,Java Trench,Tonga Trench,B,9,22,Geography
-133,What is the formal medical terminology for the human kneecap?,Femur,Tibia,Patella,Fibula,C,9,22,Science
-134,"Which legendary composer wrote the opera ""The Magic Flute""?",Ludwig van Beethoven,Wolfgang Amadeus Mozart,Richard Wagner,Johann Sebastian Bach,B,9,22,Music
-135,What is the official base currency utilized across Poland?,Euro,Krona,Zloty,Koruna,C,9,22,General Knowledge
-136,In what calendar year did the historic French Revolution begin?,1776,1789,1799,1804,B,9,22,History
-137,Which land animal possesses the highest recorded blood pressure?,Blue Whale,Elephant,Giraffe,Flea,C,9,22,Animals
-138,What is the coastal capital city of Sweden?,Oslo,Helsinki,Stockholm,Copenhagen,C,9,22,Geography
-139,What structural chemical element makes up a pure diamond?,Silicon,Carbon,Nitrogen,Boron,B,9,22,Science
-140,"Who penned the philosophical text ""Thus Spoke Zarathustra""?",Karl Marx,Friedrich Nietzsche,Arthur Schopenhauer,Immanuel Kant,B,9,22,Literature
-141,Which 1815 battle marked the ultimate downfall of Napoleon?,Battle of Leipzig,Battle of Waterloo,Battle of Austerlitz,Battle of Borodino,B,9,22,History
-142,What is the essential base alcohol inside a standard Mojito?,Vodka,Rum,Tequila,Gin,B,9,22,Food
-143,Which subatomic particle holds absolutely zero electrical charge?,Proton,Electron,Neutron,Quark,C,9,22,Science
-144,What is the name given to the largest known moon of Saturn?,Europa,Titan,Ganymede,Callisto,B,9,22,Space
-145,Which historic 1919 treaty officially ended World War I?,Treaty of Paris,Treaty of Versailles,Treaty of Utrecht,Treaty of Ghent,B,10,22,History
-146,What is the northerly capital city of Iceland?,Reykjavik,Akureyri,Kopavogur,Hafnarfjordur,A,10,22,Geography
-147,Who formulated the comprehensive mathematical laws of planetary motion?,Nicolaus Copernicus,Johannes Kepler,Galileo Galilei,Isaac Newton,B,10,22,Space
-148,Which country boasts the longest total coastline in the world?,Russia,Canada,Australia,Indonesia,B,10,22,Geography
-149,What biological pigment determines human skin and hair color?,Carotene,Melanin,Hemoglobin,Chlorophyll,B,10,22,Science
-150,"Who wrote the influential dystopian masterpiece ""Brave New World""?",George Orwell,Aldous Huxley,Ray Bradbury,H.G. Wells,B,10,22,Literature
-151,What is the official legal currency utilized in Israel?,Dinar,Lira,Shekel,Riyal,C,10,22,General Knowledge
-152,"Which master Renaissance artist sculpted the famous marble ""David""?",Leonardo da Vinci,Michelangelo,Donatello,Raphael,B,10,22,Art
-153,What is the single most abundant element found in the universe?,Oxygen,Helium,Hydrogen,Carbon,C,10,22,Space
-154,To which language family does the Hungarian tongue belong?,Slavic,Germanic,Finno-Ugric,Romance,C,10,22,General Knowledge
-155,In what year did the United States purchase Alaska from Russia?,1857,1867,1877,1887,B,10,22,History
-156,What is the official SI unit used to quantify electrical resistance?,Volt,Ampere,Ohm,Watt,C,10,22,Science
-157,Which mammal is known to possess the highest bite force?,Hippopotamus,Spotted Hyena,Grizzly Bear,Jaguar,A,10,22,Animals
-158,What is the high-altitude capital city of Peru?,Cusco,Arequipa,Lima,Trujillo,C,10,22,Geography
-159,Which physicist famously discovered the laws governing pendulums?,Galileo Galilei,Isaac Newton,Johannes Kepler,Albert Einstein,A,10,22,Science
-160,Which of these is considered the best-selling novel of all time?,A Tale of Two Cities,Don Quixote,The Little Prince,The Hobbit,B,10,22,Literature
-161,Who proposed the historic theory of evolution by natural selection?,Jean-Baptiste Lamarck,Charles Darwin,Gregor Mendel,Thomas Huxley,B,11,25,Science
-162,What is the historic northern capital city of Vietnam?,Ho Chi Minh City,Hanoi,Da Nang,Hue,B,11,25,Geography
-163,Who served as British Prime Minister during the Falklands War?,Edward Heath,James Callaghan,Margaret Thatcher,John Major,C,11,25,History
-164,What insect is considered the absolute loudest in the world?,Cicada,Africanized Bee,Bullet Ant,Katydid,A,11,25,Animals
-165,Which common keyboard layout takes its name from its top-left letters?,DVORAK,AZERTY,QWERTY,COLEMAK,C,11,25,Technology
-166,What island is geographically defined as the largest globally?,Australia,Greenland,New Guinea,Borneo,B,11,25,Geography
-167,"Who wrote the iconic psychological horror novel ""The Shining""?",Stephen King,Dean Koontz,Clive Barker,HP Lovecraft,A,11,25,Literature
-168,Which chemical element features the highest elemental melting point?,Iron,Tungsten,Platinum,Osmium,B,11,25,Science
-169,What is the official sovereign currency of Switzerland?,Euro,Krona,Franc,Pound,C,11,25,General Knowledge
-170,"Who directed the critically acclaimed 1994 film ""Pulp Fiction""?",Martin Scorsese,Quentin Tarantino,Steven Spielberg,David Fincher,B,11,25,Movies
-171,Which early Greek deity was the literal embodiment of the sky?,Zeus,Uranus,Cronus,Hyperion,B,11,25,Mythology
-172,What primary acid is found inside normal human gastric juice?,Sulfuric Acid,Nitric Acid,Hydrochloric Acid,Acetic Acid,C,11,25,Science
-173,In which century did the devastating Black Death hit Europe?,12th Century,13th Century,14th Century,15th Century,C,11,25,History
-174,What massive shield volcano is the tallest in our solar system?,Mount Vesuvius,Mount Etna,Olympus Mons,Mauna Loa,C,11,25,Space
-175,Which nation holds the world's largest population as of 2024?,India,China,USA,Indonesia,A,11,25,Geography
-176,What is the mathematical calculation of 15 squared?,225,250,275,300,A,11,25,Math
-177,Which element is a non-metal that stays liquid at room temperature?,Mercury,Bromine,Gallium,Cesium,B,12,25,Science
-178,What is the historic inland capital city of Morocco?,Casablanca,Marrakesh,Rabat,Fes,C,12,25,Geography
-179,Who is consolidated by history as the very first Roman Emperor?,Julius Caesar,Augustus,Nero,Caligula,B,12,25,History
-180,Which specific star system sits physically closest to our own?,Proxima Centauri,Alpha Centauri,Sirius,Barnard's Star,A,12,25,Space
-181,Which standard SI base unit quantifies luminous intensity?,Lumen,Lux,Candela,Watt,C,12,25,Science
-182,"Who composed the famous 14th-century work ""The Canterbury Tales""?",William Shakespeare,Geoffrey Chaucer,John Milton,Dante Alighieri,B,12,25,Literature
-183,What is the official base currency used in Norway?,Euro,Krone,Krona,Mark,B,12,25,General Knowledge
-184,Which English conflict was fought by the Lancasters and Yorks?,The Hundred Years' War,The Wars of the Roses,The English Civil War,The Thirty Years' War,B,12,25,History
-185,What is the capital city of Ukraine?,Lviv,Odesa,Kyiv,Kharkiv,C,12,25,Geography
-186,Which cellular organelle is the designated powerhouse of cells?,Nucleus,Ribosome,Mitochondria,Golgi Apparatus,C,12,25,Science
-187,"Who painted the surreal triptych ""The Garden of Earthly Delights""?",Hieronymus Bosch,Pieter Bruegel,Albrecht Durer,Jan van Eyck,A,12,25,Art
-188,What is the largest lake by surface area across Africa?,Lake Tanganyika,Lake Victoria,Lake Malawi,Lake Chad,B,12,25,Geography
-189,Which vital element features the specific atomic number 6?,Oxygen,Carbon,Nitrogen,Boron,B,12,25,Science
-190,In the Norse pantheon who is the notorious god of mischief?,Odin,Thor,Loki,Balder,C,12,25,Mythology
-191,What linguistic term defines words spelled the same but differing in meaning?,Synonyms,Antonyms,Homographs,Homophones,C,12,25,Literature
-192,Which nation hosted the inaugural modern Olympic Games in 1896?,France,United Kingdom,Greece,United States,C,12,25,Sports
-193,What geological zone lies directly beneath the Earth's crust?,Inner Core,Outer Core,Mantle,Lithosphere,C,13,28,Science
-194,What is the newly named capital city of Kazakhstan?,Almaty,Astana,Shymkent,Aktobe,B,13,28,Geography
-195,Who was the absolute last ruling monarch of the House of Tudor?,Henry VIII,Mary I,Elizabeth I,James I,C,13,28,History
-196,What is the closest major spiral galaxy to our own Milky Way?,Andromeda,Triangulum,Sombrero,Large Magellanic Cloud,A,13,28,Space
-197,"Which French thinker famously wrote ""I think, therefore I am?""",Jean-Paul Sartre,Voltaire,René Descartes,Jean-Jacques Rousseau,C,13,28,Literature
-198,What is the correct chemical symbol for Potassium?,P,Po,Pt,K,D,13,28,Science
-199,Which major navy was crushed at the Battle of Lepanto in 1571?,Byzantine,Persian,Ottoman,Holy Roman,C,13,28,History
-200,What is the sprawling capital city of Colombia?,Medellin,Cali,Bogota,Cartagena,C,13,28,Geography
-201,To which biological class do all modern birds belong?,Amphibia,Reptilia,Aves,Mammalia,C,13,28,Animals
-202,"Who composed the baroque violin concertos known as ""The Four Seasons""?",Bach,Vivaldi,Mozart,Beethoven,B,13,28,Music
-203,What is the mathematical value of constant 'e' to two decimals?,2.71,2.81,3.14,1.61,A,13,28,Math
-204,Which global country contains the highest number of natural lakes?,USA,Canada,Russia,Brazil,B,13,28,Geography
-205,"Who authored the scandalous Gothic novel ""The Picture of Dorian Gray""?",Bram Stoker,Mary Shelley,Oscar Wilde,Edgar Allan Poe,C,13,28,Literature
-206,What is the official base currency utilized in Thailand?,Dong,Ringgit,Baht,Rupiah,C,13,28,General Knowledge
-207,Which law of physics dictates that every action has an opposite reaction?,Newton's First Law,Newton's Second Law,Newton's Third Law,Law of Gravitation,C,13,28,Science
-208,Which battle is widely called the turning point of the American Civil War?,Battle of Antietam,Battle of Gettysburg,Battle of Bull Run,Battle of Shiloh,B,13,28,History
-209,Which metal exhibits the absolute highest electrical conductivity?,Copper,Gold,Silver,Aluminum,C,14,30,Science
-210,What is the expansive capital city of Ethiopia?,Nairobi,Addis Ababa,Asmara,Mogadishu,B,14,30,Geography
-211,Which 1494 treaty divided global colonial rights between Spain and Portugal?,Treaty of Tordesillas,Treaty of Zaragoza,Treaty of Madrid,Treaty of Utrecht,A,14,30,History
-212,What is the brightest individual star visible in our night sky?,Sirius,Canopus,Arcturus,Vega,A,14,30,Space
-213,"Who wrote the highly classical Greek political text ""The Republic""?",Socrates,Plato,Aristotle,Cicero,B,14,30,Literature
-214,What is the strict medical terminology for a red blood cell?,Leukocyte,Thrombocyte,Erythrocyte,Lymphocyte,C,14,30,Science
-215,Which autonomous territory of Denmark is the largest non-continental island?,Svalbard,Faroe Islands,Greenland,Iceland,C,14,30,Geography
-216,Who was Supreme Commander of Allied Expeditionary Forces in Europe during WWII?,MacArthur,Patton,Eisenhower,Montgomery,C,14,30,History
-217,What structural fibrous protein makes up human hair and fingernails?,Collagen,Keratin,Elastin,Myosin,B,14,30,Science
-218,Which instrument did romantic composer Frédéric Chopin primarily focus on?,Violin,Cello,Piano,Flute,C,14,30,Music
-219,What is the official legal currency utilized in Malaysia?,Baht,Rupiah,Ringgit,Peso,C,14,30,General Knowledge
-220,Which geometric theorem calculates side lengths as a^2 + b^2 = c^2?,Euler's Theorem,Fermat's Last Theorem,Pythagorean Theorem,Goldbach's Conjecture,C,14,30,Math
-221,"Who directed the landmark 1972 cinematic crime drama ""The Godfather""?",Martin Scorsese,Francis Ford Coppola,Steven Spielberg,Stanley Kubrick,B,14,30,Movies
-222,"What is the coastal state capital of New South Wales, Australia?",Melbourne,Brisbane,Sydney,Adelaide,C,14,30,Geography
-223,Which Aztec emperor ruled when conquistador Hernán Cortés landed?,Montezuma II,Cuauhtémoc,Itzcoatl,Ahuitzotl,A,14,30,History
-224,What boundary around a black hole marks the point of no escape?,Singularity,Event Horizon,Ergosphere,Accretion Disk,B,14,30,Space
-225,Which element has the highest atomic number found naturally on Earth?,Uranium,Plutonium,Thorium,Radium,A,15,30,Science
-226,What is the isolated capital city of Mongolia?,Astana,Ulaanbaatar,Tashkent,Bishkek,B,15,30,Geography
-227,Who was the historically recognized final pharaoh of ancient Egypt?,Nefertiti,Cleopatra VII,Hatshepsut,Tutankhamun,B,15,30,History
-228,What term defines a word or sentence reading identically backwards?,Anagram,Palindrome,Oxymoron,Homonym,B,15,30,Literature
-229,In which ocean does the tropical island nation of Mauritius lie?,Atlantic Ocean,Pacific Ocean,Indian Ocean,Arctic Ocean,C,15,30,Geography
-230,Who discovered calculus alongside the foundational laws of universal gravitation?,Galileo,Kepler,Newton,Einstein,C,15,30,Science
-231,What official base currency is valid in South Georgia and South Sandwich Islands?,Euro,Pound Sterling,Rand,Dollar,B,15,30,General Knowledge
-232,Which English king died at the Battle of Bosworth Field in 1485?,Richard III,Henry VI,Edward IV,Henry VII,A,15,30,History
-233,What is the name of the largest retrograde-orbiting moon of Neptune?,Triton,Proteus,Nereid,Larissa,A,15,30,Space
-234,Which complex protein inside red blood cells binds to oxygen molecules?,Myoglobin,Hemoglobin,Albumin,Globulin,B,15,30,Science
-235,"Who wrote the landmark French philosophical text ""The History of Sexuality""?",Sartre,Foucault,Derrida,Deleuze,B,15,30,Literature
-236,What qualitative scale classifies the scratch resistance of distinct minerals?,Richter Scale,Mohs Scale,Brinell Scale,Vickers Scale,B,15,30,Science
-237,"Which absolute Bourbon monarch of France was dubbed the ""Sun King""?",Louis XIV,Louis XVI,Louis XIII,Francis I,A,15,30,History
-238,What is the exact sum of all interior angles inside a hexagon?,360 degrees,540 degrees,720 degrees,900 degrees,C,15,30,Math
-239,Which solar system planet has the fastest rotational velocity on its axis?,Earth,Mars,Jupiter,Saturn,C,15,30,Space
-240,What is the official base currency unit utilized across Paraguay?,Guarani,Peso,Real,Boliviano,A,15,30,General Knowledge
-241,Which subatomic composite particle is constructed of exactly three quarks?,Proton,Electron,Photon,Neutrino,A,16,35,Science
-242,What is the mountainous landlocked capital of Bhutan?,Kathmandu,Thimphu,Dhaka,Colombo,B,16,35,Geography
-243,Which 216 BC battle remains Hannibal's ultimate tactical masterpiece over Rome?,Battle of Zama,Battle of Cannae,Battle of Lake Trasimene,Battle of Trebia,B,16,35,History
-244,What human-made probe was the very first to enter interstellar space?,Voyager 1,Voyager 2,Pioneer 10,New Horizons,A,16,35,Space
-245,"Who wrote the highly influential 1867 economic treatise ""Das Kapital""?",Adam Smith,Karl Marx,John Maynard Keynes,Max Weber,B,16,35,Literature
-246,Which fundamental force binds quarks into protons and nucleons together?,Gravitational Force,Electromagnetic Force,Weak Nuclear Force,Strong Nuclear Force,D,16,35,Science
-247,What codename identified the WWII program that built the atomic bomb?,Manhattan Project,Project Vanguard,Apollo Program,Operation Paperclip,A,16,35,History
-248,What is the rarest naturally occurring elemental metalloid in Earth's crust?,Astatine,Francium,Rhenium,Promethium,A,16,35,Science
-249,Which massive 1648 diplomatic treaty ended Europe's Thirty Years' War?,Treaty of Westphalia,Treaty of Utrecht,Treaty of Versailles,Treaty of Pyrenees,A,16,35,History
-250,What is the microstate capital city of Liechtenstein?,Zurich,Vaduz,Geneva,Bern,B,16,35,Geography
-251,Which mathematical statement conjectures every even integer >2 is the sum of two primes?,Fermat's Last Theorem,Goldbach's Conjecture,Riemann Hypothesis,Collatz Conjecture,B,16,35,Math
-252,"Who composed the radically avant-garde 1913 ballet ""The Rite of Spring""?",Claude Debussy,Igor Stravinsky,Maurice Ravel,Arnold Schoenberg,B,16,35,Music
-253,Which civilization developed the cuneiform script on clay tablets?,Egyptians,Sumerians,Indus Valley,Minoans,B,16,35,History
-254,What stellar remnant core is left after a low-mass star sheds its envelope?,Neutron Star,White Dwarf,Black Hole,Red Giant,B,16,35,Space
-255,Which chemical element features the absolute highest electronegativity value?,Oxygen,Fluorine,Chlorine,Nitrogen,B,16,35,Science
-256,"Who wrote the foundational 1651 political philosophy treatise ""Leviathan""?",John Locke,Thomas Hobbes,Jean-Jacques Rousseau,Niccolò Machiavelli,B,16,35,Literature
+7,"What is the opposite of ""hot""?",Cold,Warm,Wet,Dry,A,1,10,General Knowledge
+8,How many legs does a spider have?,6,8,10,12,B,1,10,Animals
+9,What is the name of our planet?,Mars,Venus,Earth,Jupiter,C,1,10,Science
+10,Which shape has three sides?,Square,Circle,Triangle,Rectangle,C,1,10,Math
+11,What do we breathe in to live?,Carbon Dioxide,Oxygen,Nitrogen,Hydrogen,B,1,10,Science
+12,Which is a fruit?,Carrot,Broccoli,Apple,Potato,C,1,10,Food
+13,What is 10 - 4?,5,6,7,8,B,1,10,Math
+14,Which animal is the largest?,Elephant,Blue Whale,Giraffe,Shark,B,1,10,Animals
+15,What color are bananas?,Red,Blue,Yellow,Green,C,1,10,Food
+16,How many wheels does a bicycle have?,1,2,3,4,B,1,10,General Knowledge
+17,"What is the opposite of ""up""?",Down,Left,Right,Front,A,1,10,General Knowledge
+18,Which is a type of bird?,Dog,Eagle,Cat,Fish,B,1,10,Animals
+19,What do we use to see?,Ears,Eyes,Nose,Mouth,B,1,10,Science
+20,How many months are in a year?,10,11,12,13,C,1,10,General Knowledge
+21,Which is a vegetable?,Apple,Orange,Broccoli,Banana,C,1,10,Food
+22,What is 2 x 3?,4,5,6,7,C,1,10,Math
+23,Which planet is closest to the Sun?,Venus,Earth,Mercury,Mars,C,1,10,Science
+24,What do cows produce?,Eggs,Milk,Water,Wool,B,1,10,Animals
+25,What is the largest ocean?,Atlantic,Indian,Arctic,Pacific,D,1,10,Geography
+26,Which is a mode of transport?,Carrot,Book,Car,Apple,C,1,10,General Knowledge
+27,"What is the opposite of ""big""?",Huge,Small,Large,Tall,B,1,10,General Knowledge
+28,How many fingers do most people have on one hand?,3,4,5,6,C,1,10,Science
+29,Which is a winter month?,July,December,June,August,B,1,10,General Knowledge
+30,What color is grass?,Blue,Green,Red,Yellow,B,1,10,Science
+31,Which animal lives in water?,Lion,Shark,Eagle,Monkey,B,1,10,Animals
+32,What is 1 + 1?,1,2,3,4,B,1,10,Math
+33,Which is a type of tree?,Rose,Pine,Tulip,Daisy,B,1,10,Nature
+34,What do we wear on our feet?,Hat,Shoes,Gloves,Scarf,B,1,10,General Knowledge
+35,Which planet has rings?,Earth,Mars,Saturn,Venus,C,1,10,Science
+36,"What is the opposite of ""fast""?",Quick,Rapid,Slow,Speedy,C,1,10,General Knowledge
+37,How many sides does a square have?,3,4,5,6,B,1,10,Math
+38,Which is a dairy product?,Bread,Cheese,Meat,Rice,B,1,10,Food
+39,What do bees make?,Milk,Honey,Wool,Eggs,B,1,10,Animals
+40,Which is a continent?,Texas,Europe,California,Sydney,B,1,10,Geography
+41,What is 6 + 7?,11,12,13,14,C,1,10,Math
+42,Which is a musical instrument?,Piano,Book,Table,Chair,A,1,10,Arts
+43,What color is the sun?,Blue,Green,Yellow,Red,C,1,10,Science
+44,Which animal has a trunk?,Elephant,Giraffe,Lion,Tiger,A,1,10,Animals
+45,What do we drink?,Water,Bread,Meat,Apple,A,1,10,General Knowledge
+46,Which is a shape with no corners?,Square,Triangle,Circle,Rectangle,C,1,10,Math
+47,"What is the opposite of ""day""?",Morning,Night,Evening,Afternoon,B,1,10,General Knowledge
+48,How many zeros in the number 100?,1,2,3,4,B,1,10,Math
+49,Which is a source of light?,Moon,Sun,Cloud,Rain,B,1,10,Science
+50,"Which animal is known as ""man's best friend""?",Cat,Dog,Rabbit,Fish,B,1,10,Animals
+51,What is 9 - 2?,5,6,7,8,C,1,10,Math
+52,Which is a type of fruit?,Cucumber,Tomato,Peach,Pepper,C,1,10,Food
+53,What do we use to hear?,Ears,Eyes,Nose,Mouth,A,1,10,Science
+54,Which is the smallest continent?,Europe,Australia,Antarctica,Asia,B,1,10,Geography
+55,"What is the opposite of ""wet""?",Dry,Muddy,Cold,Hot,A,1,10,General Knowledge
+56,Which is a type of car?,Ford,Banana,Shirt,Sofa,A,1,10,General Knowledge
+57,How many legs does a dog have?,2,3,4,5,C,1,10,Animals
+58,Which is a winter sport?,Swimming,Skiing,Surfing,Cycling,B,1,10,Sports
+59,What is 4 x 4?,12,14,16,18,C,1,10,Math
+60,Which planet is red?,Mars,Venus,Jupiter,Mercury,A,1,10,Science
+61,Which is a type of pasta?,Rice,Spaghetti,Bread,Oats,B,1,10,Food
+62,"What is the opposite of ""happy""?",Joyful,Cheerful,Sad,Glad,C,1,10,General Knowledge
+63,How many days in a year?,355,365,375,385,B,1,10,General Knowledge
+64,Which is a famous landmark?,Eiffel Tower,Apple Tree,River,Forest,A,1,10,Geography
+65,What is 15 + 8?,21,22,23,24,C,2,10,Math
+66,Which animal hibernates during winter?,Bear,Elephant,Giraffe,Kangaroo,A,2,10,Animals
+67,What is the boiling point of water?,50°C,100°C,150°C,200°C,B,2,10,Science
+68,Which country has the largest population?,USA,India,China,Brazil,C,2,10,Geography
+69,"Who wrote ""Romeo and Juliet""?",Dickens,Shakespeare,Tolkien,Hemingway,B,2,10,Literature
+70,What is the chemical symbol for water?,H2O,CO2,NaCl,O2,A,2,10,Science
+71,Which planet is known as the Morning Star?,Mars,Venus,Jupiter,Saturn,B,2,10,Science
+72,What is the capital of France?,London,Berlin,Madrid,Paris,D,2,10,Geography
+73,How many bones does an adult human have?,106,206,306,406,B,2,10,Science
+74,What is the square root of 64?,6,7,8,9,C,2,10,Math
+75,Which language has the most native speakers?,English,Spanish,Mandarin,Hindi,C,2,10,General Knowledge
+76,What is the largest mammal?,Elephant,Blue Whale,Giraffe,Hippo,B,2,10,Animals
+77,What is the freezing point of water?,-10°C,0°C,10°C,20°C,B,2,10,Science
+78,Which country is shaped like a boot?,France,Italy,Spain,Greece,B,2,10,Geography
+79,Who painted the Mona Lisa?,Van Gogh,Picasso,Da Vinci,Michelangelo,C,2,10,Arts
+80,What is the speed of light approx?,300,000 km/s,150,000 km/s,500,000 km/s,100,000 km/s
+81,What is the largest organ in the human body?,Liver,Brain,Skin,Heart,C,2,10,Science
+82,Which river is the longest?,Nile,Amazon,Mississippi,Yangtze,A,2,10,Geography
+83,What is 12 x 12?,124,134,144,154,C,2,10,Math
+84,Which animal is a marsupial?,Lion,Kangaroo,Elephant,Shark,B,2,10,Animals
+85,What is the main gas in Earth's atmosphere?,Oxygen,Nitrogen,Carbon Dioxide,Argon,B,2,10,Science
+86,Which country hosted the 2016 Olympics?,China,UK,Brazil,USA,C,2,10,Sports
+87,Who developed the theory of relativity?,Newton,Einstein,Darwin,Hawking,B,2,10,Science
+88,What is the smallest country in the world?,Monaco,Vatican City,San Marino,Liechtenstein,B,2,10,Geography
+89,Which element is needed for combustion?,Oxygen,Nitrogen,Carbon,Helium,A,2,10,Science
+90,What is the hardest natural substance?,Gold,Iron,Diamond,Platinum,C,2,10,Science
+91,Which ocean is the smallest?,Arctic,Indian,Atlantic,Pacific,A,2,10,Geography
+92,Who invented the telephone?,Edison,Bell,Marconi,Franklin,B,2,10,General Knowledge
+93,What is the chemical formula for salt?,H2O,NaCl,CO2,KCl,B,2,10,Science
+94,Which planet has the most moons?,Earth,Mars,Jupiter,Saturn,D,2,10,Science
+95,What is the tallest mountain in the world?,K2,Mount Everest,Kilimanjaro,Denali,B,2,10,Geography
+96,Which is a renewable energy source?,Coal,Oil,Solar,Natural Gas,C,2,10,Science
+97,What is 100 - 37?,53,63,73,83,B,2,10,Math
+98,Which animal can change its color?,Chameleon,Frog,Lizard,Snake,A,2,10,Animals
+99,What is the main ingredient in chocolate?,Sugar,Cocoa,Milk,Butter,B,2,10,Food
+100,Which country is the largest by area?,Russia,Canada,China,USA,A,2,10,Geography
+101,What is the pH of pure water?,5,6,7,8,C,2,10,Science
+102,Which vitamin is produced by sunlight?,A,B,C,D,D,2,10,Science
+103,What is 25 x 4?,80,90,100,110,C,2,10,Math
+104,Which bird is a symbol of peace?,Eagle,Dove,Crow,Parrot,B,2,10,Animals
+105,Which gas do plants absorb?,Oxygen,Carbon Dioxide,Nitrogen,Helium,B,2,10,Science
+106,What is the capital of Japan?,Seoul,Beijing,Tokyo,Bangkok,C,2,10,Geography
+107,"Who wrote ""1984""?",Huxley,Orwell,Atwood,Zamyatin,B,2,10,Literature
+108,What is the smallest prime number?,0,1,2,3,C,2,10,Math
+109,Which element is a liquid at room temperature?,Iron,Gold,Mercury,Silver,C,2,10,Science
+110,Which country has the most islands?,Sweden,Indonesia,Philippines,Canada,A,2,10,Geography
+111,What is the main component of the Sun?,Oxygen,Hydrogen,Carbon,Helium,B,2,10,Science
+112,Which is a famous painting by Van Gogh?,Mona Lisa,Starry Night,The Scream,Guernica,B,2,10,Arts
+113,What is 99 + 99?,188,198,208,218,B,2,10,Math
+114,Which animal is known for its laugh?,Hyena,Dog,Cat,Horse,A,2,10,Animals
+115,What is the largest desert?,Sahara,Gobi,Kalahari,Antarctica,A,2,10,Geography
+116,Which vitamin is in citrus fruits?,A,B,C,D,C,2,10,Food
+117,What is the chemical symbol for gold?,Au,Ag,Fe,Pb,A,2,10,Science
+118,Who was the first President of the USA?,Adams,Jefferson,Washington,Lincoln,C,2,10,History
+119,What is 7 x 8?,48,54,56,64,C,2,10,Math
+120,Which is a type of cloud?,Cumulus,Stratus,All of these,None of these,C,2,10,Science
+121,Which planet is farthest from the Sun?,Uranus,Neptune,Saturn,Jupiter,B,2,10,Science
+122,What is the capital of Australia?,Sydney,Melbourne,Canberra,Perth,C,2,10,Geography
+123,Who invented the light bulb?,Edison,Tesla,Marconi,Franklin,A,2,10,General Knowledge
+124,What is 50 / 5?,5,10,15,20,B,2,10,Math
+125,Which animal lays the largest egg?,Ostrich,Eagle,Chicken,Penguin,A,2,10,Animals
+126,What is the main source of energy for Earth?,Moon,Sun,Stars,Earth,B,2,10,Science
+127,Which country uses the Euro?,UK,USA,France,Japan,C,2,10,General Knowledge
+128,What is the powerhouse of the cell?,Nucleus,Ribosome,Mitochondria,Golgi,C,2,10,Science
+129,What is 3^3?,9,27,81,243,B,3,10,Math
+130,Which element is used in batteries?,Lithium,Lead,Iron,Copper,A,3,10,Science
+131,Which country has the most pyramids?,Egypt,Chile,India,Peru,A,3,10,History
+132,What is the longest river in Europe?,Danube,Rhine,Volga,Seine,C,3,10,Geography
+133,"Who wrote ""The Divine Comedy""?",Boccaccio,Dante,Petrarch,Ariosto,B,3,10,Literature
+134,What is the atomic number of Carbon?,2,4,6,8,C,3,10,Science
+135,Which planet has a storm called the Great Red Spot?,Mars,Saturn,Jupiter,Neptune,C,3,10,Science
+136,What is the capital of Canada?,Toronto,Vancouver,Ottawa,Montreal,C,3,10,Geography
+137,How many chromosomes do humans have?,23,44,46,48,C,3,10,Science
+138,What is the cube root of 27?,2,3,4,5,B,3,10,Math
+139,Which language is spoken in Brazil?,Spanish,Portuguese,French,English,B,3,10,Geography
+140,What is the smallest bone in the human body?,Stapes,Femur,Tibia,Ulna,A,3,10,Science
+141,Which country invented paper?,China,India,Egypt,Greece,A,3,10,History
+142,What is the chemical formula for methane?,CH4,CO2,H2O,NH3,A,3,10,Science
+143,Which is a type of microscope?,Electron,Optical,Both,Neither,C,3,10,Science
+144,What is the longest mountain range?,Andes,Himalayas,Rockies,Alps,A,3,10,Geography
+145,"Who wrote ""Pride and Prejudice""?",Bronte,Dickens,Austen,Eliot,C,3,10,Literature
+146,What is the speed of sound in air?,343 m/s,700 m/s,1000 m/s,1500 m/s,A,3,10,Science
+147,Which element is used in LED displays?,Gallium,Germanium,Silicon,Arsenic,A,3,10,Science
+148,What is the capital of Argentina?,Santiago,Lima,Buenos Aires,Montevideo,C,3,10,Geography
+149,What is 2^10?,512,1024,2048,256,B,3,10,Math
+150,Which animal is a symbol of wisdom?,Fox,Owl,Wolf,Eagle,B,3,10,Animals
+151,Which planet rotates on its side?,Uranus,Neptune,Saturn,Jupiter,A,3,10,Science
+152,What is the largest lake in the world?,Caspian Sea,Superior,Victoria,Baikal,A,3,10,Geography
+153,Who is known as the father of computers?,Babbage,Turing,Einstein,Newton,A,3,10,General Knowledge
+154,What is the main component of natural gas?,Ethane,Methane,Propane,Butane,B,3,10,Science
+155,Which vitamin is fat-soluble?,C,B12,D,A,D,3,10,Science
+156,What is the capital of Egypt?,Alexandria,Cairo,Luxor,Giza,B,3,10,Geography
+157,What is 15 x 15?,200,215,225,235,C,3,10,Math
+158,Which bird can fly backwards?,Eagle,Spard,Swift,Hummingbird,D,3,10,Animals
+159,What is the chemical symbol for potassium?,P,K,Po,Pt,B,3,10,Science
+160,Which country has the highest population density?,Monaco,Singapore,Hong Kong,India,A,3,10,Geography
+161,"Who wrote ""War and Peace""?",Dostoevsky,Tolstoy,Turgenev,Chekhov,B,3,10,Literature
+162,What is the SI unit of force?,Joule,Newton,Watt,Pascal,B,3,10,Science
+163,Which planet has the shortest day?,Jupiter,Saturn,Uranus,Neptune,A,3,10,Science
+164,What is the capital of South Africa?,Cape Town,Johannesburg,Pretoria,Durban,C,3,10,Geography
+165,What is 144 / 12?,10,11,12,13,C,3,10,Math
+166,Which is a type of rock?,Igneous,Sedimentary,Metamorphic,All of these,D,3,10,Science
+167,Which element is used in solar panels?,Silicon,Germanium,Arsenic,Galium,A,3,10,Science
+168,What is the largest canyon?,Grand Canyon,Kali Gandaki,Yarlung,Zhangye,A,3,10,Geography
+169,Who developed the first vaccine?,Jenner,Lister,Koch,Pasteur,A,3,10,Science
+170,What is the most common blood type?,A,B,AB,O,D,3,10,Science
+171,Which country is known as the Land of the Rising Sun?,China,Japan,Korea,Thailand,B,3,10,Geography
+172,What is 7^2?,42,47,49,51,C,3,10,Math
+173,Which gas is used in balloons?,Helium,Hydrogen,Nitrogen,Oxygen,A,3,10,Science
+174,Which animal has the longest gestation?,Elephant,Giraffe,Rhino,Hippo,A,3,10,Animals
+175,What is the capital of Sweden?,Oslo,Helsinki,Stockholm,Copenhagen,C,3,10,Geography
+176,"Who wrote ""The Odyssey""?",Socrates,Homer,Plato,Aristotle,B,3,10,Literature
+177,What is the chemical symbol for silver?,Ag,Au,Al,Ar,A,3,10,Science
+178,Which is a non-metal?,Sodium,Iron,Oxygen,Calcium,C,3,10,Science
+179,What is the deepest ocean trench?,Mariana,Tonga,Japan,Kermadec,A,3,10,Geography
+180,What is 20% of 200?,20,30,40,50,C,3,10,Math
+181,Which planet has a day longer than its year?,Venus,Mercury,Mars,Jupiter,A,3,10,Science
+182,Which country has the most World Heritage Sites?,Italy,China,Spain,France,B,3,10,Geography
+183,"Who painted ""The Scream""?",Munch,Van Gogh,Monet,Picasso,A,3,10,Arts
+184,What is the SI unit of frequency?,Hertz,Joule,Watt,Newton,A,3,10,Science
+185,Which is a type of blood cell?,Red,White,Platelets,All,D,3,10,Science
+186,What is the capital of Turkey?,Istanbul,Ankara,Athens,Beirut,B,3,10,Geography
+187,What is 9^2?,72,81,90,99,B,3,10,Math
+188,Which animal is a scavenger?,Vulture,Eagle,Falcon,Hawk,A,3,10,Animals
+189,Which element is a halogen?,Fluorine,Oxygen,Nitrogen,Carbon,A,3,10,Science
+190,What is the longest wall in the world?,Hadrian's Wall,Great Wall of China,Wall of Jericho,Berlin Wall,B,3,10,History
+191,"Who wrote ""The Catcher in the Rye""?",Salinger,Hemingway,Twain,Fitzgerald,A,3,10,Literature
+192,What is the chemical name for baking soda?,Sodium Chloride,Sodium Bicarbonate,Calcium Carbonate,Potassium Hydroxide,B,3,10,Science
+193,What is 0.5 + 0.5?,0.5,1,1.5,2,B,4,10,Math
+194,Which planet has a moon named Titan?,Mars,Saturn,Jupiter,Neptune,B,4,10,Science
+195,Which country is the world's largest coffee exporter?,Brazil,Colombia,Vietnam,Ethiopia,A,4,10,Geography
+196,"Who wrote ""The Shining""?",King,Koontz,Poe,Lovecraft,A,4,10,Literature
+197,What is the chemical formula for sulfuric acid?,H2SO4,HCl,HNO3,NaOH,A,4,10,Science
+198,What is the capital of Pakistan?,Delhi,Islamabad,Karachi,Lahore,B,4,10,Geography
+199,What is the square root of 144?,10,11,12,13,C,4,10,Math
+200,Which element is a noble gas?,Argon,Oxygen,Nitrogen,Chlorine,A,4,10,Science
+201,Which animal is known for its intelligence?,Dolphin,Shark,Whale,Octopus,A,4,10,Animals
+202,What is the largest island?,Greenland,Madagascar,Borneo,New Guinea,A,4,10,Geography
+203,Who invented the printing press?,Gutenberg,Caxton,Marconi,Edison,A,4,10,History
+204,What is the SI unit of pressure?,Pascal,Newton,Joule,Watt,A,4,10,Science
+205,Which planet has the largest ring system?,Jupiter,Saturn,Uranus,Neptune,B,4,10,Science
+206,What is the capital of Vietnam?,Hanoi,Ho Chi Minh City,Da Nang,Huế,A,4,10,Geography
+207,What is 3/4 as a decimal?,0.25,0.5,0.75,1.0,C,4,10,Math
+208,Which is a type of cheese?,Cheddar,Mozzarella,Both,Neither,C,4,10,Food
+209,Which gas is used in fire extinguishers?,CO2,Oxygen,Nitrogen,Helium,A,4,10,Science
+210,Who painted the Sistine Chapel?,Da Vinci,Michelangelo,Raphael,Donatello,B,4,10,Arts
+211,What is the deepest lake in the world?,Baikal,Caspian,Tanganyika,Vostok,A,4,10,Geography
+212,What is 2.5 x 4?,8,9,10,11,C,4,10,Math
+213,Which element is used in jewelry?,Gold,Silver,Platinum,All,D,4,10,Science
+214,Which animal is a primary consumer?,Lion,Rabbit,Eagle,Snake,B,4,10,Science
+215,What is the capital of Portugal?,Madrid,Barcelona,Lisbon,Porto,C,4,10,Geography
+216,"Who wrote ""The Great Gatsby""?",Fitzgerald,Hemingway,Steinbeck,Faulkner,A,4,10,Literature
+217,What is the chemical symbol for lead?,Pb,Pe,Pd,Pl,A,4,10,Science
+218,Which planet has the most volcanoes?,Earth,Mars,Venus,Jupiter,C,4,10,Science
+219,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,4,10,Geography
+220,What is 5% of 200?,5,10,15,20,B,4,10,Math
+221,Which is a type of wood?,Oak,Pine,Both,Neither,C,4,10,Nature
+222,What is the main greenhouse gas?,CO2,Methane,Nitrous Oxide,Ozone,A,4,10,Science
+223,Which country invented the compass?,China,India,Persia,Egypt,A,4,10,History
+224,What is the capital of Switzerland?,Geneva,Zurich,Bern,Lucerne,C,4,10,Geography
+225,"Who wrote ""The Three Musketeers""?",Hugo,Dumas,Verne,Zola,B,4,10,Literature
+226,What is the atomic number of Oxygen?,6,8,10,12,B,4,10,Science
+227,Which is a type of electromagnetic wave?,Radio,Micro,Both,Neither,C,4,10,Science
+228,What is the fastest animal on land?,Lion,Cheetah,Horse,Antelope,B,4,10,Animals
+229,What is the capital of Peru?,Santiago,Lima,Bogotá,Caracas,B,4,10,Geography
+230,What is 18 x 5?,80,85,90,95,C,4,10,Math
+231,Which element is used in toothpaste?,Fluorine,Chlorine,Bromine,Iodine,A,4,10,Science
+232,Which planet has a moon named Europa?,Jupiter,Saturn,Neptune,Uranus,A,4,10,Science
+233,What is the largest desert in Asia?,Gobi,Sahara,Karakum,Thar,A,4,10,Geography
+234,"Who wrote ""The Canterbury Tales""?",Milton,Chaucer,Spenser,Shakespeare,B,4,10,Literature
+235,What is the chemical formula for ammonia?,NH3,CH4,H2O,CO2,A,4,10,Science
+236,Which is a type of volcano?,Shield,Cinder,Composite,All,D,4,10,Science
+237,What is the capital of Belgium?,Amsterdam,Brussels,Antwerp,Ghent,B,4,10,Geography
+238,What is 36 / 0.5?,18,36,72,144,C,4,10,Math
+239,Which animal has the strongest bite?,Crocodile,Shark,Lion,Tiger,A,4,10,Animals
+240,Which country invented the steam engine?,USA,UK,Germany,France,B,4,10,History
+241,What is the SI unit of electric current?,Volt,Ampere,Ohm,Watt,B,4,10,Science
+242,Which planet is known as the Ice Giant?,Neptune,Uranus,Both,Neither,C,4,10,Science
+243,What is the longest river in Asia?,Yangtze,Indus,Ganges,Mekong,A,4,10,Geography
+244,What is 25% of 400?,50,75,100,125,C,4,10,Math
+245,Which is a type of pasta sauce?,Marinara,Alfredo,Both,Neither,C,4,10,Food
+246,What is the lightest element?,Helium,Neon,Argon,Krypton,A,4,10,Science
+247,"Who painted ""The Last Supper""?",Da Vinci,Michelangelo,Raphael,Donatello,A,4,10,Arts
+248,What is the capital of Norway?,Stockholm,Helsinki,Oslo,Copenhagen,C,4,10,Geography
+249,What is 12^2?,124,134,144,154,C,5,10,Math
+250,Which element is used in nuclear reactors?,Uranium,Plutonium,Thorium,All,D,5,10,Science
+251,Which country has the most time zones?,Russia,USA,France,China,C,5,10,Geography
+252,"Who wrote ""The Brothers Karamazov""?",Dostoevsky,Tolstoy,Turgenev,Gogol,A,5,10,Literature
+253,What is the chemical formula for hydrogen peroxide?,H2O2,H2O,HO2,H2O3,A,5,10,Science
+254,What is the capital of Ukraine?,Moscow,Kiev,Minsk,Warsaw,B,5,10,Geography
+255,What is the square root of 169?,11,12,13,14,C,5,10,Math
+256,Which animal is a keystone species?,Sea Otter,Bear,Wolf,Eagle,A,5,10,Science
+257,Which planet has a moon named Ganymede?,Jupiter,Saturn,Uranus,Neptune,A,5,10,Science
+258,What is the largest continent?,Asia,Africa,North America,Europe,A,5,10,Geography
+259,Who developed the polio vaccine?,Salk,Sabin,Jenner,Pasteur,A,5,10,Science
+260,What is the SI unit of energy?,Joule,Newton,Watt,Pascal,A,5,10,Science
+261,Which country is the largest producer of oil?,USA,Russia,Saudi Arabia,Canada,C,5,10,Geography
+262,What is 5/8 as a percentage?,50%,62.5%,75%,87.5%,B,5,10,Math
+263,Which is a type of electromagnetic radiation?,X-ray,Gamma,Both,Neither,C,5,10,Science
+264,What is the capital of Iran?,Baghdad,Tehran,Riyadh,Ankara,B,5,10,Geography
+265,"Who wrote ""The Sound and the Fury""?",Faulkner,Hemingway,Steinbeck,Fitzgerald,A,5,10,Literature
+266,What is the chemical symbol for tin?,Sn,Sb,Ti,Tn,A,5,10,Science
+267,Which planet has the strongest magnetic field?,Jupiter,Saturn,Uranus,Neptune,A,5,10,Science
+268,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,5,10,Geography
+269,What is 15^2?,200,215,225,235,C,5,10,Math
+270,Which element is a metalloid?,Silicon,Germanium,Both,Neither,C,5,10,Science
+271,Which animal is a omnivore?,Bear,Tiger,Eagle,Shark,A,5,10,Animals
+272,What is the capital of Israel?,Jerusalem,Tel Aviv,Haifa,Beirut,A,5,10,Geography
+273,"Who wrote ""The Stranger""?",Sartre,Camus,Beckett,Ionesco,B,5,10,Literature
+274,What is the chemical formula for acetic acid?,H2SO4,HCl,CH3COOH,HNO3,C,5,10,Science
+275,Which is a type of galaxy?,Spiral,Elliptical,Both,Neither,C,5,10,Science
+276,What is the highest waterfall in the world?,Niagara,Angel Falls,Iguazu,Victoria,B,5,10,Geography
+277,What is 7/8 as a decimal?,0.125,0.375,0.625,0.875,D,5,10,Math
+278,Which element is a transition metal?,Iron,Copper,Gold,All,D,5,10,Science
+279,Which country is the largest exporter of natural gas?,Russia,Qatar,USA,Norway,A,5,10,Geography
+280,"Who painted ""Guernica""?",Picasso,Dali,Miro,Matisse,A,5,10,Arts
+281,What is the SI unit of power?,Joule,Newton,Watt,Pascal,C,5,10,Science
+282,Which planet has a moon named Triton?,Neptune,Uranus,Saturn,Jupiter,A,5,10,Science
+283,What is the capital of Morocco?,Rabat,Casablanca,Marrakech,Algiers,A,5,10,Geography
+284,What is 11^2?,111,121,131,141,B,5,10,Math
+285,Which is a type of chemical bond?,Covalent,Ionic,Both,Neither,C,5,10,Science
+286,Which animal has a three-chambered heart?,Reptile,Amphibian,Bird,Mammal,A,5,10,Science
+287,"Who wrote ""The Metamorphosis""?",Kafka,Hesse,Mann,Musil,A,5,10,Literature
+288,What is the chemical formula for nitric acid?,HNO3,H2SO4,HCl,H2CO3,A,5,10,Science
+289,Which country has the highest GDP?,USA,China,Japan,Germany,A,5,10,General Knowledge
+290,What is the deepest point in the ocean?,Mariana Trench,Tonga Trench,Japan Trench,Peru-Chile,A,5,10,Geography
+291,What is 0.75 x 8?,4,5,6,7,C,5,10,Math
+292,Which element is used in semiconductors?,Silicon,Germanium,Both,Neither,C,5,10,Science
+293,Which planet has the lowest density?,Saturn,Jupiter,Uranus,Neptune,A,5,10,Science
+294,What is the capital of Bangladesh?,Delhi,Dhaka,Kolkata,Islamabad,B,5,10,Geography
+295,"Who wrote ""The Old Man and the Sea""?",Hemingway,Fitzgerald,Steinbeck,Faulkner,A,5,10,Literature
+296,What is the chemical symbol for tungsten?,W,Tu,Tg,Tn,A,5,10,Science
+297,Which is a type of fossil fuel?,Coal,Oil,Natural Gas,All,D,5,10,Science
+298,What is the largest river by discharge?,Amazon,Congo,Yangtze,Mississippi,A,5,10,Geography
+299,What is 20^2?,300,350,400,450,C,5,10,Math
+300,Which element is a key component of chlorophyll?,Iron,Magnesium,Calcium,Potassium,B,5,10,Science
+301,Which animal is a protostome?,Insect,Mollusk,Both,Neither,C,5,10,Science
+302,What is the capital of Sudan?,Khartoum,Juba,Nairobi,Addis Ababa,A,5,10,Geography
+303,"Who wrote ""Beloved""?",Morrison,Walker,Hurston,Angelou,A,5,10,Literature
+304,What is the chemical formula for hydrochloric acid?,HCl,H2SO4,HNO3,CH3COOH,A,5,10,Science
+305,Which is a type of cell division?,Mitosis,Meiosis,Both,Neither,C,5,10,Science
+306,Which country has the most Nobel laureates?,USA,UK,Germany,France,A,5,10,General Knowledge
+307,What is the longest glacier in the world?,Lambert,Aletsch,Perito Moreno,Siachen,A,5,10,Geography
+308,What is 0.2 x 0.3?,0.05,0.06,0.07,0.08,B,5,10,Math
+309,Which element is a liquid at room temp?,Bromine,Mercury,Both,Neither,C,5,10,Science
+310,Which planet has a moon named Dione?,Saturn,Jupiter,Uranus,Neptune,A,5,10,Science
+311,What is the capital of Pakistan?,Delhi,Islamabad,Karachi,Lahore,B,5,10,Geography
+312,"Who wrote ""The Handmaid's Tale""?",Atwood,Le Guin,Butler,Orwell,A,5,10,Literature
+313,What is the chemical formula for sulfuric acid?,H2SO4,HCl,HNO3,NaOH,A,5,10,Science
+314,Which is a type of RNA?,mRNA,tRNA,rRNA,All,D,5,10,Science
+315,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,5,10,Geography
+316,What is 6.5 x 4?,24,26,28,30,B,5,10,Math
+317,Which element is a noble gas?,Argon,Neon,Both,Neither,C,6,10,Science
+318,Which animal has a four-chambered heart?,Mammal,Bird,Both,Neither,C,6,10,Science
+319,Which country has the most freshwater?,Russia,Canada,Brazil,USA,B,6,10,Geography
+320,"Who wrote ""The Idiot""?",Dostoevsky,Tolstoy,Turgenev,Gogol,A,6,10,Literature
+321,What is the chemical formula for phosphoric acid?,H3PO4,H2SO4,HCl,HNO3,A,6,10,Science
+322,What is the capital of Ethiopia?,Khartoum,Addis Ababa,Nairobi,Asmara,B,6,10,Geography
+323,What is the square root of 225?,12,13,14,15,D,6,10,Math
+324,Which is a type of plant tissue?,Xylem,Phloem,Both,Neither,C,6,10,Science
+325,Which planet has a moon named Oberon?,Uranus,Neptune,Saturn,Jupiter,A,6,10,Science
+326,What is the largest ocean basin?,Pacific,Atlantic,Indian,Arctic,A,6,10,Geography
+327,Who discovered penicillin?,Fleming,Pasteur,Koch,Jenner,A,6,10,Science
+328,What is the SI unit of volume?,Liter,Cubic meter,Gallon,Quart,B,6,10,Science
+329,Which country is the largest diamond producer?,Russia,Botswana,Canada,South Africa,B,6,10,Geography
+330,What is 13^2?,159,169,179,189,B,6,10,Math
+331,Which element is a lanthanide?,Cerium,Neodymium,Both,Neither,C,6,10,Science
+332,Which animal is a deuterostome?,Chordate,Echinoderm,Both,Neither,C,6,10,Science
+333,What is the capital of Nigeria?,Lagos,Abuja,Kano,Ibadan,B,6,10,Geography
+334,"Who wrote ""The Bell Jar""?",Plath,Walker,Morrison,Atwood,A,6,10,Literature
+335,What is the chemical formula for calcium carbonate?,CaCO3,Ca(OH)2,CaSO4,CaO,A,6,10,Science
+336,Which is a type of chromosomal mutation?,Deletion,Duplication,Inversion,All,D,6,10,Science
+337,What is the longest mountain range in the world?,Andes,Himalayas,Rockies,Alps,A,6,10,Geography
+338,What is 1/3 as a decimal?,0.3,0.33,0.333,0.3333,C,6,10,Math
+339,Which element is a catalyst in catalytic converters?,Platinum,Rhodium,Both,Neither,C,6,10,Science
+340,Which planet has a moon named Miranda?,Uranus,Neptune,Saturn,Jupiter,A,6,10,Science
+341,What is the capital of Ghana?,Lagos,Accra,Nairobi,Dakar,B,6,10,Geography
+342,"Who wrote ""A Room of One's Own""?",Woolf,Beauvoir,Atwood,Plath,A,6,10,Literature
+343,What is the chemical formula for sodium hydroxide?,NaOH,NaCl,Na2CO3,NaHCO3,A,6,10,Science
+344,Which is a type of genetic inheritance?,Dominant,Recessive,Both,Neither,C,6,10,Science
+345,What is the largest delta in the world?,Sundarbans,Mekong,Amazon,Nile,A,6,10,Geography
+346,What is 4/9 as a percentage?,44.4%,45%,50%,55%,A,6,10,Math
+347,Which element is used in batteries?,Lithium,Ion,Both,Neither,C,6,10,Science
+348,Which animal is a filter feeder?,Baleen whale,Shark,Tuna,Octopus,A,6,10,Science
+349,What is the capital of Afghanistan?,Kabul,Tehran,Islamabad,Delhi,A,6,10,Geography
+350,"Who wrote ""The Color Purple""?",Walker,Morrison,Angelou,Hurston,A,6,10,Literature
+351,What is the chemical formula for methane?,CH4,CO2,H2O,NH3,A,6,10,Science
+352,Which is a type of enzyme?,Amylase,Lipase,Protease,All,D,6,10,Science
+353,Which planet has a moon named Ariel?,Uranus,Neptune,Saturn,Jupiter,A,6,10,Science
+354,What is the longest river in Australia?,Murray,Darling,Murrumbidgee,Lachlan,A,6,10,Geography
+355,What is 8^3?,512,516,520,524,A,6,10,Math
+356,Which element is used in nuclear fission?,Uranium,Plutonium,Both,Neither,C,6,10,Science
+357,Which animal is a cephalopod?,Octopus,Squid,Both,Neither,C,6,10,Science
+358,What is the capital of Iraq?,Baghdad,Tehran,Riyadh,Ankara,A,6,10,Geography
+359,"Who wrote ""The Beautiful and Damned""?",Fitzgerald,Hemingway,Steinbeck,Faulkner,A,6,10,Literature
+360,What is the chemical formula for ammonia?,NH3,CH4,H2O,CO2,A,6,10,Science
+361,Which is a type of genetic disorder?,Cystic fibrosis,Sickle cell,Both,Neither,C,6,10,Science
+362,What is the highest point in North America?,Denali,Whitney,Elbert,Logan,A,6,10,Geography
+363,What is 0.125 as a fraction?,1/8,1/4,3/8,1/2,A,6,10,Math
+364,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,6,10,Science
+365,Which planet has a moon named Rhea?,Saturn,Jupiter,Uranus,Neptune,A,6,10,Science
+366,What is the capital of Laos?,Hanoi,Bangkok,Vientiane,Phnom Penh,C,6,10,Geography
+367,"Who wrote ""The Sun Also Rises""?",Hemingway,Fitzgerald,Steinbeck,Faulkner,A,6,10,Literature
+368,What is the chemical formula for water?,H2O,CO2,NaCl,O2,A,7,10,Science
+369,Which is a type of blood vessel?,Artery,Vein,Capillary,All,D,7,10,Science
+370,Which country has the most gold reserves?,USA,Germany,Italy,China,A,7,10,Geography
+371,"Who wrote ""The Trial""?",Kafka,Hesse,Mann,Musil,A,7,10,Literature
+372,What is the chemical formula for glucose?,C6H12O6,CH2O,C12H22O11,C6H10O5,A,7,10,Science
+373,What is the capital of Yemen?,Sana'a,Riyadh,Muscat,Abu Dhabi,A,7,10,Geography
+374,What is the square root of 400?,15,18,20,22,C,7,10,Math
+375,Which is a type of nucleic acid?,DNA,RNA,Both,Neither,C,7,10,Science
+376,Which planet has a moon named Titania?,Uranus,Neptune,Saturn,Jupiter,A,7,10,Science
+377,What is the largest lake in Africa?,Victoria,Tanganyika,Malawi,Chad,A,7,10,Geography
+378,Who developed the theory of evolution?,Darwin,Wallace,Both,Neither,C,7,10,Science
+379,What is the SI unit of temperature?,Celsius,Kelvin,Fahrenheit,Rankine,B,7,10,Science
+380,Which country is the largest wheat exporter?,USA,Canada,Russia,Ukraine,C,7,10,Geography
+381,What is 14^2?,176,186,196,206,C,7,10,Math
+382,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,7,10,Science
+383,Which animal is a marsupial?,Kangaroo,Koala,Both,Neither,C,7,10,Animals
+384,What is the capital of Myanmar?,Bangkok,Yangon,Naypyidaw,Vientiane,C,7,10,Geography
+385,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,7,10,Literature
+386,What is the chemical formula for carbon dioxide?,CO2,CO,H2CO3,CH4,A,7,10,Science
+387,Which is a type of rock?,Igneous,Sedimentary,Metamorphic,All,D,7,10,Science
+388,What is the highest point in Europe?,Elbrus,Mont Blanc,Whitney,Logan,A,7,10,Geography
+389,What is 2/3 as a decimal?,0.5,0.6,0.66,0.666,D,7,10,Math
+390,Which element is a component of chlorophyll?,Magnesium,Iron,Copper,Zinc,A,7,10,Science
+391,Which planet has a moon named Io?,Jupiter,Saturn,Uranus,Neptune,A,7,10,Science
+392,What is the capital of Syria?,Damascus,Beirut,Amman,Baghdad,A,7,10,Geography
+393,"Who wrote ""The Age of Innocence""?",Wharton,James,Cather,Chopin,A,7,10,Literature
+394,What is the chemical formula for potassium permanganate?,KMnO4,K2Cr2O7,KClO3,KNO3,A,7,10,Science
+395,Which is a type of immune cell?,T-cell,B-cell,Both,Neither,C,7,10,Science
+396,What is the largest island in the Mediterranean?,Sicily,Sardinia,Cyprus,Crete,A,7,10,Geography
+397,What is 15% of 200?,20,25,30,35,C,7,10,Math
+398,Which element is a key component of bones?,Calcium,Phosphorus,Both,Neither,C,7,10,Science
+399,Which animal is a monotreme?,Platypus,Echidna,Both,Neither,C,7,10,Animals
+400,What is the capital of Cambodia?,Hanoi,Bangkok,Phnom Penh,Vientiane,C,7,10,Geography
+401,"Who wrote ""The Ambassadors""?",James,Wharton,Cather,Chopin,A,7,10,Literature
+402,What is the chemical formula for ethanol?,C2H5OH,CH3OH,C3H7OH,C4H9OH,A,7,10,Science
+403,Which is a type of radiation?,Alpha,Beta,Gamma,All,D,7,10,Science
+404,What is the longest river in Europe?,Volga,Danube,Rhine,Elbe,A,7,10,Geography
+405,What is 0.375 as a fraction?,3/8,1/4,5/8,7/8,A,7,10,Math
+406,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,7,10,Science
+407,Which planet has a moon named Callisto?,Jupiter,Saturn,Uranus,Neptune,A,7,10,Science
+408,What is the capital of Romania?,Warsaw,Bucharest,Sofia,Budapest,B,7,10,Geography
+409,"Who wrote ""The Awakening""?",Chopin,Wharton,Cather,James,A,7,10,Literature
+410,What is the chemical formula for hydrogen gas?,H2,H,HO,H2O,A,7,10,Science
+411,Which is a type of fossil fuel?,Coal,Oil,Natural Gas,All,D,7,10,Science
+412,What is the highest point in South America?,Aconcagua,Denali,Elbrus,Whitney,A,7,10,Geography
+413,What is 7/9 as a percentage?,77.7%,78%,79%,80%,A,7,10,Math
+414,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,8,10,Science
+415,Which animal is a hagfish?,Vertebrate,Invertebrate,Both,Neither,B,8,10,Science
+416,Which country has the most natural resources?,USA,Russia,China,Saudi Arabia,B,8,10,Geography
+417,"Who wrote ""The Moon and Sixpence""?",Maugham,Huxley,Orwell,Greene,A,8,10,Literature
+418,What is the chemical formula for pyrite?,FeS2,Fe2O3,FeS,Fe3O4,A,8,10,Science
+419,What is the capital of Turkmenistan?,Ashgabat,Baku,Tashkent,Dushanbe,A,8,10,Geography
+420,What is the square root of 625?,15,20,25,30,C,8,10,Math
+421,Which is a type of metabolic pathway?,Glycolysis,Krebs cycle,Both,Neither,C,8,10,Science
+422,Which planet has a moon named Enceladus?,Saturn,Jupiter,Uranus,Neptune,A,8,10,Science
+423,What is the largest river in Europe?,Volga,Danube,Rhine,Elbe,A,8,10,Geography
+424,Who discovered X-rays?,Röntgen,Becquerel,Curie,Thomson,A,8,10,Science
+425,What is the SI unit of luminous intensity?,Candela,Lumen,Lux,Watt,A,8,10,Science
+426,Which country is the largest silver producer?,Mexico,China,Peru,Australia,A,8,10,Geography
+427,What is 16^2?,226,236,246,256,D,8,10,Math
+428,Which element is a key component of chlorophyll?,Magnesium,Iron,Copper,Zinc,A,8,10,Science
+429,Which animal is a lophotrochozoan?,Annelid,Mollusk,Both,Neither,C,8,10,Science
+430,What is the capital of Estonia?,Tallinn,Riga,Vilnius,Helsinki,A,8,10,Geography
+431,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,8,10,Literature
+432,What is the chemical formula for sulfur dioxide?,SO2,SO3,H2SO4,H2S,A,8,10,Science
+433,Which is a type of RNA?,mRNA,tRNA,rRNA,All,D,8,10,Science
+434,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,8,10,Geography
+435,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,8,10,Math
+436,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,8,10,Science
+437,Which planet has a moon named Dione?,Saturn,Jupiter,Uranus,Neptune,A,8,10,Science
+438,What is the capital of Latvia?,Tallinn,Riga,Vilnius,Helsinki,B,8,10,Geography
+439,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,8,10,Literature
+440,What is the chemical formula for nitrogen gas?,N2,N,HN3,NO2,A,8,10,Science
+441,Which is a type of electromagnetic wave?,Microwave,Infrared,Both,Neither,C,8,10,Science
+442,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,8,10,Geography
+443,What is 9/16 as a percentage?,56.25%,60%,62.5%,65%,A,8,10,Math
+444,Which element is a key component of vitamin B12?,Cobalt,Iron,Zinc,Copper,A,8,10,Science
+445,Which animal is a cnidarian?,Jellyfish,Coral,Both,Neither,C,8,10,Science
+446,What is the capital of Lithuania?,Tallinn,Riga,Vilnius,Helsinki,C,8,10,Geography
+447,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,8,10,Literature
+448,What is the chemical formula for ozone?,O3,O2,O,OH,A,8,10,Science
+449,Which is a type of genetic inheritance?,Autosomal dominant,Autosomal recessive,Both,Neither,C,8,10,Science
+450,What is the highest point in Antarctica?,Vinson,Whitney,Elbrus,Denali,A,8,10,Geography
+451,What is 0.875 as a fraction?,7/8,3/8,5/8,1/8,A,8,10,Math
+452,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,8,10,Science
+453,Which planet has a moon named Titan?,Saturn,Jupiter,Uranus,Neptune,A,8,10,Science
+454,What is the capital of Belarus?,Minsk,Kiev,Warsaw,Moscow,A,8,10,Geography
+455,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,8,10,Literature
+456,What is the chemical formula for carbon monoxide?,CO,CO2,H2CO3,CH4,A,8,10,Science
+457,Which is a type of RNA?,MicroRNA,Small interfering RNA,Both,Neither,C,8,10,Science
+458,What is the longest river in Africa?,Nile,Congo,Niger,Zambezi,A,8,10,Geography
+459,What is 4/7 as a decimal?,0.571,0.5,0.6,0.7,A,8,10,Math
+460,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,8,10,Science
+461,Which animal is a echinoderm?,Starfish,Sea urchin,Both,Neither,C,8,10,Science
+462,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,8,10,Geography
+463,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,8,10,Literature
+464,What is the chemical formula for sulfur trioxide?,SO3,SO2,H2SO4,H2S,A,8,10,Science
+465,Which is a type of chromosome?,Autosome,Sex chromosome,Both,Neither,C,8,10,Science
+466,What is the highest point in the UK?,Ben Nevis,Scafell,Snowdon,Cairn Gorm,A,8,10,Geography
+467,What is 5/6 as a percentage?,83.3%,80%,85%,90%,A,8,10,Math
+468,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,8,10,Science
+469,Which planet has a moon named Rhea?,Saturn,Jupiter,Uranus,Neptune,A,8,10,Science
+470,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,8,10,Geography
+471,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,8,10,Literature
+472,What is the chemical formula for hydrogen sulfide?,H2S,H2SO4,SO2,H2O,A,8,10,Science
+473,Which is a type of cell?,Eukaryotic,Prokaryotic,Both,Neither,C,9,10,Science
+474,What is the longest river in Asia?,Yangtze,Indus,Ganges,Mekong,A,9,10,Geography
+475,What is 11/12 as a decimal?,0.916,0.9,0.95,0.99,A,9,10,Math
+476,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,9,10,Science
+477,Which animal is a nematode?,Roundworm,Hookworm,Both,Neither,C,9,10,Science
+478,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,9,10,Geography
+479,"Who wrote ""The Spoils of Poynton""?",James,Wharton,Cather,Chopin,A,9,10,Literature
+480,What is the chemical formula for hydrochloric acid?,HCl,H2SO4,HNO3,CH3COOH,A,9,10,Science
+481,Which is a type of biochemical molecule?,Protein,DNA,Both,Neither,C,9,10,Science
+482,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,9,10,Geography
+483,What is 5/8 as a decimal?,0.625,0.5,0.75,0.8,A,9,10,Math
+484,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,9,10,Science
+485,Which planet has a moon named Miranda?,Uranus,Neptune,Saturn,Jupiter,A,9,10,Science
+486,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,9,10,Geography
+487,"Who wrote ""The Turn of the Screw""?",James,Wharton,Cather,Chopin,A,9,10,Literature
+488,What is the chemical formula for hydrogen peroxide?,H2O2,H2O,HO2,H2O3,A,9,10,Science
+489,Which is a type of RNA?,Small nuclear RNA,Small nucleolar RNA,Both,Neither,C,9,10,Science
+490,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,9,10,Geography
+491,What is 3/7 as a decimal?,0.428,0.4,0.5,0.6,A,9,10,Math
+492,Which element is a key component of vitamin B12?,Cobalt,Iron,Zinc,Copper,A,9,10,Science
+493,Which animal is a annelid?,Earthworm,Leech,Both,Neither,C,9,10,Science
+494,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,9,10,Geography
+495,"Who wrote ""The Aspern Papers""?",James,Wharton,Cather,Chopin,A,9,10,Literature
+496,What is the chemical formula for nitrogen dioxide?,NO2,N2O,NO,N2O4,A,9,10,Science
+497,Which is a type of mutation?,Point mutation,Chromosomal mutation,Both,Neither,C,9,10,Science
+498,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,9,10,Geography
+499,What is 0.375 as a decimal?,0.375,0.3,0.4,0.5,A,9,10,Math
+500,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,9,10,Science
+501,Which planet has a moon named Enceladus?,Saturn,Jupiter,Uranus,Neptune,A,9,10,Science
+502,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,9,10,Geography
+503,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,9,10,Literature
+504,What is the chemical formula for phosphoric acid?,H3PO4,H2SO4,HCl,HNO3,A,9,10,Science
+505,Which is a type of cell division?,Mitosis,Meiosis,Both,Neither,C,9,10,Science
+506,What is the longest river in Europe?,Volga,Danube,Rhine,Elbe,A,9,10,Geography
+507,What is 7/10 as a percentage?,70%,75%,80%,85%,A,9,10,Math
+508,Which element is a key component of chlorophyll?,Magnesium,Iron,Copper,Zinc,A,9,10,Science
+509,Which animal is a arthropod?,Insect,Crustacean,Both,Neither,C,9,10,Science
+510,What is the capital of Uzbekistan?,Tashkent,Ashgabat,Bishkek,Dushanbe,A,9,10,Geography
+511,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,9,10,Literature
+512,What is the chemical formula for sulfuric acid?,H2SO4,HCl,HNO3,NaOH,A,9,10,Science
+513,Which is a type of mutation?,Nonsense mutation,Missense mutation,Both,Neither,C,9,10,Science
+514,What is the highest point in South America?,Aconcagua,Denali,Elbrus,Whitney,A,9,10,Geography
+515,What is 2/7 as a decimal?,0.285,0.2,0.3,0.4,A,9,10,Math
+516,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,9,10,Science
+517,Which planet has a moon named Ganymede?,Jupiter,Saturn,Uranus,Neptune,A,9,10,Science
+518,What is the capital of Turkmenistan?,Ashgabat,Baku,Tashkent,Dushanbe,A,9,10,Geography
+519,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,9,10,Literature
+520,What is the chemical formula for acetic acid?,CH3COOH,H2SO4,HCl,HNO3,A,9,10,Science
+521,Which is a type of protein?,Enzyme,Hormone,Both,Neither,C,9,10,Science
+522,What is the longest river in Australia?,Murray,Darling,Murrumbidgee,Lachlan,A,9,10,Geography
+523,What is 3/8 as a decimal?,0.375,0.3,0.4,0.5,A,9,10,Math
+524,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,9,10,Science
+525,Which animal is a mollusk?,Snail,Octopus,Both,Neither,C,9,10,Science
+526,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,9,10,Geography
+527,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,9,10,Literature
+528,What is the chemical formula for ammonia?,NH3,CH4,H2O,CO2,A,10,10,Science
+529,Which is a type of cell?,Plant cell,Animal cell,Both,Neither,C,10,10,Science
+530,What is the highest point in Europe?,Elbrus,Mont Blanc,Whitney,Logan,A,10,10,Geography
+531,What is 11/16 as a decimal?,0.6875,0.6,0.7,0.75,A,10,10,Math
+532,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,10,10,Science
+533,Which planet has a moon named Europa?,Jupiter,Saturn,Uranus,Neptune,A,10,10,Science
+534,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,10,10,Geography
+535,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,10,10,Literature
+536,What is the chemical formula for sulfur dioxide?,SO2,SO3,H2SO4,H2S,A,10,10,Science
+537,Which is a type of mutation?,Frameshift mutation,Point mutation,Both,Neither,C,10,10,Science
+538,What is the longest river in Asia?,Yangtze,Indus,Ganges,Mekong,A,10,10,Geography
+539,What is 5/9 as a decimal?,0.555,0.5,0.6,0.7,A,10,10,Math
+540,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,10,10,Science
+541,Which animal is a chordate?,Fish,Bird,Both,Neither,C,10,10,Science
+542,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,10,10,Geography
+543,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,10,10,Literature
+544,What is the chemical formula for hydrogen sulfide?,H2S,H2SO4,SO2,H2O,A,10,10,Science
+545,Which is a type of RNA?,mRNA,tRNA,rRNA,All,D,10,10,Science
+546,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,10,10,Geography
+547,What is 7/12 as a decimal?,0.583,0.5,0.6,0.7,A,10,10,Math
+548,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,10,10,Science
+549,Which planet has a moon named Callisto?,Jupiter,Saturn,Uranus,Neptune,A,10,10,Science
+550,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,10,10,Geography
+551,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,10,10,Literature
+552,What is the chemical formula for nitrogen gas?,N2,N,HN3,NO2,A,10,10,Science
+553,Which is a type of mutation?,Deletion,Duplication,Both,Neither,C,10,10,Science
+554,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,10,10,Geography
+555,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,10,10,Math
+556,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,10,10,Science
+557,Which animal is a echinoderm?,Starfish,Sea urchin,Both,Neither,C,10,10,Science
+558,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,10,10,Geography
+559,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,10,10,Literature
+560,What is the chemical formula for carbon monoxide?,CO,CO2,H2CO3,CH4,A,10,10,Science
+561,Which is a type of protein?,Collagen,Myosin,Both,Neither,C,10,10,Science
+562,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,10,10,Geography
+563,What is 3/16 as a decimal?,0.1875,0.2,0.25,0.3,A,10,10,Math
+564,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,10,10,Science
+565,Which planet has a moon named Titan?,Saturn,Jupiter,Uranus,Neptune,A,10,10,Science
+566,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,10,10,Geography
+567,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,10,10,Literature
+568,What is the chemical formula for ozone?,O3,O2,O,OH,A,10,10,Science
+569,Which is a type of cell?,Eukaryotic,Prokaryotic,Both,Neither,C,10,10,Science
+570,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,10,10,Geography
+571,What is 5/16 as a decimal?,0.3125,0.3,0.4,0.5,A,10,10,Math
+572,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,10,10,Science
+573,Which animal is a cnidarian?,Jellyfish,Coral,Both,Neither,C,10,10,Science
+574,What is the capital of Uzbekistan?,Tashkent,Ashgabat,Bishkek,Dushanbe,A,10,10,Geography
+575,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,10,10,Literature
+576,What is the chemical formula for hydrogen peroxide?,H2O2,H2O,HO2,H2O3,A,10,10,Science
+577,Which is a type of mutation?,Inversion,Translocation,Both,Neither,C,11,10,Science
+578,What is the highest point in North America?,Denali,Whitney,Elbert,Logan,A,11,10,Geography
+579,What is 7/16 as a decimal?,0.4375,0.4,0.5,0.6,A,11,10,Math
+580,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,11,10,Science
+581,Which planet has a moon named Miranda?,Uranus,Neptune,Saturn,Jupiter,A,11,10,Science
+582,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,11,10,Geography
+583,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,11,10,Literature
+584,What is the chemical formula for sulfur trioxide?,SO3,SO2,H2SO4,H2S,A,11,10,Science
+585,Which is a type of protein?,Keratin,Elastin,Both,Neither,C,11,10,Science
+586,What is the longest river in Europe?,Volga,Danube,Rhine,Elbe,A,11,10,Geography
+587,What is 9/16 as a decimal?,0.5625,0.5,0.6,0.7,A,11,10,Math
+588,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,11,10,Science
+589,Which animal is a nematode?,Roundworm,Hookworm,Both,Neither,C,11,10,Science
+590,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,11,10,Geography
+591,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,11,10,Literature
+592,What is the chemical formula for nitric acid?,HNO3,H2SO4,HCl,H2CO3,A,11,10,Science
+593,Which is a type of mutation?,Missense mutation,Nonsense mutation,Both,Neither,C,11,10,Science
+594,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,11,10,Geography
+595,What is 11/16 as a decimal?,0.6875,0.6,0.7,0.75,A,11,10,Math
+596,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,11,10,Science
+597,Which planet has a moon named Enceladus?,Saturn,Jupiter,Uranus,Neptune,A,11,10,Science
+598,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,11,10,Geography
+599,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,11,10,Literature
+600,What is the chemical formula for phosphoric acid?,H3PO4,H2SO4,HCl,HNO3,A,11,10,Science
+601,Which is a type of cell?,Plant cell,Animal cell,Both,Neither,C,11,10,Science
+602,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,11,10,Geography
+603,What is 5/8 as a decimal?,0.625,0.5,0.75,0.8,A,11,10,Math
+604,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,11,10,Science
+605,Which animal is a arthropod?,Insect,Crustacean,Both,Neither,C,11,10,Science
+606,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,11,10,Geography
+607,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,11,10,Literature
+608,What is the chemical formula for ammonia?,NH3,CH4,H2O,CO2,A,11,10,Science
+609,Which is a type of mutation?,Point mutation,Chromosomal mutation,Both,Neither,C,11,10,Science
+610,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,11,10,Geography
+611,What is 3/7 as a decimal?,0.428,0.4,0.5,0.6,A,11,10,Math
+612,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,11,10,Science
+613,Which planet has a moon named Ganymede?,Jupiter,Saturn,Uranus,Neptune,A,11,10,Science
+614,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,11,10,Geography
+615,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,11,10,Literature
+616,What is the chemical formula for hydrogen sulfide?,H2S,H2SO4,SO2,H2O,A,11,10,Science
+617,Which is a type of protein?,Globulin,Albumin,Both,Neither,C,11,10,Science
+618,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,11,10,Geography
+619,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,11,10,Math
+620,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,11,10,Science
+621,Which animal is a echinoderm?,Starfish,Sea urchin,Both,Neither,C,11,10,Science
+622,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,11,10,Geography
+623,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,11,10,Literature
+624,What is the chemical formula for nitrogen dioxide?,NO2,N2O,NO,N2O4,A,11,10,Science
+625,Which is a type of mutation?,Frameshift mutation,Point mutation,Both,Neither,C,12,10,Science
+626,What is the highest point in Europe?,Elbrus,Mont Blanc,Whitney,Logan,A,12,10,Geography
+627,What is 7/12 as a decimal?,0.583,0.5,0.6,0.7,A,12,10,Math
+628,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,12,10,Science
+629,Which planet has a moon named Callisto?,Jupiter,Saturn,Uranus,Neptune,A,12,10,Science
+630,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,12,10,Geography
+631,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,12,10,Literature
+632,What is the chemical formula for sulfuric acid?,H2SO4,HCl,HNO3,NaOH,A,12,10,Science
+633,Which is a type of RNA?,mRNA,tRNA,rRNA,All,D,12,10,Science
+634,What is the longest river in Asia?,Yangtze,Indus,Ganges,Mekong,A,12,10,Geography
+635,What is 9/16 as a percentage?,56.25%,60%,62.5%,65%,A,12,10,Math
+636,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,12,10,Science
+637,Which animal is a chordate?,Fish,Bird,Both,Neither,C,12,10,Science
+638,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,12,10,Geography
+639,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,12,10,Literature
+640,What is the chemical formula for hydrochloric acid?,HCl,H2SO4,HNO3,CH3COOH,A,12,10,Science
+641,Which is a type of protein?,Histone,Protamine,Both,Neither,C,12,10,Science
+642,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,12,10,Geography
+643,What is 11/16 as a decimal?,0.6875,0.6,0.7,0.75,A,12,10,Math
+644,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,12,10,Science
+645,Which planet has a moon named Titan?,Saturn,Jupiter,Uranus,Neptune,A,12,10,Science
+646,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,12,10,Geography
+647,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,12,10,Literature
+648,What is the chemical formula for acetic acid?,CH3COOH,H2SO4,HCl,HNO3,A,12,10,Science
+649,Which is a type of mutation?,Deletion,Duplication,Both,Neither,C,12,10,Science
+650,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,12,10,Geography
+651,What is 5/8 as a decimal?,0.625,0.5,0.75,0.8,A,12,10,Math
+652,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,12,10,Science
+653,Which animal is a mollusk?,Snail,Octopus,Both,Neither,C,12,10,Science
+654,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,12,10,Geography
+655,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,12,10,Literature
+656,What is the chemical formula for hydrogen peroxide?,H2O2,H2O,HO2,H2O3,A,12,10,Science
+657,Which is a type of cell?,Eukaryotic,Prokaryotic,Both,Neither,C,12,10,Science
+658,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,12,10,Geography
+659,What is 3/7 as a decimal?,0.428,0.4,0.5,0.6,A,12,10,Math
+660,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,12,10,Science
+661,Which planet has a moon named Miranda?,Uranus,Neptune,Saturn,Jupiter,A,12,10,Science
+662,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,12,10,Geography
+663,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,12,10,Literature
+664,What is the chemical formula for nitrogen gas?,N2,N,HN3,NO2,A,12,10,Science
+665,Which is a type of protein?,Collagen,Myosin,Both,Neither,C,12,10,Science
+666,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,12,10,Geography
+667,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,12,10,Math
+668,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,12,10,Science
+669,Which animal is a nematode?,Roundworm,Hookworm,Both,Neither,C,12,10,Science
+670,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,12,10,Geography
+671,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,12,10,Literature
+672,What is the chemical formula for sulfur dioxide?,SO2,SO3,H2SO4,H2S,A,12,10,Science
+673,Which is a type of mutation?,Inversion,Translocation,Both,Neither,C,13,10,Science
+674,What is the highest point in North America?,Denali,Whitney,Elbert,Logan,A,13,10,Geography
+675,What is 7/12 as a decimal?,0.583,0.5,0.6,0.7,A,13,10,Math
+676,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,13,10,Science
+677,Which planet has a moon named Enceladus?,Saturn,Jupiter,Uranus,Neptune,A,13,10,Science
+678,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,13,10,Geography
+679,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,13,10,Literature
+680,What is the chemical formula for phosphoric acid?,H3PO4,H2SO4,HCl,HNO3,A,13,10,Science
+681,Which is a type of RNA?,MicroRNA,Small interfering RNA,Both,Neither,C,13,10,Science
+682,What is the longest river in Europe?,Volga,Danube,Rhine,Elbe,A,13,10,Geography
+683,What is 9/16 as a decimal?,0.5625,0.5,0.6,0.7,A,13,10,Math
+684,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,13,10,Science
+685,Which animal is a arthropod?,Insect,Crustacean,Both,Neither,C,13,10,Science
+686,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,13,10,Geography
+687,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,13,10,Literature
+688,What is the chemical formula for nitric acid?,HNO3,H2SO4,HCl,H2CO3,A,13,10,Science
+689,Which is a type of protein?,Keratin,Elastin,Both,Neither,C,13,10,Science
+690,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,13,10,Geography
+691,What is 11/16 as a decimal?,0.6875,0.6,0.7,0.75,A,13,10,Math
+692,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,13,10,Science
+693,Which planet has a moon named Titan?,Saturn,Jupiter,Uranus,Neptune,A,13,10,Science
+694,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,13,10,Geography
+695,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,13,10,Literature
+696,What is the chemical formula for ammonia?,NH3,CH4,H2O,CO2,A,13,10,Science
+697,Which is a type of mutation?,Point mutation,Chromosomal mutation,Both,Neither,C,13,10,Science
+698,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,13,10,Geography
+699,What is 5/8 as a decimal?,0.625,0.5,0.75,0.8,A,13,10,Math
+700,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,13,10,Science
+701,Which animal is a echinoderm?,Starfish,Sea urchin,Both,Neither,C,13,10,Science
+702,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,13,10,Geography
+703,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,13,10,Literature
+704,What is the chemical formula for hydrogen sulfide?,H2S,H2SO4,SO2,H2O,A,13,10,Science
+705,Which is a type of cell?,Plant cell,Animal cell,Both,Neither,C,13,10,Science
+706,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,13,10,Geography
+707,What is 3/7 as a decimal?,0.428,0.4,0.5,0.6,A,13,10,Math
+708,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,13,10,Science
+709,Which planet has a moon named Callisto?,Jupiter,Saturn,Uranus,Neptune,A,13,10,Science
+710,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,13,10,Geography
+711,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,13,10,Literature
+712,What is the chemical formula for nitrogen dioxide?,NO2,N2O,NO,N2O4,A,13,10,Science
+713,Which is a type of protein?,Globulin,Albumin,Both,Neither,C,13,10,Science
+714,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,13,10,Geography
+715,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,13,10,Math
+716,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,13,10,Science
+717,Which animal is a chordate?,Fish,Bird,Both,Neither,C,13,10,Science
+718,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,13,10,Geography
+719,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,13,10,Literature
+720,What is the chemical formula for sulfuric acid?,H2SO4,HCl,HNO3,NaOH,A,13,10,Science
+721,Which is a type of mutation?,Frameshift mutation,Point mutation,Both,Neither,C,14,10,Science
+722,What is the highest point in Europe?,Elbrus,Mont Blanc,Whitney,Logan,A,14,10,Geography
+723,What is 7/12 as a decimal?,0.583,0.5,0.6,0.7,A,14,10,Math
+724,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,14,10,Science
+725,Which planet has a moon named Ganymede?,Jupiter,Saturn,Uranus,Neptune,A,14,10,Science
+726,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,14,10,Geography
+727,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,14,10,Literature
+728,What is the chemical formula for hydrochloric acid?,HCl,H2SO4,HNO3,CH3COOH,A,14,10,Science
+729,Which is a type of RNA?,mRNA,tRNA,rRNA,All,D,14,10,Science
+730,What is the longest river in Asia?,Yangtze,Indus,Ganges,Mekong,A,14,10,Geography
+731,What is 9/16 as a percentage?,56.25%,60%,62.5%,65%,A,14,10,Math
+732,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,14,10,Science
+733,Which animal is a mollusk?,Snail,Octopus,Both,Neither,C,14,10,Science
+734,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,14,10,Geography
+735,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,14,10,Literature
+736,What is the chemical formula for acetic acid?,CH3COOH,H2SO4,HCl,HNO3,A,14,10,Science
+737,Which is a type of mutation?,Deletion,Duplication,Both,Neither,C,14,10,Science
+738,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,14,10,Geography
+739,What is 11/16 as a decimal?,0.6875,0.6,0.7,0.75,A,14,10,Math
+740,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,14,10,Science
+741,Which planet has a moon named Titan?,Saturn,Jupiter,Uranus,Neptune,A,14,10,Science
+742,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,14,10,Geography
+743,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,14,10,Literature
+744,What is the chemical formula for hydrogen peroxide?,H2O2,H2O,HO2,H2O3,A,14,10,Science
+745,Which is a type of protein?,Collagen,Myosin,Both,Neither,C,14,10,Science
+746,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,14,10,Geography
+747,What is 5/8 as a decimal?,0.625,0.5,0.75,0.8,A,14,10,Math
+748,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,14,10,Science
+749,Which animal is a nematode?,Roundworm,Hookworm,Both,Neither,C,14,10,Science
+750,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,14,10,Geography
+751,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,14,10,Literature
+752,What is the chemical formula for nitrogen gas?,N2,N,HN3,NO2,A,14,10,Science
+753,Which is a type of mutation?,Inversion,Translocation,Both,Neither,C,14,10,Science
+754,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,14,10,Geography
+755,What is 3/7 as a decimal?,0.428,0.4,0.5,0.6,A,14,10,Math
+756,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,14,10,Science
+757,Which planet has a moon named Miranda?,Uranus,Neptune,Saturn,Jupiter,A,14,10,Science
+758,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,14,10,Geography
+759,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,14,10,Literature
+760,What is the chemical formula for sulfur dioxide?,SO2,SO3,H2SO4,H2S,A,14,10,Science
+761,Which is a type of protein?,Keratin,Elastin,Both,Neither,C,14,10,Science
+762,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,14,10,Geography
+763,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,14,10,Math
+764,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,14,10,Science
+765,Which animal is a echinoderm?,Starfish,Sea urchin,Both,Neither,C,14,10,Science
+766,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,14,10,Geography
+767,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,14,10,Literature
+768,What is the chemical formula for phosphoric acid?,H3PO4,H2SO4,HCl,HNO3,A,14,10,Science
+769,Which is a type of mutation?,Missense mutation,Nonsense mutation,Both,Neither,C,15,10,Science
+770,What is the highest point in North America?,Denali,Whitney,Elbert,Logan,A,15,10,Geography
+771,What is 7/12 as a decimal?,0.583,0.5,0.6,0.7,A,15,10,Math
+772,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,15,10,Science
+773,Which planet has a moon named Enceladus?,Saturn,Jupiter,Uranus,Neptune,A,15,10,Science
+774,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,15,10,Geography
+775,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,15,10,Literature
+776,What is the chemical formula for nitric acid?,HNO3,H2SO4,HCl,H2CO3,A,15,10,Science
+777,Which is a type of RNA?,MicroRNA,Small interfering RNA,Both,Neither,C,15,10,Science
+778,What is the longest river in Europe?,Volga,Danube,Rhine,Elbe,A,15,10,Geography
+779,What is 9/16 as a decimal?,0.5625,0.5,0.6,0.7,A,15,10,Math
+780,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,15,10,Science
+781,Which animal is a arthropod?,Insect,Crustacean,Both,Neither,C,15,10,Science
+782,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,15,10,Geography
+783,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,15,10,Literature
+784,What is the chemical formula for sulfuric acid?,H2SO4,HCl,HNO3,NaOH,A,15,10,Science
+785,Which is a type of protein?,Globulin,Albumin,Both,Neither,C,15,10,Science
+786,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,15,10,Geography
+787,What is 11/16 as a decimal?,0.6875,0.6,0.7,0.75,A,15,10,Math
+788,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,15,10,Science
+789,Which planet has a moon named Titan?,Saturn,Jupiter,Uranus,Neptune,A,15,10,Science
+790,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,15,10,Geography
+791,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,15,10,Literature
+792,What is the chemical formula for ammonia?,NH3,CH4,H2O,CO2,A,15,10,Science
+793,Which is a type of mutation?,Frameshift mutation,Point mutation,Both,Neither,C,15,10,Science
+794,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,15,10,Geography
+795,What is 5/8 as a decimal?,0.625,0.5,0.75,0.8,A,15,10,Math
+796,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,15,10,Science
+797,Which animal is a chordate?,Fish,Bird,Both,Neither,C,15,10,Science
+798,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,15,10,Geography
+799,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,15,10,Literature
+800,What is the chemical formula for hydrogen sulfide?,H2S,H2SO4,SO2,H2O,A,15,10,Science
+801,Which is a type of cell?,Eukaryotic,Prokaryotic,Both,Neither,C,15,10,Science
+802,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,15,10,Geography
+803,What is 3/7 as a decimal?,0.428,0.4,0.5,0.6,A,15,10,Math
+804,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,15,10,Science
+805,Which planet has a moon named Callisto?,Jupiter,Saturn,Uranus,Neptune,A,15,10,Science
+806,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,15,10,Geography
+807,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,15,10,Literature
+808,What is the chemical formula for nitrogen dioxide?,NO2,N2O,NO,N2O4,A,15,10,Science
+809,Which is a type of protein?,Histone,Protamine,Both,Neither,C,15,10,Science
+810,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,15,10,Geography
+811,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,15,10,Math
+812,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,15,10,Science
+813,Which animal is a nematode?,Roundworm,Hookworm,Both,Neither,C,15,10,Science
+814,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,15,10,Geography
+815,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,15,10,Literature
+816,What is the chemical formula for sulfur trioxide?,SO3,SO2,H2SO4,H2S,A,15,10,Science
+817,Which is a type of mutation?,Point mutation,Chromosomal mutation,Both,Neither,C,16,10,Science
+818,What is the highest point in Europe?,Elbrus,Mont Blanc,Whitney,Logan,A,16,10,Geography
+819,What is 7/12 as a decimal?,0.583,0.5,0.6,0.7,A,16,10,Math
+820,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,16,10,Science
+821,Which planet has a moon named Ganymede?,Jupiter,Saturn,Uranus,Neptune,A,16,10,Science
+822,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,16,10,Geography
+823,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+824,What is the chemical formula for hydrochloric acid?,HCl,H2SO4,HNO3,CH3COOH,A,16,10,Science
+825,Which is a type of RNA?,mRNA,tRNA,rRNA,All,D,16,10,Science
+826,What is the longest river in Asia?,Yangtze,Indus,Ganges,Mekong,A,16,10,Geography
+827,What is 9/16 as a percentage?,56.25%,60%,62.5%,65%,A,16,10,Math
+828,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,16,10,Science
+829,Which animal is a mollusk?,Snail,Octopus,Both,Neither,C,16,10,Science
+830,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,16,10,Geography
+831,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+832,What is the chemical formula for acetic acid?,CH3COOH,H2SO4,HCl,HNO3,A,16,10,Science
+833,Which is a type of mutation?,Deletion,Duplication,Both,Neither,C,16,10,Science
+834,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,16,10,Geography
+835,What is 11/16 as a decimal?,0.6875,0.6,0.7,0.75,A,16,10,Math
+836,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,16,10,Science
+837,Which planet has a moon named Titan?,Saturn,Jupiter,Uranus,Neptune,A,16,10,Science
+838,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,16,10,Geography
+839,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+840,What is the chemical formula for hydrogen peroxide?,H2O2,H2O,HO2,H2O3,A,16,10,Science
+841,Which is a type of protein?,Collagen,Myosin,Both,Neither,C,16,10,Science
+842,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,16,10,Geography
+843,What is 5/8 as a decimal?,0.625,0.5,0.75,0.8,A,16,10,Math
+844,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,16,10,Science
+845,Which animal is a nematode?,Roundworm,Hookworm,Both,Neither,C,16,10,Science
+846,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,16,10,Geography
+847,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+848,What is the chemical formula for nitrogen gas?,N2,N,HN3,NO2,A,16,10,Science
+849,Which is a type of mutation?,Inversion,Translocation,Both,Neither,C,16,10,Science
+850,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,16,10,Geography
+851,What is 3/7 as a decimal?,0.428,0.4,0.5,0.6,A,16,10,Math
+852,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,16,10,Science
+853,Which planet has a moon named Miranda?,Uranus,Neptune,Saturn,Jupiter,A,16,10,Science
+854,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,16,10,Geography
+855,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+856,What is the chemical formula for sulfur dioxide?,SO2,SO3,H2SO4,H2S,A,16,10,Science
+857,Which is a type of protein?,Keratin,Elastin,Both,Neither,C,16,10,Science
+858,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,16,10,Geography
+859,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,16,10,Math
+860,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,16,10,Science
+861,Which animal is a echinoderm?,Starfish,Sea urchin,Both,Neither,C,16,10,Science
+862,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,16,10,Geography
+863,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+864,What is the chemical formula for phosphoric acid?,H3PO4,H2SO4,HCl,HNO3,A,16,10,Science
+865,Which is a type of mutation?,Missense mutation,Nonsense mutation,Both,Neither,C,16,10,Science
+866,What is the highest point in North America?,Denali,Whitney,Elbert,Logan,A,16,10,Geography
+867,What is 7/12 as a decimal?,0.583,0.5,0.6,0.7,A,16,10,Math
+868,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,16,10,Science
+869,Which planet has a moon named Enceladus?,Saturn,Jupiter,Uranus,Neptune,A,16,10,Science
+870,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,16,10,Geography
+871,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+872,What is the chemical formula for nitric acid?,HNO3,H2SO4,HCl,H2CO3,A,16,10,Science
+873,Which is a type of RNA?,MicroRNA,Small interfering RNA,Both,Neither,C,16,10,Science
+874,What is the longest river in Europe?,Volga,Danube,Rhine,Elbe,A,16,10,Geography
+875,What is 9/16 as a decimal?,0.5625,0.5,0.6,0.7,A,16,10,Math
+876,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,16,10,Science
+877,Which animal is a arthropod?,Insect,Crustacean,Both,Neither,C,16,10,Science
+878,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,16,10,Geography
+879,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+880,What is the chemical formula for sulfuric acid?,H2SO4,HCl,HNO3,NaOH,A,16,10,Science
+881,Which is a type of protein?,Globulin,Albumin,Both,Neither,C,16,10,Science
+882,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,16,10,Geography
+883,What is 11/16 as a decimal?,0.6875,0.6,0.7,0.75,A,16,10,Math
+884,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,16,10,Science
+885,Which planet has a moon named Titan?,Saturn,Jupiter,Uranus,Neptune,A,16,10,Science
+886,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,16,10,Geography
+887,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+888,What is the chemical formula for ammonia?,NH3,CH4,H2O,CO2,A,16,10,Science
+889,Which is a type of mutation?,Frameshift mutation,Point mutation,Both,Neither,C,16,10,Science
+890,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,16,10,Geography
+891,What is 5/8 as a decimal?,0.625,0.5,0.75,0.8,A,16,10,Math
+892,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,16,10,Science
+893,Which animal is a chordate?,Fish,Bird,Both,Neither,C,16,10,Science
+894,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,16,10,Geography
+895,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+896,What is the chemical formula for hydrogen sulfide?,H2S,H2SO4,SO2,H2O,A,16,10,Science
+897,Which is a type of cell?,Eukaryotic,Prokaryotic,Both,Neither,C,16,10,Science
+898,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,16,10,Geography
+899,What is 3/7 as a decimal?,0.428,0.4,0.5,0.6,A,16,10,Math
+900,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,16,10,Science
+901,Which planet has a moon named Callisto?,Jupiter,Saturn,Uranus,Neptune,A,16,10,Science
+902,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,16,10,Geography
+903,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+904,What is the chemical formula for nitrogen dioxide?,NO2,N2O,NO,N2O4,A,16,10,Science
+905,Which is a type of protein?,Histone,Protamine,Both,Neither,C,16,10,Science
+906,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,16,10,Geography
+907,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,16,10,Math
+908,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,16,10,Science
+909,Which animal is a nematode?,Roundworm,Hookworm,Both,Neither,C,16,10,Science
+910,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,16,10,Geography
+911,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+912,What is the chemical formula for sulfur trioxide?,SO3,SO2,H2SO4,H2S,A,16,10,Science
+913,Which is a type of mutation?,Deletion,Duplication,Both,Neither,C,16,10,Science
+914,What is the highest point in Europe?,Elbrus,Mont Blanc,Whitney,Logan,A,16,10,Geography
+915,What is 7/12 as a decimal?,0.583,0.5,0.6,0.7,A,16,10,Math
+916,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,16,10,Science
+917,Which planet has a moon named Ganymede?,Jupiter,Saturn,Uranus,Neptune,A,16,10,Science
+918,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,16,10,Geography
+919,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+920,What is the chemical formula for hydrochloric acid?,HCl,H2SO4,HNO3,CH3COOH,A,16,10,Science
+921,Which is a type of RNA?,mRNA,tRNA,rRNA,All,D,16,10,Science
+922,What is the longest river in Asia?,Yangtze,Indus,Ganges,Mekong,A,16,10,Geography
+923,What is 9/16 as a percentage?,56.25%,60%,62.5%,65%,A,16,10,Math
+924,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,16,10,Science
+925,Which animal is a mollusk?,Snail,Octopus,Both,Neither,C,16,10,Science
+926,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,16,10,Geography
+927,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+928,What is the chemical formula for acetic acid?,CH3COOH,H2SO4,HCl,HNO3,A,16,10,Science
+929,Which is a type of mutation?,Inversion,Translocation,Both,Neither,C,16,10,Science
+930,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,16,10,Geography
+931,What is 11/16 as a decimal?,0.6875,0.6,0.7,0.75,A,16,10,Math
+932,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,16,10,Science
+933,Which planet has a moon named Titan?,Saturn,Jupiter,Uranus,Neptune,A,16,10,Science
+934,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,16,10,Geography
+935,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+936,What is the chemical formula for hydrogen peroxide?,H2O2,H2O,HO2,H2O3,A,16,10,Science
+937,Which is a type of protein?,Collagen,Myosin,Both,Neither,C,16,10,Science
+938,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,16,10,Geography
+939,What is 5/8 as a decimal?,0.625,0.5,0.75,0.8,A,16,10,Math
+940,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,16,10,Science
+941,Which animal is a nematode?,Roundworm,Hookworm,Both,Neither,C,16,10,Science
+942,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,16,10,Geography
+943,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+944,What is the chemical formula for nitrogen gas?,N2,N,HN3,NO2,A,16,10,Science
+945,Which is a type of mutation?,Point mutation,Chromosomal mutation,Both,Neither,C,16,10,Science
+946,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,16,10,Geography
+947,What is 3/7 as a decimal?,0.428,0.4,0.5,0.6,A,16,10,Math
+948,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,16,10,Science
+949,Which planet has a moon named Miranda?,Uranus,Neptune,Saturn,Jupiter,A,16,10,Science
+950,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,16,10,Geography
+951,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+952,What is the chemical formula for sulfur dioxide?,SO2,SO3,H2SO4,H2S,A,16,10,Science
+953,Which is a type of protein?,Keratin,Elastin,Both,Neither,C,16,10,Science
+954,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,16,10,Geography
+955,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,16,10,Math
+956,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,16,10,Science
+957,Which animal is a echinoderm?,Starfish,Sea urchin,Both,Neither,C,16,10,Science
+958,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,16,10,Geography
+959,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+960,What is the chemical formula for phosphoric acid?,H3PO4,H2SO4,HCl,HNO3,A,16,10,Science
+961,Which is a type of mutation?,Missense mutation,Nonsense mutation,Both,Neither,C,16,10,Science
+962,What is the highest point in North America?,Denali,Whitney,Elbert,Logan,A,16,10,Geography
+963,What is 7/12 as a decimal?,0.583,0.5,0.6,0.7,A,16,10,Math
+964,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,16,10,Science
+965,Which planet has a moon named Enceladus?,Saturn,Jupiter,Uranus,Neptune,A,16,10,Science
+966,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,16,10,Geography
+967,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+968,What is the chemical formula for nitric acid?,HNO3,H2SO4,HCl,H2CO3,A,16,10,Science
+969,Which is a type of RNA?,MicroRNA,Small interfering RNA,Both,Neither,C,16,10,Science
+970,What is the longest river in Europe?,Volga,Danube,Rhine,Elbe,A,16,10,Geography
+971,What is 9/16 as a decimal?,0.5625,0.5,0.6,0.7,A,16,10,Math
+972,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,16,10,Science
+973,Which animal is a arthropod?,Insect,Crustacean,Both,Neither,C,16,10,Science
+974,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,16,10,Geography
+975,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+976,What is the chemical formula for sulfuric acid?,H2SO4,HCl,HNO3,NaOH,A,16,10,Science
+977,Which is a type of protein?,Globulin,Albumin,Both,Neither,C,16,10,Science
+978,What is the highest point in Africa?,Kilimanjaro,Kenya,Elbrus,Everest,A,16,10,Geography
+979,What is 11/16 as a decimal?,0.6875,0.6,0.7,0.75,A,16,10,Math
+980,Which element is a key component of DNA?,Nitrogen,Phosphorus,Both,Neither,C,16,10,Science
+981,Which planet has a moon named Titan?,Saturn,Jupiter,Uranus,Neptune,A,16,10,Science
+982,What is the capital of Azerbaijan?,Baku,Yerevan,Tbilisi,Sukhumi,A,16,10,Geography
+983,"Who wrote ""The Golden Bowl""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+984,What is the chemical formula for ammonia?,NH3,CH4,H2O,CO2,A,16,10,Science
+985,Which is a type of mutation?,Frameshift mutation,Point mutation,Both,Neither,C,16,10,Science
+986,What is the longest river in North America?,Mississippi,Missouri,Colorado,Ohio,B,16,10,Geography
+987,What is 5/8 as a decimal?,0.625,0.5,0.75,0.8,A,16,10,Math
+988,Which element is a key component of ATP?,Nitrogen,Phosphorus,Both,Neither,C,16,10,Science
+989,Which animal is a chordate?,Fish,Bird,Both,Neither,C,16,10,Science
+990,What is the capital of Moldova?,Chisinau,Bucharest,Kiev,Minsk,A,16,10,Geography
+991,"Who wrote ""The Wings of the Dove""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+992,What is the chemical formula for hydrogen sulfide?,H2S,H2SO4,SO2,H2O,A,16,10,Science
+993,Which is a type of cell?,Eukaryotic,Prokaryotic,Both,Neither,C,16,10,Science
+994,What is the highest point in Australia?,Kosciuszko,Wilhelm,Giluwe,Townsend,A,16,10,Geography
+995,What is 3/7 as a decimal?,0.428,0.4,0.5,0.6,A,16,10,Math
+996,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,16,10,Science
+997,Which planet has a moon named Callisto?,Jupiter,Saturn,Uranus,Neptune,A,16,10,Science
+998,What is the capital of Kyrgyzstan?,Bishkek,Tashkent,Astana,Ashgabat,A,16,10,Geography
+999,"Who wrote ""The Bostonians""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+1000,What is the chemical formula for nitrogen dioxide?,NO2,N2O,NO,N2O4,A,16,10,Science
+1001,Which is a type of protein?,Histone,Protamine,Both,Neither,C,16,10,Science
+1002,What is the longest river in South America?,Amazon,Paraná,Orinoco,Madeira,A,16,10,Geography
+1003,What is 0.625 as a fraction?,5/8,3/8,7/8,1/8,A,16,10,Math
+1004,Which element is a key component of thyroid hormone?,Iodine,Iron,Zinc,Copper,A,16,10,Science
+1005,Which animal is a nematode?,Roundworm,Hookworm,Both,Neither,C,16,10,Science
+1006,What is the capital of Tajikistan?,Dushanbe,Tashkent,Bishkek,Ashgabat,A,16,10,Geography
+1007,"Who wrote ""The Europeans""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+1008,What is the chemical formula for sulfur trioxide?,SO3,SO2,H2SO4,H2S,A,16,10,Science
+1009,Which is a type of mutation?,Deletion,Duplication,Both,Neither,C,16,10,Science
+1010,What is the highest point in Europe?,Elbrus,Mont Blanc,Whitney,Logan,A,16,10,Geography
+1011,What is 7/12 as a decimal?,0.583,0.5,0.6,0.7,A,16,10,Math
+1012,Which element is a key component of bone?,Calcium,Phosphorus,Both,Neither,C,16,10,Science
+1013,Which planet has a moon named Ganymede?,Jupiter,Saturn,Uranus,Neptune,A,16,10,Science
+1014,What is the capital of Armenia?,Yerevan,Tbilisi,Baku,Sukhumi,A,16,10,Geography
+1015,"Who wrote ""The American""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+1016,What is the chemical formula for hydrochloric acid?,HCl,H2SO4,HNO3,CH3COOH,A,16,10,Science
+1017,Which is a type of RNA?,mRNA,tRNA,rRNA,All,D,16,10,Science
+1018,What is the longest river in Asia?,Yangtze,Indus,Ganges,Mekong,A,16,10,Geography
+1019,What is 9/16 as a percentage?,56.25%,60%,62.5%,65%,A,16,10,Math
+1020,Which element is a key component of hemoglobin?,Iron,Copper,Zinc,Magnesium,A,16,10,Science
+1021,Which animal is a mollusk?,Snail,Octopus,Both,Neither,C,16,10,Science
+1022,What is the capital of Georgia (country)?,Tbilisi,Yerevan,Baku,Sukhumi,A,16,10,Geography
+1023,"Who wrote ""The Portrait of a Lady""?",James,Wharton,Cather,Chopin,A,16,10,Literature
+1024,What is the chemical formula for acetic acid?,CH3COOH,H2SO4,HCl,HNO3,A,16,10,Science

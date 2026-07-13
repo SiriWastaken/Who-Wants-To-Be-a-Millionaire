@@ -138,7 +138,8 @@ public class Credits extends JPanel {
         drawCenteredText(g2, "Inspiration also taken from Kaun Banega Crorepati,", cardY + 255);
         drawCenteredText(g2, "the Indian adaptation of the original game format.", cardY + 280);
 
-        // Section 3: Legal IP Disclaimer (Perfectly shifted to the bottom section of the card)
+        // Section 3: Legal IP Disclaimer (Perfectly shifted to the bottom section of
+        // the card)
         g2.setFont(ITALIC_FONT);
         g2.setColor(new Color(107, 114, 128)); // Soft, dim gray
         drawCenteredText(g2, "\"Who Wants to Be a Millionaire\" IP owned by Sony Pictures Television.", cardY + 340);

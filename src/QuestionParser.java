@@ -8,7 +8,9 @@ import java.util.Random;
 
 public class QuestionParser {
 
-    // In case if one version of the file is changed or corrupted, fallback to the other path. The first path is for VS Code (so it shuts up about failing to find it)
+    // In case if one version of the file is changed or corrupted, fallback to the
+    // other path. The first path is for VS Code (so it shuts up about failing to
+    // find it)
     // ...the second is for the compiled JAR.
     private static final String[] SEARCH_PATHS = {
             "src/Assets/QuestionsList.csv",
@@ -18,7 +20,8 @@ public class QuestionParser {
     private static final Random random = new Random();
     private static boolean loaded = false;
 
-    /** Loads all questions from the CSV source if they have not already been loaded.
+    /**
+     * Loads all questions from the CSV source if they have not already been loaded.
      *
      * @param none no parameters are required
      * @return void
@@ -75,7 +78,8 @@ public class QuestionParser {
         loaded = true;
     }
 
-    /** Returns a copy of all loaded questions.
+    /**
+     * Returns a copy of all loaded questions.
      *
      * @param none no parameters are required
      * @return a copy of all loaded questions
@@ -85,7 +89,8 @@ public class QuestionParser {
         return new ArrayList<>(questions);
     }
 
-    /** Returns all loaded questions that match the requested difficulty.
+    /**
+     * Returns all loaded questions that match the requested difficulty.
      *
      * @param difficulty the difficulty tier to filter by
      * @return the matching questions
@@ -102,7 +107,8 @@ public class QuestionParser {
         return matchingQuestions;
     }
 
-    /** Returns a random question of the requested difficulty.
+    /**
+     * Returns a random question of the requested difficulty.
      *
      * @param difficulty the desired difficulty level
      * @return a random question object or null if none exist
@@ -117,7 +123,8 @@ public class QuestionParser {
         return matchingQuestions.get(random.nextInt(matchingQuestions.size()));
     }
 
-    /** Parses a CSV line while preserving quoted values.
+    /**
+     * Parses a CSV line while preserving quoted values.
      *
      * @param line the raw CSV row to parse
      * @return the parsed columns

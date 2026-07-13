@@ -34,7 +34,7 @@ public class MoneyLadder extends JPanel {
 
     private final Font TIER_FONT = new Font("Serif", Font.BOLD, 24);
     private final Font AMOUNT_FONT = new Font("Serif", Font.BOLD, 22);
-    
+
     private final Color BACKGROUND_TOP = new Color(6, 6, 16);
     private final Color BACKGROUND_BOTTOM = new Color(18, 12, 36);
     private final Color BLUE_GLOW = new Color(59, 130, 246, 20);
@@ -83,10 +83,14 @@ public class MoneyLadder extends JPanel {
 
             if (animationProgress < 1.0) {
                 animationProgress += 0.08;
-                if (animationProgress > 1.0) animationProgress = 1.0;
-                currentLevel = (int) Math.round((1 - animationProgress) * currentLevel + animationProgress * targetLevel);
-                if (currentLevel < 1) currentLevel = 1;
-                if (currentLevel > amounts.length) currentLevel = amounts.length;
+                if (animationProgress > 1.0)
+                    animationProgress = 1.0;
+                currentLevel = (int) Math
+                        .round((1 - animationProgress) * currentLevel + animationProgress * targetLevel);
+                if (currentLevel < 1)
+                    currentLevel = 1;
+                if (currentLevel > amounts.length)
+                    currentLevel = amounts.length;
                 repaint();
             }
 
@@ -123,8 +127,8 @@ public class MoneyLadder extends JPanel {
         drawCurve(g2, 175, 620, 226, 490, 266, 382, 318, 270, LINE_GOLD);
     }
 
-    private void drawCurve(Graphics2D g2, int x1, int y1, int ctrl1X, int ctrl1Y, 
-                          int ctrl2X, int ctrl2Y, int x2, int y2, Color color) {
+    private void drawCurve(Graphics2D g2, int x1, int y1, int ctrl1X, int ctrl1Y,
+            int ctrl2X, int ctrl2Y, int x2, int y2, Color color) {
         g2.setColor(color);
         g2.draw(new CubicCurve2D.Double(x1, y1, ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, x2, y2));
     }
@@ -148,7 +152,7 @@ public class MoneyLadder extends JPanel {
 
             int spacing = 20;
             int totalTextWidth = tierMetrics.stringWidth(tierLabel) + amountMetrics.stringWidth(amountLabel) + spacing;
-            
+
             int startX = (panelWidth - totalTextWidth) / 2;
             int tierX = startX;
             int amountX = startX + tierMetrics.stringWidth(tierLabel) + spacing;
@@ -195,20 +199,23 @@ public class MoneyLadder extends JPanel {
     }
 
     private boolean isSafeLevel(int levelIndex) {
-        return moneyValues[levelIndex] == 1000 || 
-               moneyValues[levelIndex] == 32000 || 
-               moneyValues[levelIndex] == 1000000;
+        return moneyValues[levelIndex] == 1000 ||
+                moneyValues[levelIndex] == 32000 ||
+                moneyValues[levelIndex] == 1000000;
     }
 
     private int resolveLevelForMoney(int money) {
-        if (money <= 0) return 1;
+        if (money <= 0)
+            return 1;
 
         for (int i = 0; i < moneyValues.length; i++) {
-            if (moneyValues[i] == money) return i + 1;
+            if (moneyValues[i] == money)
+                return i + 1;
         }
 
         for (int i = moneyValues.length - 1; i >= 0; i--) {
-            if (money >= moneyValues[i]) return i + 1;
+            if (money >= moneyValues[i])
+                return i + 1;
         }
 
         return 1;

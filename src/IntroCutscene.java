@@ -19,8 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 /**
- * Handles the cinematic, timed, hardware-antialiased 12-second opening sequence 
- * modeled directly after the studio animations of "Who Wants to Be a Millionaire".
+ * Handles the cinematic, timed, hardware-antialiased 12-second opening sequence
+ * modeled directly after the studio animations of "Who Wants to Be a
+ * Millionaire".
  * Safely manages the temporary intro track process before gameplay handoff.
  */
 public class IntroCutscene extends JPanel {
@@ -35,20 +36,22 @@ public class IntroCutscene extends JPanel {
     private final Color ACCENT_GOLD = new Color(245, 158, 11);
 
     // 12 seconds total * 1000ms / 16ms per frame = 750 frames
-    private final int MAX_FRAMES = 750; 
+    private final int MAX_FRAMES = 750;
     private final int LOGO_TARGET_SIZE = 340;
 
     private final Timer ANIMATION_TIMER;
     private final Runnable ON_COMPLETION;
-    
+
     private Image logoImage;
-    private Process mp3Process; 
+    private Process mp3Process;
     private int frame = 0;
     private boolean isSkipped = false;
 
     /**
      * Initializes the intro sequencer with synchronized MP3 soundtrack playback.
-     * @param onCompletion Callback executable routed back to launch GameScreenPanel safely.
+     * 
+     * @param onCompletion Callback executable routed back to launch GameScreenPanel
+     *                     safely.
      */
     public IntroCutscene(Runnable onCompletion) {
         this.ON_COMPLETION = onCompletion;
@@ -59,8 +62,9 @@ public class IntroCutscene extends JPanel {
         try {
             logoImage = ImageIO.read(new File("src/assets/logoImage.png"));
         } catch (Exception e) {
-            System.err.println("Warning: Asset 'src/assets/logoImage.png' not found. Falling back to graphical placeholder.");
-            logoImage = null; 
+            System.err.println(
+                    "Warning: Asset 'src/assets/logoImage.png' not found. Falling back to graphical placeholder.");
+            logoImage = null;
         }
 
         // Initialize and play the intro soundtrack clip
@@ -83,7 +87,7 @@ public class IntroCutscene extends JPanel {
     private void initAudio() {
         try {
             File audioFile = new File("src/assets/Gamesoundtrack.mp3");
-            
+
             if (!audioFile.exists()) {
                 audioFile = new File("src/assets/GameSoundtrack.mp3");
             }
@@ -91,9 +95,10 @@ public class IntroCutscene extends JPanel {
             if (audioFile.exists()) {
                 String OS = System.getProperty("os.name").toLowerCase();
                 if (OS.contains("mac")) {
-                    mp3Process = Runtime.getRuntime().exec(new String[]{"afplay", audioFile.getAbsolutePath()});
+                    mp3Process = Runtime.getRuntime().exec(new String[] { "afplay", audioFile.getAbsolutePath() });
                 } else {
-                    mp3Process = Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", "/min", audioFile.getAbsolutePath()});
+                    mp3Process = Runtime.getRuntime()
+                            .exec(new String[] { "cmd", "/c", "start", "/min", audioFile.getAbsolutePath() });
                 }
             } else {
                 System.err.println("Warning: Audio file 'Gamesoundtrack.mp3' not found in src/assets/");
@@ -121,8 +126,9 @@ public class IntroCutscene extends JPanel {
 
     private void completeCutscene() {
         ANIMATION_TIMER.stop();
-        
-        // Kills this specific process instance so the gameplay panel can freely spin up its next audio section
+
+        // Kills this specific process instance so the gameplay panel can freely spin up
+        // its next audio section
         if (mp3Process != null) {
             mp3Process.destroy();
         }
@@ -151,10 +157,11 @@ public class IntroCutscene extends JPanel {
         g2.setPaint(bg);
         g2.fillRect(0, 0, w, h);
 
-        float ambientAlpha = Math.min(1.0f, frame / 90.0f); 
+        float ambientAlpha = Math.min(1.0f, frame / 90.0f);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, ambientAlpha * 0.15f));
         Point2D centerPoint = new Point2D.Float(centerX, centerY);
-        RadialGradientPaint centerGlow = new RadialGradientPaint(centerPoint, 450f, new float[]{0f, 1f}, new Color[]{STUDIO_BLUE, new Color(0,0,0,0)});
+        RadialGradientPaint centerGlow = new RadialGradientPaint(centerPoint, 450f, new float[] { 0f, 1f },
+                new Color[] { STUDIO_BLUE, new Color(0, 0, 0, 0) });
         g2.setPaint(centerGlow);
         g2.fillRect(0, 0, w, h);
         g2.setComposite(AlphaComposite.SrcOver);
@@ -166,30 +173,28 @@ public class IntroCutscene extends JPanel {
 
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
             g2.setStroke(new BasicStroke(16f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-            
+
             g2.setColor(STUDIO_BLUE);
             g2.drawLine(
-                (int)(centerX + Math.cos(angle1) * 600), (int)(centerY + Math.sin(angle1) * 600),
-                (int)(centerX - Math.cos(angle1) * 600), (int)(centerY - Math.sin(angle1) * 600)
-            );
+                    (int) (centerX + Math.cos(angle1) * 600), (int) (centerY + Math.sin(angle1) * 600),
+                    (int) (centerX - Math.cos(angle1) * 600), (int) (centerY - Math.sin(angle1) * 600));
             g2.setColor(STUDIO_CYAN);
             g2.drawLine(
-                (int)(centerX + Math.sin(angle2) * 600), (int)(centerY + Math.cos(angle2) * 600),
-                (int)(centerX - Math.sin(angle2) * 600), (int)(centerY - Math.cos(angle2) * 600)
-            );
+                    (int) (centerX + Math.sin(angle2) * 600), (int) (centerY + Math.cos(angle2) * 600),
+                    (int) (centerX - Math.sin(angle2) * 600), (int) (centerY - Math.cos(angle2) * 600));
             g2.setComposite(AlphaComposite.SrcOver);
         }
 
         // --- PHASE 3 & 4: Logo Scale Up & Stable Position ---
         if (frame >= 300) {
             float progress = Math.min(1.0f, (frame - 300) / 180.0f);
-            float currentScale = (float) (1.0 - Math.pow(1.0 - progress, 3)); 
+            float currentScale = (float) (1.0 - Math.pow(1.0 - progress, 3));
             int size = (int) (LOGO_TARGET_SIZE * currentScale);
 
             if (size > 0) {
                 Graphics2D gLogo = (Graphics2D) g2.create();
                 gLogo.translate(centerX, centerY);
-                
+
                 if (progress < 1.0f) {
                     double rotationAngle = (1.0f - progress) * 6.5;
                     gLogo.rotate(rotationAngle);
@@ -199,10 +204,10 @@ public class IntroCutscene extends JPanel {
 
                 float glareRadius = size * 0.7f;
                 RadialGradientPaint backGlow = new RadialGradientPaint(
-                    new Point2D.Float(0, 0), Math.max(1f, glareRadius),
-                    new float[]{0f, 0.4f, 1f},
-                    new Color[]{new Color(255, 255, 255, 120), new Color(99, 102, 241, 35), new Color(0, 0, 0, 0)}
-                );
+                        new Point2D.Float(0, 0), Math.max(1f, glareRadius),
+                        new float[] { 0f, 0.4f, 1f },
+                        new Color[] { new Color(255, 255, 255, 120), new Color(99, 102, 241, 35),
+                                new Color(0, 0, 0, 0) });
                 gLogo.setPaint(backGlow);
                 gLogo.fillRect(-size, -size, size * 2, size * 2);
 
@@ -212,7 +217,7 @@ public class IntroCutscene extends JPanel {
                     gLogo.setStroke(new BasicStroke(6f));
                     gLogo.setColor(ACCENT_GOLD);
                     gLogo.drawOval(-size / 2, -size / 2, size, size);
-                    gLogo.setFont(new Font("SansSerif", Font.BOLD, (int)(32 * currentScale)));
+                    gLogo.setFont(new Font("SansSerif", Font.BOLD, (int) (32 * currentScale)));
                     gLogo.setColor(Color.WHITE);
                     FontMetrics fmL = gLogo.getFontMetrics();
                     String fallbackText = "LOCK IN";

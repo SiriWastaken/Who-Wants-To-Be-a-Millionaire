@@ -8,7 +8,8 @@ public class Lifelines {
 
     private static final Random RANDOM = new Random();
 
-    /** Prevents instantiation of this utility class.
+    /**
+     * Prevents instantiation of this utility class.
      *
      * @param none no parameters are required
      * @return void
@@ -16,7 +17,8 @@ public class Lifelines {
     private Lifelines() {
     }
 
-    /** Builds the simulated audience-poll results for the current question.
+    /**
+     * Builds the simulated audience-poll results for the current question.
      *
      * @param question the question to summarize
      * @return the formatted audience-poll text
@@ -35,7 +37,8 @@ public class Lifelines {
         return poll.toString();
     }
 
-    /** Returns one incorrect answer index that should be hidden by 25/75.
+    /**
+     * Returns one incorrect answer index that should be hidden by 25/75.
      *
      * @param question the question used to determine the correct answer
      * @return the answer index that should be locked
@@ -59,7 +62,8 @@ public class Lifelines {
         return new int[] { chosenIndex };
     }
 
-    /** Builds the phone-a-friend hint string for the current question.
+    /**
+     * Builds the phone-a-friend hint string for the current question.
      *
      * @param question the question to reveal
      * @return the formatted phone-a-friend hint

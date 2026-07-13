@@ -47,7 +47,7 @@ public class GameScreenPanel extends JPanel {
     private int flashCount = 0;
     private boolean flashState = false;
     private boolean lastAnswerCorrect = false;
-    
+
     // Lifeline display state
     private int[] audiencePollPercentages = null;
     private String phoneAFriendSuggestion = null;
@@ -416,6 +416,119 @@ public class GameScreenPanel extends JPanel {
     }
 
     /**
+     * Shows the epic win screen when the player reaches £1,000,000.
+     */
+    private void showWinScreen() {
+        // Clean up any Play or Walk panel
+        if (playOrWalkPanel != null) {
+            remove(playOrWalkPanel);
+            playOrWalkPanel.cleanup();
+            playOrWalkPanel = null;
+        }
+        isPlayOrWalkShowing = false;
+
+        // Stop the timer
+        COUNTDOWN_TIMER.stop();
+
+        // Clear any lifeline displays
+        clearLifelineDisplay();
+
+        // Create and show the win screen
+        WinScreenPanel winScreen = new WinScreenPanel(
+                () -> {
+                    // Play Again
+                    SwingUtilities.invokeLater(() -> {
+                        SESSION.RESTART();
+                        // Replace this panel with a fresh game panel
+                        java.awt.Container parent = this.getParent();
+                        if (parent != null) {
+                            GameScreenPanel newGamePanel = new GameScreenPanel();
+                            if (moneyLadder != null) {
+                                newGamePanel.setMoneyLadder(moneyLadder);
+                            }
+                            parent.add(newGamePanel);
+                            parent.remove(this);
+                            parent.revalidate();
+                            parent.repaint();
+                        }
+                    });
+                },
+                () -> {
+                    // Go Home
+                    SwingUtilities.invokeLater(() -> {
+                        returnToMenu();
+                    });
+                });
+
+        // Replace this panel with the win screen
+        java.awt.Container parent = this.getParent();
+        if (parent != null) {
+            // Add the win screen and remove this panel
+            parent.add(winScreen);
+            parent.remove(this);
+            parent.revalidate();
+            parent.repaint();
+        }
+    }
+
+    /**
+     * Shows the game over panel when the player loses.
+     *
+     * @param selectedAnsText the text of the selected answer
+     * @param correctAnsText  the text of the correct answer
+     */
+    private void showGameOverPanel(String selectedAnsText, String correctAnsText) {
+        // Swap panels gracefully inside the immediate parent container
+        java.awt.Container parent = this.getParent();
+        if (parent != null) {
+            // Keep a reference to the ladder to pass back on restart
+            final MoneyLadder ladderRef = this.moneyLadder;
+
+            // FIX: Use a final single-element array to bypass the lambda initialization
+            // scope trap
+            final GameOverPanel[] gameOverHolder = new GameOverPanel[1];
+
+            GameOverPanel gameOver = new GameOverPanel(
+                    selectedAnsText,
+                    correctAnsText,
+                    SESSION.getLastSafeMoney(),
+                    () -> {
+                        // Play Again Action
+                        SESSION.RESTART();
+                        GameScreenPanel newGamePanel = new GameScreenPanel();
+                        if (ladderRef != null) {
+                            newGamePanel.setMoneyLadder(ladderRef);
+                        }
+
+                        // Swap the fresh gameplay panel directly back into the primary layout
+                        parent.add(newGamePanel);
+
+                        // Safely remove the game over panel using our wrapper holder reference
+                        if (gameOverHolder[0] != null && gameOverHolder[0].getParent() != null) {
+                            java.awt.Container goParent = gameOverHolder[0].getParent();
+                            goParent.remove(gameOverHolder[0]);
+                            goParent.revalidate();
+                            goParent.repaint();
+                        }
+
+                        parent.revalidate();
+                        parent.repaint();
+                        newGamePanel.requestFocusInWindow();
+                    });
+
+            // Assign to the wrapper array so the lambda closure can access it later when
+            // invoked
+            gameOverHolder[0] = gameOver;
+
+            // Add the game over panel to the layout and remove this game screen
+            parent.add(gameOver);
+            parent.remove(this);
+            parent.revalidate();
+            parent.repaint();
+        }
+    }
+
+    /**
      * Shows the audience poll results as percentages under each answer option.
      *
      * @param none no parameters are required
@@ -507,7 +620,7 @@ public class GameScreenPanel extends JPanel {
         String[] friendNames = { "Alex", "Jordan", "Taylor", "Morgan", "Casey", "Riley", "Avery", "Quinn" };
         String friendName = friendNames[(int) (Math.random() * friendNames.length)];
         String correctAnswer = question.getCorrectAnswer().trim().toUpperCase();
-        
+
         // Convert the answer letter to an index
         phoneAFriendSuggestedIndex = correctAnswer.charAt(0) - 'A';
         phoneAFriendSuggestion = friendName + " thinks this is the answer!";
@@ -551,64 +664,117 @@ public class GameScreenPanel extends JPanel {
         // Clear any lifeline displays
         clearLifelineDisplay();
 
-        int currentLevel = SESSION.getCurrentQuestionNumber() - 1;
         int safeMoney = SESSION.getLastSafeMoney();
-        int nextMoney = QuestionBank.getMoneyForQuestion(currentLevel + 1);
+        int currentIndex = SESSION.getCurrentQuestionNumber() - 1;
+        int nextMoney = QuestionBank.getMoneyForQuestion(currentIndex + 1);
 
         // Stop the timer while player decides
         COUNTDOWN_TIMER.stop();
 
         // Create the panel
         playOrWalkPanel = new PlayOrWalkPanel(
-            safeMoney,
-            nextMoney,
-            () -> {
-                // Walk Away - this runs after the confirmation screen
-                SwingUtilities.invokeLater(() -> {
-                    // Remove the overlay panel
-                    if (playOrWalkPanel != null) {
-                        remove(playOrWalkPanel);
-                        playOrWalkPanel.cleanup();
-                        playOrWalkPanel = null;
-                    }
-                    isPlayOrWalkShowing = false;
-                    // This will end the game with the safe money
-                    SESSION.chooseHighStakesDecision(false);
-                    // Show completion dialog with the walk-away message
-                    showCompletionDialog();
-                    repaint();
-                    revalidate();
+                safeMoney,
+                nextMoney,
+                () -> {
+                    // Walk Away
+                    SwingUtilities.invokeLater(() -> {
+                        if (playOrWalkPanel != null) {
+                            remove(playOrWalkPanel);
+                            playOrWalkPanel.cleanup();
+                            playOrWalkPanel = null;
+                        }
+                        isPlayOrWalkShowing = false;
+                        SESSION.chooseHighStakesDecision(false);
+                        showCompletionDialog();
+                        repaint();
+                        revalidate();
+                    });
+                },
+                () -> {
+                    // Continue Playing
+                    SwingUtilities.invokeLater(() -> {
+                        if (playOrWalkPanel != null) {
+                            remove(playOrWalkPanel);
+                            playOrWalkPanel.cleanup();
+                            playOrWalkPanel = null;
+                        }
+                        isPlayOrWalkShowing = false;
+                        SESSION.chooseHighStakesDecision(true);
+                        if (!SESSION.isFinished()) {
+                            COUNTDOWN_TIMER.start();
+                        }
+                        syncQuestionState();
+                        repaint();
+                        revalidate();
+                    });
                 });
-            },
-            () -> {
-                // Continue Playing
-                SwingUtilities.invokeLater(() -> {
-                    // Remove the overlay panel
-                    if (playOrWalkPanel != null) {
-                        remove(playOrWalkPanel);
-                        playOrWalkPanel.cleanup();
-                        playOrWalkPanel = null;
-                    }
-                    isPlayOrWalkShowing = false;
-                    SESSION.chooseHighStakesDecision(true);
-                    // Restart the timer for the next question
-                    if (!SESSION.isFinished()) {
-                        COUNTDOWN_TIMER.start();
-                    }
-                    syncQuestionState();
-                    repaint();
-                    revalidate();
-                });
-            }
-        );
 
-        // Add the panel as a child component
         playOrWalkPanel.setBounds(0, 0, getWidth(), getHeight());
         playOrWalkPanel.setOpaque(false);
         add(playOrWalkPanel);
         isPlayOrWalkShowing = true;
         revalidate();
         repaint();
+    }
+
+    /**
+     * Prompts the player to replay or return to the menu after the run ends.
+     *
+     * @param none no parameters are required
+     * @return void
+     */
+    private void showCompletionDialog() {
+        // Clean up any Play or Walk panel
+        if (playOrWalkPanel != null) {
+            remove(playOrWalkPanel);
+            playOrWalkPanel.cleanup();
+            playOrWalkPanel = null;
+        }
+        isPlayOrWalkShowing = false;
+        revalidate();
+
+        boolean failed = SESSION.getStatusType() == GameSession.StatusType.FAILURE;
+        String title = failed ? "Game Over" : "Game Complete";
+
+        // Check if this was a walk-away
+        String statusMsg = SESSION.getStatusMessage();
+        boolean walkedAway = statusMsg != null && statusMsg.contains("walked away");
+
+        String message;
+        if (walkedAway) {
+            message = "You walked away with " + String.format("£%,d", SESSION.getScore()) +
+                    ".\n\nWould you like to play again?";
+        } else if (failed) {
+            message = "GAME OVER: You earned a grand total of " + String.format("£%,d", SESSION.getLastSafeMoney()) +
+                    ".\n\nWould you like to play again?";
+        } else {
+            message = "You cleared Final Answer? with a score of " + String.format("£%,d", SESSION.getScore()) +
+                    ".\n\nWould you like to play again?";
+        }
+
+        int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            SESSION.RESTART();
+            completionDialogShowing = false;
+            lastQuestionSerial = -1;
+            Arrays.fill(ANSWER_LOCKS, false);
+            clearLifelineDisplay();
+            isPlayOrWalkShowing = false;
+            playOrWalkPanel = null;
+
+            // Re-sync the level capsule back to level 1 on restart
+            if (moneyLadder != null) {
+                moneyLadder.setCurrentMoney(SESSION.getScore());
+            }
+
+            COUNTDOWN_TIMER.start();
+            repaint();
+            return;
+        }
+
+        returnToMenu();
     }
 
     /**
@@ -624,7 +790,6 @@ public class GameScreenPanel extends JPanel {
         if (SESSION.getQuestionSerial() != lastQuestionSerial) {
             // Clear any lifeline display state when question changes
             clearLifelineDisplay();
-
             Arrays.fill(ANSWER_LOCKS, false);
             lastQuestionSerial = SESSION.getQuestionSerial();
         }
@@ -634,16 +799,14 @@ public class GameScreenPanel extends JPanel {
             moneyLadder.setCurrentLevel(SESSION.getCurrentQuestionNumber());
         }
 
-        // Check if we need to show Play or Walk Away
-        if (SESSION.hasReachedHighStakes() && !SESSION.isFinished() && 
-            SESSION.getStatusType() != GameSession.StatusType.COMPLETE) {
-            // Check if we haven't already shown it for this question
-            if (SESSION.isHighStakesDecisionPending()) {
-                showPlayOrWalkPanel();
-                return;
-            }
+        // Check if the panel is pending - triggered from GameSession
+        if (SESSION.isHighStakesDecisionPending() && !SESSION.isFinished() &&
+                SESSION.getStatusType() != GameSession.StatusType.COMPLETE) {
+            showPlayOrWalkPanel();
+            return;
         }
 
+        // Handle game failure (incorrect answer or time expired)
         if (SESSION.isFinished() && SESSION.getStatusType() == GameSession.StatusType.FAILURE) {
             COUNTDOWN_TIMER.stop();
             completionDialogShowing = true;
@@ -675,68 +838,30 @@ public class GameScreenPanel extends JPanel {
                 }
             }
 
-            // Swap panels gracefully inside the immediate parent container
-            java.awt.Container parent = this.getParent();
-            if (parent != null) {
-                // Keep a reference to the ladder to pass back on restart
-                final MoneyLadder ladderRef = this.moneyLadder;
-
-                // FIX: Use a final single-element array to bypass the lambda initialization
-                // scope trap
-                final GameOverPanel[] gameOverHolder = new GameOverPanel[1];
-
-                GameOverPanel gameOver = new GameOverPanel(
-                        selectedAnsText,
-                        correctAnsText,
-                        SESSION.getLastSafeMoney(),
-                        () -> {
-                            // Play Again Action
-                            SESSION.RESTART();
-                            GameScreenPanel newGamePanel = new GameScreenPanel();
-                            if (ladderRef != null) {
-                                newGamePanel.setMoneyLadder(ladderRef);
-                            }
-
-                            // Swap the fresh gameplay panel directly back into the primary layout
-                            parent.add(newGamePanel);
-
-                            // Safely remove the game over panel using our wrapper holder reference
-                            if (gameOverHolder[0] != null && gameOverHolder[0].getParent() != null) {
-                                java.awt.Container goParent = gameOverHolder[0].getParent();
-                                goParent.remove(gameOverHolder[0]);
-                                goParent.revalidate();
-                                goParent.repaint();
-                            }
-
-                            parent.revalidate();
-                            parent.repaint();
-                            newGamePanel.requestFocusInWindow();
-                        });
-
-                // Assign to the wrapper array so the lambda closure can access it later when
-                // invoked
-                gameOverHolder[0] = gameOver;
-
-                // Add the game over panel to the layout and remove this game screen
-                parent.add(gameOver);
-                parent.remove(this);
-                parent.revalidate();
-                parent.repaint();
-            }
+            // Show game over using the existing game over panel logic
+            showGameOverPanel(selectedAnsText, correctAnsText);
             return;
         }
 
+        // Handle game completion - WIN!
         if (SESSION.isFinished() && SESSION.getStatusType() == GameSession.StatusType.COMPLETE) {
-            // Check if this was a walk-away (status message contains "walked away")
+            // Check if this was a walk-away
             String status = SESSION.getStatusMessage();
             if (status.contains("walked away")) {
-                // Walk away completion - show dialog directly
                 completionDialogShowing = true;
                 COUNTDOWN_TIMER.stop();
                 repaint();
                 showCompletionDialog();
                 return;
             }
+
+            // Check if the player won £1,000,000
+            if (SESSION.getScore() >= 1000000) {
+                // Show the epic win screen!
+                showWinScreen();
+                return;
+            }
+
             // Normal completion
             completionDialogShowing = true;
             COUNTDOWN_TIMER.stop();
@@ -758,66 +883,6 @@ public class GameScreenPanel extends JPanel {
         COUNTDOWN_TIMER.stop();
         repaint();
         showCompletionDialog();
-    }
-
-    /**
-     * Prompts the player to replay or return to the menu after the run ends.
-     *
-     * @param none no parameters are required
-     * @return void
-     */
-    private void showCompletionDialog() {
-        // Clean up any Play or Walk panel
-        if (playOrWalkPanel != null) {
-            remove(playOrWalkPanel);
-            playOrWalkPanel.cleanup();
-            playOrWalkPanel = null;
-        }
-        isPlayOrWalkShowing = false;
-        revalidate();
-
-        boolean failed = SESSION.getStatusType() == GameSession.StatusType.FAILURE;
-        String title = failed ? "Game Over" : "Game Complete";
-        
-        // Check if this was a walk-away
-        String statusMsg = SESSION.getStatusMessage();
-        boolean walkedAway = statusMsg != null && statusMsg.contains("walked away");
-        
-        String message;
-        if (walkedAway) {
-            message = "You walked away with " + String.format("£%,d", SESSION.getScore()) +
-                    ".\n\nWould you like to play again?";
-        } else if (failed) {
-            message = "GAME OVER: You earned a grand total of " + String.format("£%,d", SESSION.getLastSafeMoney()) +
-                    ".\n\nWould you like to play again?";
-        } else {
-            message = "You cleared Final Answer? with a score of " + String.format("£%,d", SESSION.getScore()) +
-                    ".\n\nWould you like to play again?";
-        }
-        
-        int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION,
-                JOptionPane.INFORMATION_MESSAGE);
-
-        if (choice == JOptionPane.YES_OPTION) {
-            SESSION.RESTART();
-            completionDialogShowing = false;
-            lastQuestionSerial = -1;
-            Arrays.fill(ANSWER_LOCKS, false);
-            clearLifelineDisplay();
-            isPlayOrWalkShowing = false;
-            playOrWalkPanel = null;
-
-            // Re-sync the level capsule back to level 1 on restart
-            if (moneyLadder != null) {
-                moneyLadder.setCurrentMoney(SESSION.getScore());
-            }
-
-            COUNTDOWN_TIMER.start();
-            repaint();
-            return;
-        }
-
-        returnToMenu();
     }
 
     /**

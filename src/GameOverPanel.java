@@ -26,18 +26,18 @@ public class GameOverPanel extends JPanel {
 
     private final Color BACKGROUND_TOP = new Color(10, 8, 28);
     private final Color BACKGROUND_BOTTOM = new Color(3, 2, 10);
-    private final Color GLOW_COLOR = new Color(239, 68, 68, 15); 
+    private final Color GLOW_COLOR = new Color(239, 68, 68, 15);
     private final Color TITLE_PRIMARY = Color.WHITE;
-    private final Color TITLE_ACCENT = new Color(245, 158, 11); 
+    private final Color TITLE_ACCENT = new Color(245, 158, 11);
     private final Color CARD_BG = new Color(17, 24, 39, 195);
     private final Color CARD_BORDER = new Color(55, 65, 81, 140);
-    
+
     private final Color BUTTON_BG = new Color(17, 24, 39, 170);
     private final Color BUTTON_BG_HOVER = new Color(30, 27, 75, 210);
     private final Color BUTTON_BORDER = new Color(55, 65, 81, 130);
     private final Color BUTTON_BORDER_HOVER = new Color(245, 158, 11);
-    
-    private final Color FAILURE = new Color(239, 68, 68); 
+
+    private final Color FAILURE = new Color(239, 68, 68);
 
     // Dynamic layout bounds (mutated inside paintComponent)
     private final Rectangle TRY_AGAIN_BUTTON = new Rectangle(0, 0, 180, 46);
@@ -45,7 +45,6 @@ public class GameOverPanel extends JPanel {
 
     private boolean hoverTryAgain = false;
     private boolean hoverGoHome = false;
-    
 
     // Instance-specific properties
     private final String finalWinnings;
@@ -115,8 +114,8 @@ public class GameOverPanel extends JPanel {
         g2.fillRect(0, 0, w, h);
 
         Point2D center = new Point2D.Float(w / 2.0f, h / 2.0f);
-        float[] dist = {0.0f, 1.0f};
-        Color[] colors = {GLOW_COLOR, new Color(0, 0, 0, 0)};
+        float[] dist = { 0.0f, 1.0f };
+        Color[] colors = { GLOW_COLOR, new Color(0, 0, 0, 0) };
         g2.setPaint(new java.awt.RadialGradientPaint(center, Math.max(w, h) * 0.6f, dist, colors));
         g2.fillRect(0, 0, w, h);
 
@@ -135,19 +134,21 @@ public class GameOverPanel extends JPanel {
         // Text Row: Ouch String
         g2.setFont(BODY_FONT);
         g2.setColor(TITLE_PRIMARY);
-        drawCenteredText(g2, "Ouch... That's gotta sting... You are not joining 1.5% of the adult population who are millionaires (yet).", cardY + 80);
+        drawCenteredText(g2,
+                "Ouch... That's gotta sting... You are not joining 1.5% of the adult population who are millionaires (yet).",
+                cardY + 80);
 
         // Score metrics display
         FontMetrics fm = g2.getFontMetrics(BODY_FONT);
         FontMetrics fmBold = g2.getFontMetrics(HIGHLIGHT_FONT);
-        
+
         g2.setFont(BODY_FONT);
         g2.setColor(TITLE_PRIMARY);
         String winningsLabel = "You have won: ";
         int winningsWidth = fm.stringWidth(winningsLabel) + fmBold.stringWidth(finalWinnings);
         int startXWinnings = (w - winningsWidth) / 2;
         g2.drawString(winningsLabel, startXWinnings, cardY + 180);
-        
+
         g2.setFont(HIGHLIGHT_FONT);
         g2.setColor(TITLE_ACCENT);
         g2.drawString(finalWinnings, startXWinnings + fm.stringWidth(winningsLabel), cardY + 180);

@@ -70,13 +70,13 @@ public class PlayOrWalkPanel extends JPanel {
     /**
      * Creates a new Play or Walk Away panel.
      *
-     * @param safeMoney the amount the player has guaranteed
+     * @param safeMoney      the amount the player has guaranteed
      * @param nextLevelMoney the amount the player could win
-     * @param onWalkAway callback when player chooses to walk away
-     * @param onContinue callback when player chooses to continue
+     * @param onWalkAway     callback when player chooses to walk away
+     * @param onContinue     callback when player chooses to continue
      */
-    public PlayOrWalkPanel(int safeMoney, int nextLevelMoney, 
-                           Runnable onWalkAway, Runnable onContinue) {
+    public PlayOrWalkPanel(int safeMoney, int nextLevelMoney,
+            Runnable onWalkAway, Runnable onContinue) {
         this.safeMoney = safeMoney;
         this.nextLevelMoney = nextLevelMoney;
         this.onWalkAway = onWalkAway;
@@ -134,7 +134,8 @@ public class PlayOrWalkPanel extends JPanel {
      * @param callback the runnable to execute after fade
      */
     private void startFadeAndRun(Runnable callback) {
-        if (isDisappearing) return;
+        if (isDisappearing)
+            return;
         isDisappearing = true;
 
         fadeTimer = new Timer(20, e -> {
@@ -160,7 +161,7 @@ public class PlayOrWalkPanel extends JPanel {
 
             // Apply fade effect
             g2.setComposite(java.awt.AlphaComposite.getInstance(
-                java.awt.AlphaComposite.SRC_OVER, fadeAlpha));
+                    java.awt.AlphaComposite.SRC_OVER, fadeAlpha));
 
             int w = getWidth();
             int h = getHeight();
@@ -322,7 +323,7 @@ public class PlayOrWalkPanel extends JPanel {
         // Background
         g2.setColor(isHovered ? BUTTON_BG_HOVER : BUTTON_BG);
         g2.fillRoundRect(r.x, r.y, r.width, r.height, 16, 16);
-        
+
         // Border
         g2.setStroke(new BasicStroke(isHovered ? 1.5f : 1f));
         g2.setColor(isHovered ? BUTTON_BORDER_HOVER : BUTTON_BORDER);

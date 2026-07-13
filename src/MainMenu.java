@@ -51,10 +51,12 @@ public class MainMenu extends JFrame {
         // Track currently hovered menu item
         private String hovered = "";
 
-        /** Constructor initializing input listeners for interaction and hit detection. */
+        /**
+         * Constructor initializing input listeners for interaction and hit detection.
+         */
         MenuPanel() {
             setFocusable(true);
-            
+
             addMouseMotionListener(new MouseMotionAdapter() {
                 @Override
                 public void mouseMoved(MouseEvent e) {
@@ -113,7 +115,7 @@ public class MainMenu extends JFrame {
         }
 
         /**
-         * Overridden graphics layer painting all custom colors, visual assets, 
+         * Overridden graphics layer painting all custom colors, visual assets,
          * and font strings cleanly onto the panel canvas.
          */
         @Override
@@ -126,15 +128,14 @@ public class MainMenu extends JFrame {
 
             GradientPaint background = new GradientPaint(
                     0, 0, BACKGROUND_TOP,
-                    0, getHeight(), BACKGROUND_BOTTOM
-            );
+                    0, getHeight(), BACKGROUND_BOTTOM);
             g2.setPaint(background);
             g2.fillRect(0, 0, getWidth(), getHeight());
 
             Point2D center = new Point2D.Float(getWidth() / 2.0f, getHeight() / 2.0f);
             float radius = 500f;
-            float[] dist = {0.0f, 1.0f};
-            Color[] colors = {GLOW_COLOR, new Color(0, 0, 0, 0)};
+            float[] dist = { 0.0f, 1.0f };
+            Color[] colors = { GLOW_COLOR, new Color(0, 0, 0, 0) };
             RadialGradientPaint glow = new RadialGradientPaint(center, radius, dist, colors);
             g2.setPaint(glow);
             g2.fillRect(0, 0, getWidth(), getHeight());
@@ -145,21 +146,21 @@ public class MainMenu extends JFrame {
             g2.drawOval(getWidth() - 400, getHeight() - 400, 600, 600);
 
             g2.setFont(TITLE_FONT);
-            
+
             g2.setColor(TITLE_SHADOW);
-            drawCentered(g2, "LOCK IN", 172);
+            drawCentered(g2, "FINAL ANSWER?", 172);
 
             g2.setColor(TITLE_PRIMARY);
-            drawCentered(g2, "LOCK IN", 170);
+            drawCentered(g2, "FINAL ANSWER?", 170);
 
             FontMetrics titleMetrics = g2.getFontMetrics();
-            int titleWidth = titleMetrics.stringWidth("LOCK IN");
+            int titleWidth = titleMetrics.stringWidth("FINAL ANSWER?");
             int titleX = (getWidth() - titleWidth) / 2;
             g2.setColor(TITLE_ACCENT);
             g2.fillRoundRect(titleX + 40, 188, titleWidth - 80, 4, 4, 4);
 
             g2.setFont(SUBTITLE_FONT);
-            g2.setColor(SUBTITLE_COLOR); 
+            g2.setColor(SUBTITLE_COLOR);
             drawCentered(g2, "ONE MILLION REASONS TO PLAY", 255);
 
             // --- Draw Navigation Buttons ---
@@ -172,14 +173,14 @@ public class MainMenu extends JFrame {
             if (hover) {
                 g2.setColor(BUTTON_BG_HOVER);
                 g2.fillRoundRect(r.x, r.y, r.width, r.height, 16, 16);
-                
+
                 g2.setStroke(new BasicStroke(1.5f));
                 g2.setColor(BUTTON_BORDER_HOVER);
                 g2.drawRoundRect(r.x, r.y, r.width, r.height, 16, 16);
             } else {
                 g2.setColor(BUTTON_BG);
                 g2.fillRoundRect(r.x, r.y, r.width, r.height, 16, 16);
-                
+
                 g2.setStroke(new BasicStroke(1f));
                 g2.setColor(BUTTON_BORDER);
                 g2.drawRoundRect(r.x, r.y, r.width, r.height, 16, 16);

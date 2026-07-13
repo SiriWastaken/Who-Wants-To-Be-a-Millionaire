@@ -159,8 +159,10 @@ public class GameScreenRenderer {
     }
 
     private Color timerColorForFraction(float fraction) {
-        if (fraction > 0.60f) return SUCCESS;
-        if (fraction > 0.25f) return TITLE_ACCENT;
+        if (fraction > 0.60f)
+            return SUCCESS;
+        if (fraction > 0.25f)
+            return TITLE_ACCENT;
         return FAILURE;
     }
 
@@ -201,7 +203,8 @@ public class GameScreenRenderer {
 
     private void drawAnswerButtons(Graphics2D g2, GameScreenPanel panel) {
         Question question = panel.getSession().getCurrentQuestion();
-        if (question == null) return;
+        if (question == null)
+            return;
 
         String[] labels = { "A", "B", "C", "D" };
         String[] answers = {
@@ -293,7 +296,8 @@ public class GameScreenRenderer {
                 g2.setColor(TITLE_ACCENT);
                 String percentText = "Audience: " + percentage + "%";
                 FontMetrics fm = g2.getFontMetrics();
-                g2.drawString(percentText, rect.x + rect.width - fm.stringWidth(percentText) - 15, rect.y + rect.height - 10);
+                g2.drawString(percentText, rect.x + rect.width - fm.stringWidth(percentText) - 15,
+                        rect.y + rect.height - 10);
             }
 
             // Draw phone a friend suggestion if this is the suggested answer
@@ -340,9 +344,12 @@ public class GameScreenRenderer {
     }
 
     private Color colorForStatus(GameSession.StatusType statusType) {
-        if (statusType == GameSession.StatusType.SUCCESS) return SUCCESS;
-        if (statusType == GameSession.StatusType.FAILURE) return FAILURE;
-        if (statusType == GameSession.StatusType.COMPLETE) return TITLE_ACCENT;
+        if (statusType == GameSession.StatusType.SUCCESS)
+            return SUCCESS;
+        if (statusType == GameSession.StatusType.FAILURE)
+            return FAILURE;
+        if (statusType == GameSession.StatusType.COMPLETE)
+            return TITLE_ACCENT;
         return SUBTITLE_COLOR;
     }
 
@@ -377,7 +384,8 @@ public class GameScreenRenderer {
                 currentY += lineHeight;
                 line = new StringBuilder(word);
             } else {
-                if (line.length() > 0) line.append(' ');
+                if (line.length() > 0)
+                    line.append(' ');
                 line.append(word);
             }
         }

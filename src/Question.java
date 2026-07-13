@@ -13,22 +13,23 @@ public class Question {
     private final int TIME_LIMIT;
     private final String CATEGORY;
 
-    /** Creates a question record for the game database.
+    /**
+     * Creates a question record for the game database.
      *
-     * @param question the question text shown to the player
-     * @param answerA the A answer choice
-     * @param answerB the B answer choice
-     * @param answerC the C answer choice
-     * @param answerD the D answer choice
+     * @param question      the question text shown to the player
+     * @param answerA       the A answer choice
+     * @param answerB       the B answer choice
+     * @param answerC       the C answer choice
+     * @param answerD       the D answer choice
      * @param correctAnswer the correct answer label, such as A or B
-     * @param difficulty the question difficulty tier
-     * @param timeLimit the number of seconds allowed for this question
-     * @param category the category label displayed in the UI
+     * @param difficulty    the question difficulty tier
+     * @param timeLimit     the number of seconds allowed for this question
+     * @param category      the category label displayed in the UI
      */
     public Question(String question, String answerA, String answerB,
-                    String answerC, String answerD,
-                    String correctAnswer, int difficulty,
-                    int timeLimit, String category) {
+            String answerC, String answerD,
+            String correctAnswer, int difficulty,
+            int timeLimit, String category) {
 
         this.QUESTION = question;
         this.ANSWER_A = answerA;
@@ -41,7 +42,8 @@ public class Question {
         this.CATEGORY = category;
     }
 
-    /** Returns the question text.
+    /**
+     * Returns the question text.
      *
      * @param none no parameters are required
      * @return the question text
@@ -50,7 +52,8 @@ public class Question {
         return QUESTION;
     }
 
-    /** Returns the A answer choice.
+    /**
+     * Returns the A answer choice.
      *
      * @param none no parameters are required
      * @return the A answer choice
@@ -59,7 +62,8 @@ public class Question {
         return ANSWER_A;
     }
 
-    /** Returns the B answer choice.
+    /**
+     * Returns the B answer choice.
      *
      * @param none no parameters are required
      * @return the B answer choice
@@ -68,7 +72,8 @@ public class Question {
         return ANSWER_B;
     }
 
-    /** Returns the C answer choice.
+    /**
+     * Returns the C answer choice.
      *
      * @param none no parameters are required
      * @return the C answer choice
@@ -77,7 +82,8 @@ public class Question {
         return ANSWER_C;
     }
 
-    /** Returns the D answer choice.
+    /**
+     * Returns the D answer choice.
      *
      * @param none no parameters are required
      * @return the D answer choice
@@ -86,7 +92,8 @@ public class Question {
         return ANSWER_D;
     }
 
-    /** Returns the correct answer label.
+    /**
+     * Returns the correct answer label.
      *
      * @param none no parameters are required
      * @return the correct answer label
@@ -95,7 +102,8 @@ public class Question {
         return CORRECT_ANSWER;
     }
 
-    /** Returns the difficulty tier.
+    /**
+     * Returns the difficulty tier.
      *
      * @param none no parameters are required
      * @return the difficulty tier
@@ -104,7 +112,8 @@ public class Question {
         return DIFFICULTY;
     }
 
-    /** Returns the time limit in seconds.
+    /**
+     * Returns the time limit in seconds.
      *
      * @param none no parameters are required
      * @return the time limit in seconds
@@ -113,7 +122,8 @@ public class Question {
         return TIME_LIMIT;
     }
 
-    /** Returns the category label.
+    /**
+     * Returns the category label.
      *
      * @param none no parameters are required
      * @return the category label

@@ -9,10 +9,10 @@ public class GameScreen extends JFrame {
         setTitle("FINAL ANSWER?");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
-        
+
         GameScreenPanel gamePanel = new GameScreenPanel();
         MoneyLadder moneyLadder = new MoneyLadder();
-        
+
         gamePanel.setMoneyLadder(moneyLadder);
 
         getContentPane().setLayout(new BorderLayout());
