@@ -9,10 +9,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+import javax.swing.*;
 
 /** Handles gameplay input, timers, and small UI state for the game screen. */
 public class GameScreenPanel extends JPanel {
@@ -62,7 +59,7 @@ public class GameScreenPanel extends JPanel {
     public GameScreenPanel() {
         setFocusable(true);
         setPreferredSize(new Dimension(1100, 760));
-        setLayout(null); // Use null layout so we can position the overlay
+        setLayout(null);
         COUNTDOWN_TIMER = new Timer(1000, event -> onTick());
         installListeners();
         syncQuestionState();
@@ -78,7 +75,6 @@ public class GameScreenPanel extends JPanel {
      */
     public void setMoneyLadder(MoneyLadder ladder) {
         this.moneyLadder = ladder;
-        // Seed initial level placement matching active state
         if (this.moneyLadder != null) {
             this.moneyLadder.setCurrentMoney(SESSION.getScore());
         }
@@ -207,7 +203,6 @@ public class GameScreenPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Only render the main game - the overlay is now a child component
         RENDERER.paint((Graphics2D) g, this);
     }
 
@@ -222,7 +217,6 @@ public class GameScreenPanel extends JPanel {
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent event) {
-                // If Play or Walk is showing, don't process game mouse events
                 if (isPlayOrWalkShowing) {
                     return;
                 }
@@ -233,7 +227,6 @@ public class GameScreenPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent event) {
-                // If Play or Walk is showing, don't process game mouse events
                 if (isPlayOrWalkShowing) {
                     return;
                 }
@@ -280,6 +273,7 @@ public class GameScreenPanel extends JPanel {
 
     /**
      * Routes a pointer press to the back button, answer grid, or lifelines.
+     * Lifelines are disabled during answer animation.
      *
      * @param point the pointer location to evaluate
      * @return void
@@ -294,6 +288,12 @@ public class GameScreenPanel extends JPanel {
             return;
         }
 
+        // If an answer has been selected (animation running), block ALL interactions
+        if (answerAnimationRunning || selectedAnswer != -1) {
+            return;
+        }
+
+        // Check answer buttons
         for (int i = 0; i < ANSWER_BOUNDS.length; i++) {
             if (ANSWER_BOUNDS[i].contains(point) && !ANSWER_LOCKS[i]) {
                 beginAnswerAnimation(i);
@@ -301,6 +301,7 @@ public class GameScreenPanel extends JPanel {
             }
         }
 
+        // Check lifeline buttons (only if no answer has been selected)
         for (int i = 0; i < LIFELINE_BOUNDS.length; i++) {
             if (LIFELINE_BOUNDS[i].contains(point)) {
                 useLifeline(i);
@@ -345,7 +346,6 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void onTick() {
-        // Don't tick timer if Play or Walk is showing
         if (isPlayOrWalkShowing) {
             return;
         }
@@ -360,6 +360,12 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void useLifeline(int index) {
+        // Double-check: lifelines cannot be used if an answer has been selected
+        if (answerAnimationRunning || selectedAnswer != -1) {
+            JOptionPane.showMessageDialog(this, "You cannot use lifelines after selecting an answer.");
+            return;
+        }
+
         switch (index) {
             case 0 -> useSwapLifeline();
             case 1 -> useAudiencePollLifeline();
@@ -408,9 +414,7 @@ public class GameScreenPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Swap is unavailable right now.");
             return;
         }
-        // Clear any lifeline displays
         clearLifelineDisplay();
-
         Arrays.fill(ANSWER_LOCKS, false);
         JOptionPane.showMessageDialog(this, "Swap used. The current question has been refreshed.");
     }
@@ -419,27 +423,19 @@ public class GameScreenPanel extends JPanel {
      * Shows the epic win screen when the player reaches £1,000,000.
      */
     private void showWinScreen() {
-        // Clean up any Play or Walk panel
         if (playOrWalkPanel != null) {
             remove(playOrWalkPanel);
             playOrWalkPanel.cleanup();
             playOrWalkPanel = null;
         }
         isPlayOrWalkShowing = false;
-
-        // Stop the timer
         COUNTDOWN_TIMER.stop();
-
-        // Clear any lifeline displays
         clearLifelineDisplay();
 
-        // Create and show the win screen
         WinScreenPanel winScreen = new WinScreenPanel(
                 () -> {
-                    // Play Again
                     SwingUtilities.invokeLater(() -> {
                         SESSION.RESTART();
-                        // Replace this panel with a fresh game panel
                         java.awt.Container parent = this.getParent();
                         if (parent != null) {
                             GameScreenPanel newGamePanel = new GameScreenPanel();
@@ -454,16 +450,13 @@ public class GameScreenPanel extends JPanel {
                     });
                 },
                 () -> {
-                    // Go Home
                     SwingUtilities.invokeLater(() -> {
                         returnToMenu();
                     });
                 });
 
-        // Replace this panel with the win screen
         java.awt.Container parent = this.getParent();
         if (parent != null) {
-            // Add the win screen and remove this panel
             parent.add(winScreen);
             parent.remove(this);
             parent.revalidate();
@@ -475,17 +468,12 @@ public class GameScreenPanel extends JPanel {
      * Shows the game over panel when the player loses.
      *
      * @param selectedAnsText the text of the selected answer
-     * @param correctAnsText  the text of the correct answer
+     * @param correctAnsText the text of the correct answer
      */
     private void showGameOverPanel(String selectedAnsText, String correctAnsText) {
-        // Swap panels gracefully inside the immediate parent container
         java.awt.Container parent = this.getParent();
         if (parent != null) {
-            // Keep a reference to the ladder to pass back on restart
             final MoneyLadder ladderRef = this.moneyLadder;
-
-            // FIX: Use a final single-element array to bypass the lambda initialization
-            // scope trap
             final GameOverPanel[] gameOverHolder = new GameOverPanel[1];
 
             GameOverPanel gameOver = new GameOverPanel(
@@ -493,34 +481,24 @@ public class GameScreenPanel extends JPanel {
                     correctAnsText,
                     SESSION.getLastSafeMoney(),
                     () -> {
-                        // Play Again Action
                         SESSION.RESTART();
                         GameScreenPanel newGamePanel = new GameScreenPanel();
                         if (ladderRef != null) {
                             newGamePanel.setMoneyLadder(ladderRef);
                         }
-
-                        // Swap the fresh gameplay panel directly back into the primary layout
                         parent.add(newGamePanel);
-
-                        // Safely remove the game over panel using our wrapper holder reference
                         if (gameOverHolder[0] != null && gameOverHolder[0].getParent() != null) {
                             java.awt.Container goParent = gameOverHolder[0].getParent();
                             goParent.remove(gameOverHolder[0]);
                             goParent.revalidate();
                             goParent.repaint();
                         }
-
                         parent.revalidate();
                         parent.repaint();
                         newGamePanel.requestFocusInWindow();
                     });
 
-            // Assign to the wrapper array so the lambda closure can access it later when
-            // invoked
             gameOverHolder[0] = gameOver;
-
-            // Add the game over panel to the layout and remove this game screen
             parent.add(gameOver);
             parent.remove(this);
             parent.revalidate();
@@ -545,11 +523,9 @@ public class GameScreenPanel extends JPanel {
             return;
         }
 
-        // Calculate percentages
         audiencePollPercentages = calculateAudiencePercentages(question);
         repaint();
 
-        // Auto-remove after 8 seconds
         if (lifelineDisplayTimer != null) {
             lifelineDisplayTimer.stop();
         }
@@ -569,11 +545,9 @@ public class GameScreenPanel extends JPanel {
         int[] result = new int[4];
         int correctIdx = question.getCorrectAnswer().trim().toUpperCase().charAt(0) - 'A';
 
-        // Correct answer gets 40-55%
         int correctPercent = 40 + (int) (Math.random() * 15);
         result[correctIdx] = correctPercent;
 
-        // Distribute remaining among wrong answers
         int remaining = 100 - correctPercent;
         for (int i = 0; i < 4; i++) {
             if (i != correctIdx && remaining > 0) {
@@ -583,12 +557,10 @@ public class GameScreenPanel extends JPanel {
             }
         }
 
-        // Add any leftover to correct answer
         if (remaining > 0) {
             result[correctIdx] += remaining;
         }
 
-        // Ensure all values sum to 100
         int total = 0;
         for (int i = 0; i < 4; i++) {
             total += result[i];
@@ -621,12 +593,10 @@ public class GameScreenPanel extends JPanel {
         String friendName = friendNames[(int) (Math.random() * friendNames.length)];
         String correctAnswer = question.getCorrectAnswer().trim().toUpperCase();
 
-        // Convert the answer letter to an index
         phoneAFriendSuggestedIndex = correctAnswer.charAt(0) - 'A';
         phoneAFriendSuggestion = friendName + " thinks this is the answer!";
         repaint();
 
-        // Auto-remove after 8 seconds
         if (lifelineDisplayTimer != null) {
             lifelineDisplayTimer.stop();
         }
@@ -661,22 +631,18 @@ public class GameScreenPanel extends JPanel {
             return;
         }
 
-        // Clear any lifeline displays
         clearLifelineDisplay();
 
         int safeMoney = SESSION.getLastSafeMoney();
         int currentIndex = SESSION.getCurrentQuestionNumber() - 1;
         int nextMoney = QuestionBank.getMoneyForQuestion(currentIndex + 1);
 
-        // Stop the timer while player decides
         COUNTDOWN_TIMER.stop();
 
-        // Create the panel
         playOrWalkPanel = new PlayOrWalkPanel(
                 safeMoney,
                 nextMoney,
                 () -> {
-                    // Walk Away
                     SwingUtilities.invokeLater(() -> {
                         if (playOrWalkPanel != null) {
                             remove(playOrWalkPanel);
@@ -691,7 +657,6 @@ public class GameScreenPanel extends JPanel {
                     });
                 },
                 () -> {
-                    // Continue Playing
                     SwingUtilities.invokeLater(() -> {
                         if (playOrWalkPanel != null) {
                             remove(playOrWalkPanel);
@@ -724,7 +689,6 @@ public class GameScreenPanel extends JPanel {
      * @return void
      */
     private void showCompletionDialog() {
-        // Clean up any Play or Walk panel
         if (playOrWalkPanel != null) {
             remove(playOrWalkPanel);
             playOrWalkPanel.cleanup();
@@ -736,7 +700,6 @@ public class GameScreenPanel extends JPanel {
         boolean failed = SESSION.getStatusType() == GameSession.StatusType.FAILURE;
         String title = failed ? "Game Over" : "Game Complete";
 
-        // Check if this was a walk-away
         String statusMsg = SESSION.getStatusMessage();
         boolean walkedAway = statusMsg != null && statusMsg.contains("walked away");
 
@@ -764,7 +727,6 @@ public class GameScreenPanel extends JPanel {
             isPlayOrWalkShowing = false;
             playOrWalkPanel = null;
 
-            // Re-sync the level capsule back to level 1 on restart
             if (moneyLadder != null) {
                 moneyLadder.setCurrentMoney(SESSION.getScore());
             }
@@ -782,36 +744,30 @@ public class GameScreenPanel extends JPanel {
      * restarts.
      */
     private void syncQuestionState() {
-        // If Play or Walk is showing, don't update state
         if (isPlayOrWalkShowing) {
             return;
         }
 
         if (SESSION.getQuestionSerial() != lastQuestionSerial) {
-            // Clear any lifeline display state when question changes
             clearLifelineDisplay();
             Arrays.fill(ANSWER_LOCKS, false);
             lastQuestionSerial = SESSION.getQuestionSerial();
         }
 
-        // Highlight the ladder step matching the question the player is facing!
         if (moneyLadder != null) {
             moneyLadder.setCurrentLevel(SESSION.getCurrentQuestionNumber());
         }
 
-        // Check if the panel is pending - triggered from GameSession
         if (SESSION.isHighStakesDecisionPending() && !SESSION.isFinished() &&
                 SESSION.getStatusType() != GameSession.StatusType.COMPLETE) {
             showPlayOrWalkPanel();
             return;
         }
 
-        // Handle game failure (incorrect answer or time expired)
         if (SESSION.isFinished() && SESSION.getStatusType() == GameSession.StatusType.FAILURE) {
             COUNTDOWN_TIMER.stop();
             completionDialogShowing = true;
 
-            // Clean up any Play or Walk panel if it's still showing
             if (playOrWalkPanel != null) {
                 remove(playOrWalkPanel);
                 playOrWalkPanel.cleanup();
@@ -827,7 +783,6 @@ public class GameScreenPanel extends JPanel {
             if (q != null) {
                 String[] choices = { q.getAnswerA(), q.getAnswerB(), q.getAnswerC(), q.getAnswerD() };
 
-                // Read from our selectedAnswer before it is reset
                 if (selectedAnswer >= 0 && selectedAnswer < 4) {
                     selectedAnsText = (char) ('A' + selectedAnswer) + ": " + choices[selectedAnswer];
                 }
@@ -838,14 +793,11 @@ public class GameScreenPanel extends JPanel {
                 }
             }
 
-            // Show game over using the existing game over panel logic
             showGameOverPanel(selectedAnsText, correctAnsText);
             return;
         }
 
-        // Handle game completion - WIN!
         if (SESSION.isFinished() && SESSION.getStatusType() == GameSession.StatusType.COMPLETE) {
-            // Check if this was a walk-away
             String status = SESSION.getStatusMessage();
             if (status.contains("walked away")) {
                 completionDialogShowing = true;
@@ -855,14 +807,11 @@ public class GameScreenPanel extends JPanel {
                 return;
             }
 
-            // Check if the player won £1,000,000
             if (SESSION.getScore() >= 1000000) {
-                // Show the epic win screen!
                 showWinScreen();
                 return;
             }
 
-            // Normal completion
             completionDialogShowing = true;
             COUNTDOWN_TIMER.stop();
             repaint();
@@ -920,6 +869,7 @@ public class GameScreenPanel extends JPanel {
      * game over.
      */
     private void beginAnswerAnimation(int answerIndex) {
+        // Prevent animation if already running or if PlayOrWalk is showing
         if (answerAnimationRunning || selectedAnswer != -1 || isPlayOrWalkShowing)
             return;
 
