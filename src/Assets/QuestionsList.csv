@@ -77,14 +77,14 @@ ID,Question,AnswerA,AnswerB,AnswerC,AnswerD,CorrectAnswer,Difficulty,TimeLimit,C
 76,What is the largest mammal?,Elephant,Blue Whale,Giraffe,Hippo,B,2,10,Animals
 77,What is the freezing point of water?,-10°C,0°C,10°C,20°C,B,2,10,Science
 78,Which country is shaped like a boot?,France,Italy,Spain,Greece,B,2,10,Geography
-79,Who painted the Mona Lisa?,Van Gogh,Picasso,Da Vinci,Michelangelo,C,2,10,Arts
+79,Who painted the Mona Lisa?,Vincent Van Gogh,Pablo Picasso,Leonardo Da Vinci,Michelangelo,C,2,10,Arts
 80,What is the speed of light approx?,300,000 km/s,150,000 km/s,500,000 km/s,100,000 km/s
 81,What is the largest organ in the human body?,Liver,Brain,Skin,Heart,C,2,10,Science
 82,Which river is the longest?,Nile,Amazon,Mississippi,Yangtze,A,2,10,Geography
 83,What is 12 x 12?,124,134,144,154,C,2,10,Math
 84,Which animal is a marsupial?,Lion,Kangaroo,Elephant,Shark,B,2,10,Animals
 85,What is the main gas in Earth's atmosphere?,Oxygen,Nitrogen,Carbon Dioxide,Argon,B,2,10,Science
-86,Which country hosted the 2016 Olympics?,China,UK,Brazil,USA,C,2,10,Sports
+86,Which country hosted the 2016 Olympics?,China,United Kingdom,Brazil,United States,C,2,10,Sports
 87,Who developed the theory of relativity?,Newton,Einstein,Darwin,Hawking,B,2,10,Science
 88,What is the smallest country in the world?,Monaco,Vatican City,San Marino,Liechtenstein,B,2,10,Geography
 89,Which element is needed for combustion?,Oxygen,Nitrogen,Carbon,Helium,A,2,10,Science
@@ -116,7 +116,7 @@ ID,Question,AnswerA,AnswerB,AnswerC,AnswerD,CorrectAnswer,Difficulty,TimeLimit,C
 115,What is the largest desert?,Sahara,Gobi,Kalahari,Antarctica,A,2,10,Geography
 116,Which vitamin is in citrus fruits?,A,B,C,D,C,2,10,Food
 117,What is the chemical symbol for gold?,Au,Ag,Fe,Pb,A,2,10,Science
-118,Who was the first President of the USA?,Adams,Jefferson,Washington,Lincoln,C,2,10,History
+118,Who was the first President of the United States?, John Adams, Ryan Jefferson,George Washington,Abraham Lincoln,C,2,10,History
 119,What is 7 x 8?,48,54,56,64,C,2,10,Math
 120,Which is a type of cloud?,Cumulus,Stratus,All of these,None of these,C,2,10,Science
 121,Which planet is farthest from the Sun?,Uranus,Neptune,Saturn,Jupiter,B,2,10,Science
