@@ -306,20 +306,19 @@ public class GameSession {
         if (finished || !highStakesDecisionPending) {
             return false;
         }
+
         highStakesDecisionPending = false;
 
         if (playRound) {
-            // Continue playing - set timer for the current question
             timeRemaining = getCurrentQuestion() == null ? 0 : getCurrentQuestion().getTimeLimit();
             clearStatusMessage();
-            return true;
+        } else {
+            finished = true;
+            timeRemaining = 0;
+            statusMessage = "You walked away with £" + String.format("%,d", lastSafeMoney) + ".";
+            statusType = StatusType.COMPLETE;
         }
 
-        // Walk away
-        finished = true;
-        timeRemaining = 0;
-        statusMessage = "You walked away with £" + String.format("%,d", lastSafeMoney) + ".";
-        statusType = StatusType.COMPLETE;
         return true;
     }
 
@@ -367,23 +366,6 @@ public class GameSession {
         timeRemaining = 0;
         statusMessage = message;
         statusType = StatusType.FAILURE;
-    }
-
-    /** Finds a suitable replacement question for Swap. */
-    private int findSwapIndex() {
-        Question currentQuestion = getCurrentQuestion();
-        if (currentQuestion == null) {
-            return -1;
-        }
-        for (int i = currentIndex + 1; i < questionDeck.size(); i++) {
-            if (questionDeck.get(i).getDifficulty() == currentQuestion.getDifficulty()) {
-                return i;
-            }
-        }
-        if (currentIndex + 1 < questionDeck.size()) {
-            return currentIndex + 1;
-        }
-        return -1;
     }
 
     /** Compares an answer index against the stored answer label. */

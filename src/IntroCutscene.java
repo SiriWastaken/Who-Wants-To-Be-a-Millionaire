@@ -37,7 +37,7 @@ public class IntroCutscene extends JPanel {
 
     // 12 seconds total * 1000ms / 16ms per frame = 750 frames
     private final int MAX_FRAMES = 750;
-    private final int LOGO_TARGET_SIZE = 340;
+    private final int LOGO_TARGET_SIZE = 500;
 
     private final Timer ANIMATION_TIMER;
     private final Runnable ON_COMPLETION;
@@ -220,17 +220,18 @@ public class IntroCutscene extends JPanel {
                     gLogo.setFont(new Font("SansSerif", Font.BOLD, (int) (32 * currentScale)));
                     gLogo.setColor(Color.WHITE);
                     FontMetrics fmL = gLogo.getFontMetrics();
-                    String fallbackText = "LOCK IN";
+                    String fallbackText = "FINAL ANSWER?";
                     gLogo.drawString(fallbackText, -fmL.stringWidth(fallbackText) / 2, fmL.getAscent() / 2 - 5);
                 }
 
-                if (progress >= 1.0f) {
-                    float fadePulse = (float) (Math.sin((frame - 480) * 0.06) * 0.15 + 0.85);
-                    gLogo.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadePulse));
-                    gLogo.setStroke(new BasicStroke(2f));
-                    gLogo.setColor(ACCENT_GOLD);
-                    gLogo.drawOval(-size / 2 - 12, -size / 2 - 12, size + 24, size + 24);
-                }
+                // Commented out because it doesn't fit the current logo size but if desired, the size of the panel can be fixed
+                // if (progress >= 1.0f) {
+                //     float fadePulse = (float) (Math.sin((frame - 480) * 0.06) * 0.15 + 0.85);
+                //     gLogo.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadePulse));
+                //     gLogo.setStroke(new BasicStroke(2f));
+                //     gLogo.setColor(ACCENT_GOLD);
+                //     gLogo.drawOval(-size / 2 - 12, -size / 2 - 12, size + 24, size + 24);
+                // }
 
                 gLogo.dispose();
             }
@@ -242,7 +243,7 @@ public class IntroCutscene extends JPanel {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, textAlpha));
             g2.setFont(SUBTITLE_FONT);
             g2.setColor(new Color(156, 163, 175));
-            drawCentered(g2, "PREPARE YOURSELF", centerY + 220, w);
+            drawCentered(g2, "ARE YOU READY TO BE A MILLIONAIRE?", centerY + 220, w);
             g2.setComposite(AlphaComposite.SrcOver);
         }
 

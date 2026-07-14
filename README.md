@@ -144,7 +144,7 @@ MouseEvent → MouseAdapter → handleClick() →
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/FinalAnswer.git
+git clone https://github.com/SiriWasTaken/Who-Wants-To-Be-a-Millionaire.git
 
 # Navigate to the project directory
 cd FinalAnswer
@@ -494,7 +494,7 @@ FinalAnswer/
 
 ## 📄 License
 
-This project was created for educational purposes as part of the ICS3U course. All rights reserved.
+This project was created for educational purposes as part of the ICS3U course. 
 
 ### Third-Party Assets
 - **Game format** - Inspired by "Who Wants to Be a Millionaire?" which is owned by Sony Pictures Television
