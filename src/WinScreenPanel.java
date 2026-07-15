@@ -57,6 +57,10 @@ public class WinScreenPanel extends JPanel {
     private boolean hoverPlayAgain = false;
     private boolean hoverGoHome = false;
 
+    // Direct handles to clean application flow signals
+    private final Runnable onPlayAgain;
+    private final Runnable onGoHome;
+
     private class Particle {
         float x, y;
         float vx, vy;
@@ -122,6 +126,9 @@ public class WinScreenPanel extends JPanel {
     }
 
     public WinScreenPanel(Runnable onPlayAgain, Runnable onGoHome) {
+        this.onPlayAgain = onPlayAgain;
+        this.onGoHome = onGoHome;
+
         setOpaque(false);
         setFocusable(true);
         setLayout(null);
@@ -165,16 +172,29 @@ public class WinScreenPanel extends JPanel {
                 Point p = e.getPoint();
                 if (PLAY_AGAIN_BUTTON.contains(p)) {
                     cleanup();
-                    showModeSelection();
+                    if (onPlayAgain != null) {
+                        onPlayAgain.run();
+                    } else {
+                        // Fallback option if no callback was supplied
+                        showModeSelectionFallback();
+                    }
                 } else if (GO_HOME_BUTTON.contains(p)) {
                     cleanup();
-                    returnToMenu();
+                    if (onGoHome != null) {
+                        onGoHome.run();
+                    } else {
+                        // Fallback destination mapping
+                        returnToMenuFallback();
+                    }
                 }
             }
         });
     }
 
-    private void showModeSelection() {
+    /**
+     * Fallback routing if no custom clean state initialization pipeline is passed.
+     */
+    private void showModeSelectionFallback() {
         ModeSelector selector = new ModeSelector(selectedMode -> {
             IntroCutscene introView = new IntroCutscene(() -> {
                 GameScreen game = new GameScreen(selectedMode);
@@ -427,7 +447,7 @@ public class WinScreenPanel extends JPanel {
         return new Color(r, g, b, a);
     }
 
-    private void returnToMenu() {
+    private void returnToMenuFallback() {
         SwingUtilities.invokeLater(() -> {
             MainMenu menu = new MainMenu();
             menu.setVisible(true);
