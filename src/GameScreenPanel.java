@@ -16,6 +16,7 @@ public class GameScreenPanel extends JPanel {
 
     private final GameSession SESSION = new GameSession();
     private final GameScreenRenderer RENDERER = new GameScreenRenderer();
+    private final GameSession.GameMode gameMode;
 
     private MoneyLadder moneyLadder;
 
@@ -55,8 +56,15 @@ public class GameScreenPanel extends JPanel {
     private PlayOrWalkPanel playOrWalkPanel = null;
     private boolean isPlayOrWalkShowing = false;
 
-    /** Creates the gameplay panel and starts the countdown timer. */
-    public GameScreenPanel() {
+    /**
+     * Creates the gameplay panel with the specified game mode.
+     *
+     * @param mode the game mode (TIMED or UNTIMED)
+     */
+    public GameScreenPanel(GameSession.GameMode mode) {
+        this.gameMode = mode;
+        SESSION.setGameMode(mode);
+
         setFocusable(true);
         setPreferredSize(new Dimension(1100, 760));
         setLayout(null);
@@ -436,9 +444,10 @@ public class GameScreenPanel extends JPanel {
                 () -> {
                     SwingUtilities.invokeLater(() -> {
                         SESSION.RESTART();
+                        SESSION.setGameMode(gameMode);
                         java.awt.Container parent = this.getParent();
                         if (parent != null) {
-                            GameScreenPanel newGamePanel = new GameScreenPanel();
+                            GameScreenPanel newGamePanel = new GameScreenPanel(gameMode);
                             if (moneyLadder != null) {
                                 newGamePanel.setMoneyLadder(moneyLadder);
                             }
@@ -474,6 +483,7 @@ public class GameScreenPanel extends JPanel {
         java.awt.Container parent = this.getParent();
         if (parent != null) {
             final MoneyLadder ladderRef = this.moneyLadder;
+            final GameSession.GameMode mode = this.gameMode;
             final GameOverPanel[] gameOverHolder = new GameOverPanel[1];
 
             GameOverPanel gameOver = new GameOverPanel(
@@ -482,7 +492,8 @@ public class GameScreenPanel extends JPanel {
                     SESSION.getLastSafeMoney(),
                     () -> {
                         SESSION.RESTART();
-                        GameScreenPanel newGamePanel = new GameScreenPanel();
+                        SESSION.setGameMode(mode);
+                        GameScreenPanel newGamePanel = new GameScreenPanel(mode);
                         if (ladderRef != null) {
                             newGamePanel.setMoneyLadder(ladderRef);
                         }
@@ -720,6 +731,7 @@ public class GameScreenPanel extends JPanel {
 
         if (choice == JOptionPane.YES_OPTION) {
             SESSION.RESTART();
+            SESSION.setGameMode(gameMode);
             completionDialogShowing = false;
             lastQuestionSerial = -1;
             Arrays.fill(ANSWER_LOCKS, false);
@@ -873,6 +885,7 @@ public class GameScreenPanel extends JPanel {
         if (answerAnimationRunning || selectedAnswer != -1 || isPlayOrWalkShowing)
             return;
 
+        // In UNTIMED mode, we don't stop the timer (it's not running anyway)
         COUNTDOWN_TIMER.stop();
 
         selectedAnswer = answerIndex;
@@ -908,7 +921,10 @@ public class GameScreenPanel extends JPanel {
                     flashState = false;
 
                     if (!SESSION.isFinished() && !isPlayOrWalkShowing) {
-                        COUNTDOWN_TIMER.restart();
+                        // Only restart timer if in TIMED mode
+                        if (gameMode == GameSession.GameMode.TIMED) {
+                            COUNTDOWN_TIMER.restart();
+                        }
                     }
                 }
             });

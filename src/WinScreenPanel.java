@@ -16,30 +16,25 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-/**
- * Displays an epic victory screen when the player wins £1,000,000.
- * Features rotating confetti, fireworks, breathing gold glows, and celebratory text.
- */
 public class WinScreenPanel extends JPanel {
 
-    // Fonts matching the game's style
     private final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 54);
     private final Font SUBTITLE_FONT = new Font("SansSerif", Font.BOLD, 22);
-    private final Font MONEY_FONT = new Font("SansSerif", Font.BOLD, 58); // Made larger and more epic
+    private final Font MONEY_FONT = new Font("SansSerif", Font.BOLD, 58);
     private final Font BODY_FONT = new Font("SansSerif", Font.PLAIN, 18);
     private final Font BUTTON_FONT = new Font("SansSerif", Font.BOLD, 18);
 
-    // Colors matching the game's theme
     private final Color BACKGROUND_TOP = new Color(10, 8, 28);
     private final Color BACKGROUND_BOTTOM = new Color(3, 2, 10);
     private final Color GLOW_COLOR = new Color(99, 102, 241, 15);
     private final Color ACCENT_GLOW = new Color(245, 158, 11, 20);
-    private final Color CARD_BG = new Color(12, 16, 33, 235); // Slightly darker for higher contrast
+    private final Color CARD_BG = new Color(12, 16, 33, 235);
     private final Color CARD_BORDER = new Color(55, 65, 81, 180);
     private final Color TITLE_PRIMARY = Color.WHITE;
-    private final Color TITLE_ACCENT = new Color(245, 158, 11); // Gold
+    private final Color TITLE_ACCENT = new Color(245, 158, 11);
     private final Color TITLE_SHADOW = new Color(168, 85, 247, 45);
     private final Color SUBTITLE_COLOR = new Color(156, 163, 175);
     private final Color BUTTON_BG = new Color(17, 24, 39, 190);
@@ -56,18 +51,12 @@ public class WinScreenPanel extends JPanel {
     private float titleGlow = 0.0f;
     private boolean titleGlowIncreasing = true;
 
-    // Button bounds (slightly taller for a premium feel)
     private final Rectangle PLAY_AGAIN_BUTTON = new Rectangle(0, 0, 210, 52);
     private final Rectangle GO_HOME_BUTTON = new Rectangle(0, 0, 210, 52);
 
     private boolean hoverPlayAgain = false;
     private boolean hoverGoHome = false;
-    private final Runnable onPlayAgain;
-    private final Runnable onGoHome;
 
-    /**
-     * Represents a single particle (spinning metallic confetti or firework spark).
-     */
     private class Particle {
         float x, y;
         float vx, vy;
@@ -77,8 +66,6 @@ public class WinScreenPanel extends JPanel {
         int maxLife;
         boolean isFirework;
         float gravity = 0.12f;
-        
-        // Rotational properties for spinning confetti
         float angle;
         float rotationSpeed;
 
@@ -115,23 +102,16 @@ public class WinScreenPanel extends JPanel {
             g2.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) (alpha * 220)));
 
             if (isFirework) {
-                // Draw glowy firework spark
                 g2.fillOval((int) x - size / 2, (int) y - size / 2, size, size);
                 g2.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) (alpha * 50)));
                 g2.fillOval((int) x - size, (int) y - size, size * 2, size * 2);
             } else {
-                // Draw spinning, polished rectangular/diamond confetti
                 AffineTransform original = g2.getTransform();
                 g2.translate(x, y);
                 g2.rotate(angle);
-                
-                // Draw a 3D shading slip on the confetti
                 g2.fillRect(-size / 2, -size / 4, size, size / 2);
-                
-                // Little highlight reflection line
                 g2.setColor(new Color(255, 255, 255, (int) (alpha * 120)));
                 g2.drawLine(-size / 2, -size / 4, size / 2, -size / 4);
-                
                 g2.setTransform(original);
             }
         }
@@ -141,19 +121,12 @@ public class WinScreenPanel extends JPanel {
         }
     }
 
-    /**
-     * Creates a new Win Screen panel.
-     */
     public WinScreenPanel(Runnable onPlayAgain, Runnable onGoHome) {
-        this.onPlayAgain = onPlayAgain;
-        this.onGoHome = onGoHome;
-
         setOpaque(false);
         setFocusable(true);
         setLayout(null);
         installListeners();
 
-        // Handles particle logic and breathing UI animations
         particleTimer = new Timer(30, e -> {
             spawnConfettiChance();
             updateParticles();
@@ -162,15 +135,13 @@ public class WinScreenPanel extends JPanel {
         });
         particleTimer.start();
 
-        // Firework timer - spawns fireworks every 500ms
         fireworkTimer = new Timer(500, e -> {
             spawnFirework();
         });
         fireworkTimer.start();
 
-        // Initial big blast of celebration
         for (int i = 0; i < 100; i++) {
-            spawnConfetti(true); // Scatters them across the screen
+            spawnConfetti(true);
         }
         for (int i = 0; i < 6; i++) {
             spawnFirework();
@@ -194,13 +165,38 @@ public class WinScreenPanel extends JPanel {
                 Point p = e.getPoint();
                 if (PLAY_AGAIN_BUTTON.contains(p)) {
                     cleanup();
-                    onPlayAgain.run();
+                    showModeSelection();
                 } else if (GO_HOME_BUTTON.contains(p)) {
                     cleanup();
-                    onGoHome.run();
+                    returnToMenu();
                 }
             }
         });
+    }
+
+    private void showModeSelection() {
+        ModeSelector selector = new ModeSelector(selectedMode -> {
+            IntroCutscene introView = new IntroCutscene(() -> {
+                GameScreen game = new GameScreen(selectedMode);
+                game.setVisible(true);
+                java.awt.Window window = SwingUtilities.getWindowAncestor(WinScreenPanel.this);
+                if (window != null) {
+                    window.dispose();
+                }
+            });
+            WinScreenPanel.this.removeAll();
+            WinScreenPanel.this.setLayout(new java.awt.BorderLayout());
+            WinScreenPanel.this.add(introView);
+            WinScreenPanel.this.revalidate();
+            WinScreenPanel.this.repaint();
+            introView.requestFocusInWindow();
+        });
+        this.removeAll();
+        this.setLayout(new java.awt.BorderLayout());
+        this.add(selector);
+        this.revalidate();
+        this.repaint();
+        selector.requestFocusInWindow();
     }
 
     private void updateTitleGlow() {
@@ -227,16 +223,9 @@ public class WinScreenPanel extends JPanel {
 
     private void spawnConfetti(boolean spreadGlobally) {
         Color[] colors = {
-                new Color(239, 68, 68),   // Rose Red
-                new Color(34, 197, 94),   // Emerald Green
-                new Color(59, 130, 246),  // Royal Blue
-                new Color(234, 179, 8),   // Brilliant Yellow
-                new Color(168, 85, 247),  // Purple
-                new Color(6, 182, 212),   // Cyan
-                new Color(249, 115, 22),  // Orange
-                new Color(244, 63, 94),   // Pink
-                new Color(245, 158, 11),  // Rich Gold
-                Color.WHITE
+                new Color(239, 68, 68), new Color(34, 197, 94), new Color(59, 130, 246),
+                new Color(234, 179, 8), new Color(168, 85, 247), new Color(6, 182, 212),
+                new Color(249, 115, 22), new Color(244, 63, 94), new Color(245, 158, 11), Color.WHITE
         };
 
         int width = getWidth();
@@ -254,19 +243,13 @@ public class WinScreenPanel extends JPanel {
         int height = getHeight();
         if (width == 0 || height == 0) return;
 
-        // Position in the upper 60% of the viewport
         float x = 80 + RANDOM.nextFloat() * (width - 160);
         float y = 60 + RANDOM.nextFloat() * (height * 0.5f);
 
         Color[] fireworkColors = {
-                new Color(251, 113, 133), // Soft Red
-                new Color(74, 222, 128),  // Neon Green
-                new Color(96, 165, 250),  // Light Blue
-                new Color(253, 224, 71),  // Electric Yellow
-                new Color(192, 132, 252), // Violet
-                new Color(45, 212, 191),  // Teal
-                new Color(251, 146, 60),  // Vivid Orange
-                new Color(245, 158, 11)   // Gold
+                new Color(251, 113, 133), new Color(74, 222, 128), new Color(96, 165, 250),
+                new Color(253, 224, 71), new Color(192, 132, 252), new Color(45, 212, 191),
+                new Color(251, 146, 60), new Color(245, 158, 11)
         };
 
         int count = 25 + RANDOM.nextInt(20);
@@ -313,70 +296,57 @@ public class WinScreenPanel extends JPanel {
             int w = getWidth();
             int h = getHeight();
 
-            // Background Deep-Space Gradient
             GradientPaint bgGradient = new GradientPaint(0, 0, BACKGROUND_TOP, 0, h, BACKGROUND_BOTTOM);
             g2.setPaint(bgGradient);
             g2.fillRect(0, 0, w, h);
 
-            // Subtle Central Radiant Spotlight Glow
             Point2D center = new Point2D.Float(w / 2.0f, h / 2.0f);
             float[] dist = { 0.0f, 1.0f };
             Color[] colors = { GLOW_COLOR, new Color(0, 0, 0, 0) };
             g2.setPaint(new java.awt.RadialGradientPaint(center, 600f, dist, colors));
             g2.fillRect(0, 0, w, h);
 
-            // Ambient background circle details
             g2.setStroke(new BasicStroke(1.2f));
             g2.setColor(ACCENT_GLOW);
             g2.drawOval(-170, -170, 540, 540);
             g2.drawOval(w - 390, h - 440, 620, 620);
 
-            // Draw celebratory particles behind/around the card
             for (Particle p : particles) {
                 p.draw(g2);
             }
 
-            // --- FIXED SPACING METRICS ---
             int cardWidth = Math.min(680, w - 80);
-            int cardHeight = 430; // Expanded from 340 to prevent squishing
+            int cardHeight = 430;
             int cardX = (w - cardWidth) / 2;
             int cardY = (h - cardHeight) / 2 - 10;
 
-            // Position buttons comfortably within the lower segment of the card
             int buttonY = cardY + cardHeight - 85; 
             PLAY_AGAIN_BUTTON.x = cardX + 65;
             PLAY_AGAIN_BUTTON.y = buttonY;
             GO_HOME_BUTTON.x = cardX + cardWidth - 65 - GO_HOME_BUTTON.width;
             GO_HOME_BUTTON.y = buttonY;
 
-            // --- PREMIUM DYNAMIC CARD WINDOW ---
             g2.setColor(CARD_BG);
             g2.fillRoundRect(cardX, cardY, cardWidth, cardHeight, 30, 30);
 
-            // Animated border: shifts seamlessly between muted grey and rich gold based on titleGlow
             Color animatedBorderColor = interpolateColor(CARD_BORDER, BUTTON_BORDER_HOVER, titleGlow * 0.6f);
             g2.setStroke(new BasicStroke(2.0f));
             g2.setColor(animatedBorderColor);
             g2.drawRoundRect(cardX, cardY, cardWidth, cardHeight, 30, 30);
 
-            // --- TYPOGRAPHY AND CONTENT ---
             FontMetrics fm;
             
-            // 1. "CONGRATULATIONS!" Title
             g2.setFont(TITLE_FONT);
             String title = "CONGRATULATIONS!";
             fm = g2.getFontMetrics();
             int titleX = (w - fm.stringWidth(title)) / 2;
             int titleY = cardY + 85;
 
-            // Shadow / Backlight glow
             g2.setColor(TITLE_SHADOW);
             g2.drawString(title, titleX + 2, titleY + 2);
-            // Solid text
             g2.setColor(TITLE_PRIMARY);
             g2.drawString(title, titleX, titleY);
 
-            // 2. "YOU ARE A MILLIONAIRE!" Subtitle
             g2.setFont(SUBTITLE_FONT);
             g2.setColor(SUBTITLE_COLOR);
             String subTitle = "YOU ARE A MILLIONAIRE!";
@@ -384,14 +354,12 @@ public class WinScreenPanel extends JPanel {
             int subY = cardY + 135;
             g2.drawString(subTitle, (w - fm.stringWidth(subTitle)) / 2, subY);
 
-            // 3. "£1,000,000" Grand Prize (with breathing radial shadow glow!)
             g2.setFont(MONEY_FONT);
             String moneyText = "£1,000,000";
             fm = g2.getFontMetrics();
             int moneyX = (w - fm.stringWidth(moneyText)) / 2;
             int moneyY = cardY + 215;
 
-            // Breathing halo glow behind the money text
             int glowIntensity = (int) (titleGlow * 35) + 15;
             g2.setColor(new Color(245, 158, 11, glowIntensity));
             for (int offset = 1; offset <= 6; offset++) {
@@ -401,11 +369,9 @@ public class WinScreenPanel extends JPanel {
                 g2.drawString(moneyText, moneyX, moneyY + offset);
             }
 
-            // Main sharp gold money text
             g2.setColor(TITLE_ACCENT);
             g2.drawString(moneyText, moneyX, moneyY);
 
-            // 4. Custom Subtext Message
             g2.setFont(BODY_FONT);
             g2.setColor(SUBTITLE_COLOR);
             String message = "You've conquered the mountain and joined the elite club!";
@@ -413,7 +379,6 @@ public class WinScreenPanel extends JPanel {
             int msgY = cardY + 270;
             g2.drawString(message, (w - fm.stringWidth(message)) / 2, msgY);
 
-            // 5. Polished Divider
             int dividerY = cardY + 305;
             g2.setStroke(new BasicStroke(1.0f));
             GradientPaint dividerGradient = new GradientPaint(
@@ -424,7 +389,6 @@ public class WinScreenPanel extends JPanel {
             g2.setPaint(dividerGradient);
             g2.drawLine(cardX + 80, dividerY, cardX + cardWidth - 80, dividerY);
 
-            // 6. Action Control Buttons
             drawCustomButton(g2, PLAY_AGAIN_BUTTON, "PLAY AGAIN", hoverPlayAgain);
             drawCustomButton(g2, GO_HOME_BUTTON, "GO HOME", hoverGoHome);
 
@@ -433,26 +397,19 @@ public class WinScreenPanel extends JPanel {
         }
     }
 
-    /**
-     * Renders a highly responsive, styled button with hover illumination states.
-     */
     private void drawCustomButton(Graphics2D g2, Rectangle r, String text, boolean isHovered) {
-        // Base Shadow Glow behind button on hover
         if (isHovered) {
             g2.setColor(new Color(245, 158, 11, 20));
             g2.fillRoundRect(r.x - 3, r.y - 3, r.width + 6, r.height + 6, 20, 20);
         }
 
-        // Filled Body
         g2.setColor(isHovered ? BUTTON_BG_HOVER : BUTTON_BG);
         g2.fillRoundRect(r.x, r.y, r.width, r.height, 16, 16);
 
-        // Responsive Border
         g2.setStroke(new BasicStroke(isHovered ? 2.0f : 1.2f));
         g2.setColor(isHovered ? BUTTON_BORDER_HOVER : BUTTON_BORDER);
         g2.drawRoundRect(r.x, r.y, r.width, r.height, 16, 16);
 
-        // Dynamic Text Accent Color
         g2.setFont(BUTTON_FONT);
         g2.setColor(isHovered ? TITLE_ACCENT : BUTTON_TEXT);
         
@@ -462,14 +419,22 @@ public class WinScreenPanel extends JPanel {
         g2.drawString(text, x, y);
     }
 
-    /**
-     * Helper to linear interpolate color values smoothly.
-     */
     private Color interpolateColor(Color c1, Color c2, float ratio) {
         int r = (int) (c1.getRed() + ratio * (c2.getRed() - c1.getRed()));
         int g = (int) (c1.getGreen() + ratio * (c2.getGreen() - c1.getGreen()));
         int b = (int) (c1.getBlue() + ratio * (c2.getBlue() - c1.getBlue()));
         int a = (int) (c1.getAlpha() + ratio * (c2.getAlpha() - c1.getAlpha()));
         return new Color(r, g, b, a);
+    }
+
+    private void returnToMenu() {
+        SwingUtilities.invokeLater(() -> {
+            MainMenu menu = new MainMenu();
+            menu.setVisible(true);
+        });
+        java.awt.Window window = SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose();
+        }
     }
 }

@@ -98,10 +98,19 @@ public class GameScreenRenderer {
         g2.setColor(TITLE_ACCENT);
         g2.fillRoundRect(titleX + 34, 80, titleWidth - 68, 4, 4, 4);
 
-        drawStatCard(g2, 90, 140, 250, 68, "QUESTION",
-                panel.getSession().getCurrentQuestionNumber() + " / " + panel.getSession().getTotalQuestions());
-        drawTimerWidget(g2, panel, 438, 118, 214, 116);
-        drawStatCard(g2, 760, 140, 250, 68, "MONEY", "$" + String.format("%,d", panel.getSession().getScore()));
+        // Check if we're in Untimed mode
+        if (panel.getSession().getGameMode() == GameSession.GameMode.UNTIMED) {
+            // In untimed mode: do not show the timer/mode box. Balance header layout with 2 wider cards.
+            drawStatCard(g2, 120, 140, 380, 68, "QUESTION",
+                    panel.getSession().getCurrentQuestionNumber() + " / " + panel.getSession().getTotalQuestions());
+            drawStatCard(g2, 600, 140, 380, 68, "MONEY", "£" + String.format("%,d", panel.getSession().getScore()));
+        } else {
+            // In timed mode: show standard question, timer, and money
+            drawStatCard(g2, 90, 140, 250, 68, "QUESTION",
+                    panel.getSession().getCurrentQuestionNumber() + " / " + panel.getSession().getTotalQuestions());
+            drawTimerWidget(g2, panel, 438, 118, 214, 116);
+            drawStatCard(g2, 760, 140, 250, 68, "MONEY", "£" + String.format("%,d", panel.getSession().getScore()));
+        }
     }
 
     private void drawStatCard(Graphics2D g2, int x, int y, int width, int height, String label, String value) {
@@ -121,6 +130,11 @@ public class GameScreenRenderer {
     }
 
     private void drawTimerWidget(Graphics2D g2, GameScreenPanel panel, int x, int y, int width, int height) {
+        // Don't draw timer in untimed mode (safety check)
+        if (panel.getSession().getGameMode() == GameSession.GameMode.UNTIMED) {
+            return;
+        }
+
         int diameter = Math.min(width, height);
         int circleX = x + (width - diameter) / 2;
         int circleY = y + (height - diameter) / 2;

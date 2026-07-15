@@ -16,6 +16,12 @@ public class GameSession {
         COMPLETE
     }
 
+    /** Game mode options. */
+    public enum GameMode {
+        TIMED,      // Original mode with countdown timer
+        UNTIMED     // No timer - player can take as long as they want
+    }
+
     private final ArrayList<Question> questionDeck = new ArrayList<>();
     private Set<Question> usedQuestions = new HashSet<>();
     private int currentIndex;
@@ -31,10 +37,29 @@ public class GameSession {
     private String statusMessage = "";
     private StatusType statusType;
     private int lastSafeMoney;
+    private GameMode currentGameMode = GameMode.TIMED;
 
     /** Builds a fresh session and loads a new deck of questions. */
     public GameSession() {
         RESTART();
+    }
+
+    /**
+     * Sets the game mode for this session.
+     *
+     * @param mode the game mode to use
+     */
+    public void setGameMode(GameMode mode) {
+        this.currentGameMode = mode;
+    }
+
+    /**
+     * Returns the current game mode.
+     *
+     * @return the current game mode
+     */
+    public GameMode getGameMode() {
+        return currentGameMode;
     }
 
     /**
@@ -153,14 +178,28 @@ public class GameSession {
         return highStakesDecisionPending;
     }
 
+    /**
+     * Returns whether the timer should be shown.
+     * In UNTIMED mode, the timer is always hidden.
+     */
     public boolean shouldShowTimer() {
+        if (currentGameMode == GameMode.UNTIMED) {
+            return false;
+        }
         return !finished
                 && !highStakesDecisionPending
                 && getCurrentQuestion() != null
                 && score < QuestionBank.getMoneyForQuestion(8);
     }
 
+    /**
+     * Returns the time limit for the current question.
+     * In UNTIMED mode, returns a very large number (effectively infinite).
+     */
     public int getCurrentQuestionTimeLimit() {
+        if (currentGameMode == GameMode.UNTIMED) {
+            return 99999; // Effectively infinite
+        }
         Question currentQuestion = getCurrentQuestion();
         return currentQuestion == null ? 0 : currentQuestion.getTimeLimit();
     }
@@ -218,6 +257,10 @@ public class GameSession {
     /** Decrements the timer once per second. */
     public void tick() {
         if (finished || getCurrentQuestion() == null || highStakesDecisionPending) {
+            return;
+        }
+        // In UNTIMED mode, the timer never ticks down
+        if (currentGameMode == GameMode.UNTIMED) {
             return;
         }
         timeRemaining = Math.max(0, timeRemaining - 1);

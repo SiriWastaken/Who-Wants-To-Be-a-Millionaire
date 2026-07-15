@@ -3,13 +3,8 @@ import java.awt.event.*;
 import java.awt.geom.Point2D;
 import javax.swing.*;
 
-/**
- * MainMenu manages the main window frame for the Millionaire application.
- * It houses the primary custom drawing canvas (MenuPanel).
- */
 public class MainMenu extends JFrame {
 
-    /** Creates the main menu window and installs the menu panel. */
     public MainMenu() {
         setTitle("FINAL ANSWER?");
         setSize(900, 700);
@@ -20,10 +15,6 @@ public class MainMenu extends JFrame {
         add(new MenuPanel());
     }
 
-    /**
-     * MenuPanel handles the custom rendering of the user interface backgrounds,
-     * decorative visual geometry, fonts, titles, and dynamic text buttons.
-     */
     class MenuPanel extends JPanel {
         private final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 52);
         private final Font SUBTITLE_FONT = new Font("SansSerif", Font.PLAIN, 15);
@@ -43,17 +34,12 @@ public class MainMenu extends JFrame {
         private final Color BUTTON_BORDER_HOVER = new Color(245, 158, 11);
         private final Color BUTTON_TEXT = new Color(209, 213, 219);
 
-        // --- Adjusted Button Bounds for 3 buttons (removed Settings) ---
         private final Rectangle play = new Rectangle(300, 350, 300, 50);
         private final Rectangle credits = new Rectangle(300, 420, 300, 50);
         private final Rectangle quit = new Rectangle(300, 490, 300, 50);
 
-        // Track currently hovered menu item
         private String hovered = "";
 
-        /**
-         * Constructor initializing input listeners for interaction and hit detection.
-         */
         MenuPanel() {
             setFocusable(true);
 
@@ -72,7 +58,6 @@ public class MainMenu extends JFrame {
             });
         }
 
-        /** Updates the hover state based on the current pointer position. */
         private void handleMouseMoved(Point point) {
             if (play.contains(point)) {
                 hovered = "PLAY";
@@ -86,22 +71,9 @@ public class MainMenu extends JFrame {
             repaint();
         }
 
-        /** Routes a press event to the selected menu action immediately. */
         private void handleMousePressed(Point point) {
             if (play.contains(point)) {
-                // Instantly inject and run the cinematic intro animation panel first!
-                IntroCutscene introView = new IntroCutscene(() -> {
-                    // Callback loop triggers instantly when the cutscene completes or gets skipped
-                    GameScreen game = new GameScreen();
-                    game.setVisible(true);
-                    MainMenu.this.dispose();
-                });
-
-                MainMenu.this.getContentPane().removeAll();
-                MainMenu.this.add(introView);
-                MainMenu.this.revalidate();
-                MainMenu.this.repaint();
-                introView.requestFocusInWindow();
+                showModeSelection();
             } else if (credits.contains(point)) {
                 Credits creditsView = new Credits();
                 MainMenu.this.getContentPane().removeAll();
@@ -114,10 +86,46 @@ public class MainMenu extends JFrame {
             }
         }
 
-        /**
-         * Overridden graphics layer painting all custom colors, visual assets,
-         * and font strings cleanly onto the panel canvas.
-         */
+        private void showModeSelection() {
+            // Explicitly implement the interface to handle BOTH options cleanly
+            ModeSelector selector = new ModeSelector(new ModeSelector.ModeSelectionListener() {
+                @Override
+                public void onModeSelected(GameSession.GameMode selectedMode) {
+                    startGame(selectedMode);
+                }
+
+                @Override
+                public void onClosed() {
+                    // This triggers when X is pressed. We clear the selector out
+                    // and put back a fresh MenuPanel.
+                    MainMenu.this.getContentPane().removeAll();
+                    MainMenu.this.add(new MenuPanel());
+                    MainMenu.this.revalidate();
+                    MainMenu.this.repaint();
+                }
+            });
+
+            MainMenu.this.getContentPane().removeAll();
+            MainMenu.this.add(selector);
+            MainMenu.this.revalidate();
+            MainMenu.this.repaint();
+            selector.requestFocusInWindow();
+        }
+
+        private void startGame(GameSession.GameMode mode) {
+            IntroCutscene introView = new IntroCutscene(() -> {
+                GameScreen game = new GameScreen(mode);
+                game.setVisible(true);
+                MainMenu.this.dispose();
+            });
+
+            MainMenu.this.getContentPane().removeAll();
+            MainMenu.this.add(introView);
+            MainMenu.this.revalidate();
+            MainMenu.this.repaint();
+            introView.requestFocusInWindow();
+        }
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -163,7 +171,6 @@ public class MainMenu extends JFrame {
             g2.setColor(SUBTITLE_COLOR);
             drawCentered(g2, "ONE MILLION REASONS TO PLAY", 255);
 
-            // --- Draw Navigation Buttons ---
             drawButton(g2, play, "PLAY", hovered.equals("PLAY"));
             drawButton(g2, credits, "CREDITS", hovered.equals("CREDITS"));
             drawButton(g2, quit, "QUIT", hovered.equals("QUIT"));

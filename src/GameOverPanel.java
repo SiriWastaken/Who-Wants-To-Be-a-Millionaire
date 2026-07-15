@@ -15,10 +15,8 @@ import java.awt.geom.Point2D;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-/* Class responsible for rendering the game over screen */
 public class GameOverPanel extends JPanel {
 
-    // --- Styling Constants ---
     private final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 46);
     private final Font BODY_FONT = new Font("SansSerif", Font.PLAIN, 18);
     private final Font HIGHLIGHT_FONT = new Font("SansSerif", Font.BOLD, 20);
@@ -39,25 +37,16 @@ public class GameOverPanel extends JPanel {
 
     private final Color FAILURE = new Color(239, 68, 68);
 
-    // Dynamic layout bounds (mutated inside paintComponent)
     private final Rectangle TRY_AGAIN_BUTTON = new Rectangle(0, 0, 180, 46);
     private final Rectangle GO_HOME_BUTTON = new Rectangle(0, 0, 180, 46);
 
     private boolean hoverTryAgain = false;
     private boolean hoverGoHome = false;
 
-    // Instance-specific properties
     private final String finalWinnings;
-    private final Runnable onPlayAgain;
 
-    /**
-     * Constructs the updated Game Over Panel using British Pounds currency.
-     */
     public GameOverPanel(String selectedAnswer, String correctAnswer, int score, Runnable onPlayAgain) {
-        // Formatted with the Pounds symbol instead of Dollars
         this.finalWinnings = "£" + String.format("%,d", score);
-        this.onPlayAgain = onPlayAgain;
-
         setFocusable(true);
         installListeners();
     }
@@ -78,12 +67,37 @@ public class GameOverPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 Point p = e.getPoint();
                 if (TRY_AGAIN_BUTTON.contains(p)) {
-                    onPlayAgain.run();
+                    showModeSelection();
                 } else if (GO_HOME_BUTTON.contains(p)) {
                     returnToMenu();
                 }
             }
         });
+    }
+
+    private void showModeSelection() {
+        ModeSelector selector = new ModeSelector(selectedMode -> {
+            IntroCutscene introView = new IntroCutscene(() -> {
+                GameScreen game = new GameScreen(selectedMode);
+                game.setVisible(true);
+                java.awt.Window window = SwingUtilities.getWindowAncestor(GameOverPanel.this);
+                if (window != null) {
+                    window.dispose();
+                }
+            });
+            GameOverPanel.this.removeAll();
+            GameOverPanel.this.setLayout(new java.awt.BorderLayout());
+            GameOverPanel.this.add(introView);
+            GameOverPanel.this.revalidate();
+            GameOverPanel.this.repaint();
+            introView.requestFocusInWindow();
+        });
+        this.removeAll();
+        this.setLayout(new java.awt.BorderLayout());
+        this.add(selector);
+        this.revalidate();
+        this.repaint();
+        selector.requestFocusInWindow();
     }
 
     @Override
@@ -96,19 +110,16 @@ public class GameOverPanel extends JPanel {
         int w = getWidth();
         int h = getHeight();
 
-        // Calculate dynamic layouts relative to current window sizes
         int cardWidth = Math.min(940, w - 80);
         int cardHeight = 340;
         int cardX = (w - cardWidth) / 2;
         int cardY = (h - cardHeight) / 2 - 20;
 
-        // Reposition controls perfectly inside screen context
         TRY_AGAIN_BUTTON.x = cardX + (cardWidth / 2) - 190;
         TRY_AGAIN_BUTTON.y = cardY + cardHeight + 30;
         GO_HOME_BUTTON.x = cardX + (cardWidth / 2) + 10;
         GO_HOME_BUTTON.y = cardY + cardHeight + 30;
 
-        // Draw Full Screen Gradients
         GradientPaint background = new GradientPaint(0, 0, BACKGROUND_TOP, 0, h, BACKGROUND_BOTTOM);
         g2.setPaint(background);
         g2.fillRect(0, 0, w, h);
@@ -119,26 +130,22 @@ public class GameOverPanel extends JPanel {
         g2.setPaint(new java.awt.RadialGradientPaint(center, Math.max(w, h) * 0.6f, dist, colors));
         g2.fillRect(0, 0, w, h);
 
-        // Display Central Slate Envelope Box
         g2.setColor(CARD_BG);
         g2.fillRoundRect(cardX, cardY, cardWidth, cardHeight, 24, 24);
         g2.setStroke(new BasicStroke(1.5f));
         g2.setColor(CARD_BORDER);
         g2.drawRoundRect(cardX, cardY, cardWidth, cardHeight, 24, 24);
 
-        // Title
         g2.setFont(TITLE_FONT);
         g2.setColor(FAILURE);
         drawCenteredText(g2, "GAME OVER", cardY - 40);
 
-        // Text Row: Ouch String
         g2.setFont(BODY_FONT);
         g2.setColor(TITLE_PRIMARY);
         drawCenteredText(g2,
                 "Ouch... That's gotta sting... You are not joining 1.5% of the adult population who are millionaires (yet).",
                 cardY + 80);
 
-        // Score metrics display
         FontMetrics fm = g2.getFontMetrics(BODY_FONT);
         FontMetrics fmBold = g2.getFontMetrics(HIGHLIGHT_FONT);
 
@@ -153,12 +160,10 @@ public class GameOverPanel extends JPanel {
         g2.setColor(TITLE_ACCENT);
         g2.drawString(finalWinnings, startXWinnings + fm.stringWidth(winningsLabel), cardY + 180);
 
-        // Prompt Row
         g2.setFont(BODY_FONT);
         g2.setColor(TITLE_PRIMARY);
-        drawCenteredText(g2, "Would you like to go home or try again?", cardY + 260);
+        drawCenteredText(g2, "Would you like to try again or go home?", cardY + 260);
 
-        // Render Action Control elements
         drawCustomButton(g2, TRY_AGAIN_BUTTON, "TRY AGAIN", hoverTryAgain);
         drawCustomButton(g2, GO_HOME_BUTTON, "GO HOME", hoverGoHome);
     }
