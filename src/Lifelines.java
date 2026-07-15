@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+// I perfer to use java.util.Random instead of Math.random() because it is more flexible and allows 
+// for better control over random number generation.
+// Also, it doesn't need any wei
 
 /** Utility methods for the game's lifeline behavior and messaging. */
 

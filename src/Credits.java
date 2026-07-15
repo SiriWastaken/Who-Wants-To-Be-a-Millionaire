@@ -18,11 +18,12 @@ import javax.swing.SwingUtilities;
 /** Handles rendering and interaction for the styled game credits screen. */
 public class Credits extends JPanel {
 
-    private final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 46);
-    private final Font SUBTITLE_FONT = new Font("SansSerif", Font.BOLD, 22);
-    private final Font BODY_FONT = new Font("SansSerif", Font.PLAIN, 16);
-    private final Font ITALIC_FONT = new Font("SansSerif", Font.ITALIC, 14);
-    private final Font BUTTON_FONT = new Font("SansSerif", Font.BOLD, 16);
+    // Scaled-down fonts to ensure perfect fit on smaller resolutions
+    private final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 38);
+    private final Font SUBTITLE_FONT = new Font("SansSerif", Font.BOLD, 18);
+    private final Font BODY_FONT = new Font("SansSerif", Font.PLAIN, 14);
+    private final Font ITALIC_FONT = new Font("SansSerif", Font.ITALIC, 12);
+    private final Font BUTTON_FONT = new Font("SansSerif", Font.BOLD, 15);
 
     private final Color BACKGROUND_TOP = new Color(10, 8, 28);
     private final Color BACKGROUND_BOTTOM = new Color(3, 2, 10);
@@ -38,7 +39,7 @@ public class Credits extends JPanel {
     private final Color BUTTON_BORDER = new Color(55, 65, 81, 130);
     private final Color BUTTON_BORDER_HOVER = new Color(245, 158, 11);
 
-    private final Rectangle GO_HOME_BUTTON = new Rectangle(0, 0, 180, 46);
+    private final Rectangle GO_HOME_BUTTON = new Rectangle(0, 0, 180, 42);
     private boolean HOVER_GO_HOME = false;
 
     public Credits() {
@@ -76,15 +77,18 @@ public class Credits extends JPanel {
         int w = getWidth();
         int h = getHeight();
 
-        // Calculate layout proportions
+        // Responsive Card Dimensions 
         int cardWidth = Math.min(840, w - 80);
-        int cardHeight = 420; // Increased height to allow comfortable vertical breathing room
-        int cardX = (w - cardWidth) / 2;
-        int cardY = (h - cardHeight) / 2 - 20;
+        int cardHeight = 440; // Reduced height to keep layout compact
+        
+        // Dynamically scale vertical positioning relative to screen height
+        int titleY = Math.max(50, (int) (h * 0.10));
+        int cardY = titleY + 40; 
+        int cardX = (w - cardWidth) / 2; // Fixed: Now explicitly declared and in scope
 
         // Position bottom menu navigation button dynamically below the card layout
         GO_HOME_BUTTON.x = (w - GO_HOME_BUTTON.width) / 2;
-        GO_HOME_BUTTON.y = cardY + cardHeight + 30;
+        GO_HOME_BUTTON.y = cardY + cardHeight + 20;
 
         // Gradient Background Paint Mesh
         GradientPaint background = new GradientPaint(0, 0, BACKGROUND_TOP, 0, h, BACKGROUND_BOTTOM);
@@ -99,50 +103,59 @@ public class Credits extends JPanel {
 
         // Credits Panel Container Slate
         g2.setColor(CARD_BG);
-        g2.fillRoundRect(cardX, cardY, cardWidth, cardHeight, 24, 24);
+        g2.fillRoundRect(cardX, cardY, cardWidth, cardHeight, 20, 20);
         g2.setStroke(new BasicStroke(1.5f));
         g2.setColor(CARD_BORDER);
-        g2.drawRoundRect(cardX, cardY, cardWidth, cardHeight, 24, 24);
+        g2.drawRoundRect(cardX, cardY, cardWidth, cardHeight, 20, 20);
 
         // Header Text Display (Main Title above the Card)
         g2.setFont(TITLE_FONT);
         g2.setColor(TITLE_ACCENT);
-        drawCenteredText(g2, "Final Answer?", cardY - 40);
+        drawCenteredText(g2, "Final Answer?", titleY);
 
-        // Section 1: Lead Developer
+        // Section 1: Lead Developer & Design
         g2.setFont(SUBTITLE_FONT);
         g2.setColor(TITLE_PRIMARY);
-        drawCenteredText(g2, "DEVELOPMENT", cardY + 45);
+        drawCenteredText(g2, "DEVELOPMENT & VISUAL DESIGN", cardY + 35);
 
         g2.setFont(BODY_FONT);
         g2.setColor(SUBTITLE_COLOR);
-        drawCenteredText(g2, "Designed and Developed by Sri Ganty", cardY + 75);
-        drawCenteredText(g2, "for Mr. Nucci's ICS3U - Intro to Computer Science Course Final", cardY + 100);
+        drawCenteredText(g2, "Game Design, Programming, and Logo Art by Sri Ganty", cardY + 60);
+        drawCenteredText(g2, "for Mr. Nucci's ICS3U - Intro to Computer Science Course Final", cardY + 82);
 
-        // Decorative Divider Stroke Line
-        g2.setColor(new Color(55, 65, 81, 100));
-        g2.drawLine(cardX + 100, cardY + 130, cardX + cardWidth - 100, cardY + 130);
+        // Decorative Divider Stroke Line 1
+        g2.setColor(new Color(55, 65, 81, 80));
+        g2.drawLine(cardX + 120, cardY + 105, cardX + cardWidth - 120, cardY + 105);
 
         // Section 2: Historical/Original Creators & Inspiration
         g2.setFont(SUBTITLE_FONT);
         g2.setColor(TITLE_PRIMARY);
-        drawCenteredText(g2, "CREATIVE CONCEPT", cardY + 165);
+        drawCenteredText(g2, "CREATIVE CONCEPT & INSPIRATION", cardY + 135);
 
         g2.setFont(BODY_FONT);
         g2.setColor(SUBTITLE_COLOR);
-        // Original creators lines
-        drawCenteredText(g2, "Original Game Format Concept by Celador, the BBC,", cardY + 195);
-        drawCenteredText(g2, "David Briggs, Mike Whitehill, and Steven Knight.", cardY + 220);
+        drawCenteredText(g2, "Original Game Format Concept by Celador, the BBC,", cardY + 160);
+        drawCenteredText(g2, "David Briggs, Mike Whitehill, and Steven Knight.", cardY + 182);
+        drawCenteredText(g2, "Inspired by Kaun Banega Crorepati (the Indian adaptation).", cardY + 204);
 
-        // Inspiration lines
-        drawCenteredText(g2, "Inspiration also taken from Kaun Banega Crorepati,", cardY + 255);
-        drawCenteredText(g2, "the Indian adaptation of the original game format.", cardY + 280);
+        // Decorative Divider Stroke Line 2
+        g2.setColor(new Color(55, 65, 81, 80));
+        g2.drawLine(cardX + 120, cardY + 225, cardX + cardWidth - 120, cardY + 225);
 
-        // Section 3: Legal IP Disclaimer (Perfectly shifted to the bottom section of
-        // the card)
+        // Section 3: Audio Design / Soundtrack
+        g2.setFont(SUBTITLE_FONT);
+        g2.setColor(TITLE_PRIMARY);
+        drawCenteredText(g2, "SOUNDTRACK", cardY + 255);
+
+        g2.setFont(BODY_FONT);
+        g2.setColor(SUBTITLE_COLOR);
+        drawCenteredText(g2, "Iconic Game Theme and Audio Scoring Composed by", cardY + 280);
+        drawCenteredText(g2, "Keith Strachan and Matthew Strachan.", cardY + 302);
+
+        // Section 4: Legal IP Disclaimer (Anchored near the bottom inside-edge of the card)
         g2.setFont(ITALIC_FONT);
-        g2.setColor(new Color(107, 114, 128)); // Soft, dim gray
-        drawCenteredText(g2, "\"Who Wants to Be a Millionaire\" IP owned by Sony Pictures Television.", cardY + 340);
+        g2.setColor(new Color(107, 114, 128)); 
+        drawCenteredText(g2, "\"Who Wants to Be a Millionaire\" IP owned by Sony Pictures Television.", cardY + cardHeight - 25);
 
         // Draw Home Navigation Button
         drawCustomButton(g2, GO_HOME_BUTTON, "GO HOME", HOVER_GO_HOME);

@@ -14,9 +14,9 @@ import java.awt.geom.Point2D;
  */
 public class GameScreenRenderer {
 
-    private final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 40);
-    private final Font SUBTITLE_FONT = new Font("SansSerif", Font.PLAIN, 15);
-    private final Font BODY_FONT = new Font("SansSerif", Font.PLAIN, 22);
+    public final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 40);
+    public final Font SUBTITLE_FONT = new Font("SansSerif", Font.PLAIN, 15);
+    public final Font BODY_FONT = new Font("SansSerif", Font.PLAIN, 22);
     private final Font BODY_SMALL_FONT = new Font("SansSerif", Font.PLAIN, 18);
     private final Font BUTTON_FONT = new Font("SansSerif", Font.BOLD, 18);
     private final Font STAT_FONT = new Font("SansSerif", Font.BOLD, 19);

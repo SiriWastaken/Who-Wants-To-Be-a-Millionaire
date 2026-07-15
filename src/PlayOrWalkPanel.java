@@ -44,8 +44,6 @@ public class PlayOrWalkPanel extends JPanel {
     private final Color BUTTON_BORDER = new Color(55, 65, 81, 130);
     private final Color BUTTON_BORDER_HOVER = new Color(245, 158, 11);
     private final Color BUTTON_TEXT = new Color(229, 231, 235);
-    private final Color SUCCESS = new Color(34, 197, 94);
-    private final Color FAILURE = new Color(239, 68, 68);
 
     private final int safeMoney;
     private final int nextLevelMoney;
