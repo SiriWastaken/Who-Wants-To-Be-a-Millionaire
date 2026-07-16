@@ -16,9 +16,12 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+/**
+ * Displays an epic victory screen when the player wins £1,000,000.
+ * Features confetti, fireworks, and celebratory text.
+ */
 public class WinScreenPanel extends JPanel {
 
     private final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 54);
@@ -57,10 +60,12 @@ public class WinScreenPanel extends JPanel {
     private boolean hoverPlayAgain = false;
     private boolean hoverGoHome = false;
 
-    // Direct handles to clean application flow signals
     private final Runnable onPlayAgain;
     private final Runnable onGoHome;
 
+    /**
+     * Represents a single particle (confetti or firework spark).
+     */
     private class Particle {
         float x, y;
         float vx, vy;
@@ -125,6 +130,12 @@ public class WinScreenPanel extends JPanel {
         }
     }
 
+    /**
+     * Creates a new Win Screen panel.
+     *
+     * @param onPlayAgain callback when player chooses to play again (skips intro)
+     * @param onGoHome callback when player chooses to go home
+     */
     public WinScreenPanel(Runnable onPlayAgain, Runnable onGoHome) {
         this.onPlayAgain = onPlayAgain;
         this.onGoHome = onGoHome;
@@ -174,49 +185,15 @@ public class WinScreenPanel extends JPanel {
                     cleanup();
                     if (onPlayAgain != null) {
                         onPlayAgain.run();
-                    } else {
-                        // Fallback option if no callback was supplied
-                        showModeSelectionFallback();
                     }
                 } else if (GO_HOME_BUTTON.contains(p)) {
                     cleanup();
                     if (onGoHome != null) {
                         onGoHome.run();
-                    } else {
-                        // Fallback destination mapping
-                        returnToMenuFallback();
                     }
                 }
             }
         });
-    }
-
-    /**
-     * Fallback routing if no custom clean state initialization pipeline is passed.
-     */
-    private void showModeSelectionFallback() {
-        ModeSelector selector = new ModeSelector(selectedMode -> {
-            IntroCutscene introView = new IntroCutscene(() -> {
-                GameScreen game = new GameScreen(selectedMode);
-                game.setVisible(true);
-                java.awt.Window window = SwingUtilities.getWindowAncestor(WinScreenPanel.this);
-                if (window != null) {
-                    window.dispose();
-                }
-            });
-            WinScreenPanel.this.removeAll();
-            WinScreenPanel.this.setLayout(new java.awt.BorderLayout());
-            WinScreenPanel.this.add(introView);
-            WinScreenPanel.this.revalidate();
-            WinScreenPanel.this.repaint();
-            introView.requestFocusInWindow();
-        });
-        this.removeAll();
-        this.setLayout(new java.awt.BorderLayout());
-        this.add(selector);
-        this.revalidate();
-        this.repaint();
-        selector.requestFocusInWindow();
     }
 
     private void updateTitleGlow() {
@@ -295,6 +272,9 @@ public class WinScreenPanel extends JPanel {
         }
     }
 
+    /**
+     * Cleans up timers when the panel is done.
+     */
     public void cleanup() {
         if (particleTimer != null && particleTimer.isRunning()) {
             particleTimer.stop();
@@ -445,16 +425,5 @@ public class WinScreenPanel extends JPanel {
         int b = (int) (c1.getBlue() + ratio * (c2.getBlue() - c1.getBlue()));
         int a = (int) (c1.getAlpha() + ratio * (c2.getAlpha() - c1.getAlpha()));
         return new Color(r, g, b, a);
-    }
-
-    private void returnToMenuFallback() {
-        SwingUtilities.invokeLater(() -> {
-            MainMenu menu = new MainMenu();
-            menu.setVisible(true);
-        });
-        java.awt.Window window = SwingUtilities.getWindowAncestor(this);
-        if (window != null) {
-            window.dispose();
-        }
     }
 }

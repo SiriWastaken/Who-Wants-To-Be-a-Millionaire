@@ -15,6 +15,10 @@ import java.awt.geom.Point2D;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**
+ * Class responsible for rendering the game over screen.
+ * Provides options to try again or return to the main menu.
+ */
 public class GameOverPanel extends JPanel {
 
     private final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 46);
@@ -45,8 +49,19 @@ public class GameOverPanel extends JPanel {
 
     private final String finalWinnings;
 
+    private final Runnable onPlayAgain;
+
+    /**
+     * Constructs the Game Over Panel.
+     *
+     * @param selectedAnswer the answer the player selected
+     * @param correctAnswer the correct answer
+     * @param score the player's final score
+     * @param onPlayAgain callback when player chooses to try again (skips intro)
+     */
     public GameOverPanel(String selectedAnswer, String correctAnswer, int score, Runnable onPlayAgain) {
         this.finalWinnings = "£" + String.format("%,d", score);
+        this.onPlayAgain = onPlayAgain;
         setFocusable(true);
         installListeners();
     }
@@ -67,37 +82,14 @@ public class GameOverPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 Point p = e.getPoint();
                 if (TRY_AGAIN_BUTTON.contains(p)) {
-                    showModeSelection();
+                    if (onPlayAgain != null) {
+                        onPlayAgain.run();
+                    }
                 } else if (GO_HOME_BUTTON.contains(p)) {
                     returnToMenu();
                 }
             }
         });
-    }
-
-    private void showModeSelection() {
-        ModeSelector selector = new ModeSelector(selectedMode -> {
-            IntroCutscene introView = new IntroCutscene(() -> {
-                GameScreen game = new GameScreen(selectedMode);
-                game.setVisible(true);
-                java.awt.Window window = SwingUtilities.getWindowAncestor(GameOverPanel.this);
-                if (window != null) {
-                    window.dispose();
-                }
-            });
-            GameOverPanel.this.removeAll();
-            GameOverPanel.this.setLayout(new java.awt.BorderLayout());
-            GameOverPanel.this.add(introView);
-            GameOverPanel.this.revalidate();
-            GameOverPanel.this.repaint();
-            introView.requestFocusInWindow();
-        });
-        this.removeAll();
-        this.setLayout(new java.awt.BorderLayout());
-        this.add(selector);
-        this.revalidate();
-        this.repaint();
-        selector.requestFocusInWindow();
     }
 
     @Override
@@ -144,7 +136,7 @@ public class GameOverPanel extends JPanel {
         g2.setColor(TITLE_PRIMARY);
         drawCenteredText(g2,
                 "Ouch... That's gotta sting... You are not joining 1.5% of the adult population who are millionaires (yet).",
-                cardY + 80);
+                cardY + 100);
 
         FontMetrics fm = g2.getFontMetrics(BODY_FONT);
         FontMetrics fmBold = g2.getFontMetrics(HIGHLIGHT_FONT);

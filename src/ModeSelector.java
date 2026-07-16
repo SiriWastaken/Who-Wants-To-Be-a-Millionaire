@@ -167,7 +167,7 @@ public class ModeSelector extends JPanel {
         g2.drawRoundRect(cardX, cardY, cardWidth, cardHeight, 24, 24);
 
         // 5. Draw Selection Cards
-        drawModeCard(g2, timedMode, "⏱", "Timed Mode", "Race against the countdown.",
+        drawModeCard(g2, timedMode, "⏱", "Time Limit Exceeded", "Race against the countdown.",
                 selectedMode == GameSession.GameMode.TIMED, hoveredTimedCard);
         drawModeCard(g2, untimedMode, "♾", "Untimed Mode", "Take all the time you need.",
                 selectedMode == GameSession.GameMode.UNTIMED, hoveredUntimedCard);

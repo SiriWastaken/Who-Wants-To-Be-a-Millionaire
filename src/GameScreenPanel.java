@@ -475,9 +475,10 @@ public class GameScreenPanel extends JPanel {
 
     /**
      * Shows the game over panel when the player loses.
+     * "TRY AGAIN" skips the intro and goes straight to the game loop.
      *
      * @param selectedAnsText the text of the selected answer
-     * @param correctAnsText the text of the correct answer
+     * @param correctAnsText  the text of the correct answer
      */
     private void showGameOverPanel(String selectedAnsText, String correctAnsText) {
         java.awt.Container parent = this.getParent();
@@ -491,22 +492,31 @@ public class GameScreenPanel extends JPanel {
                     correctAnsText,
                     SESSION.getLastSafeMoney(),
                     () -> {
-                        SESSION.RESTART();
-                        SESSION.setGameMode(mode);
-                        GameScreenPanel newGamePanel = new GameScreenPanel(mode);
-                        if (ladderRef != null) {
-                            newGamePanel.setMoneyLadder(ladderRef);
-                        }
-                        parent.add(newGamePanel);
-                        if (gameOverHolder[0] != null && gameOverHolder[0].getParent() != null) {
-                            java.awt.Container goParent = gameOverHolder[0].getParent();
-                            goParent.remove(gameOverHolder[0]);
-                            goParent.revalidate();
-                            goParent.repaint();
-                        }
-                        parent.revalidate();
-                        parent.repaint();
-                        newGamePanel.requestFocusInWindow();
+                        // TRY AGAIN - Skip intro, go straight to game loop
+                        SwingUtilities.invokeLater(() -> {
+                            SESSION.RESTART();
+                            SESSION.setGameMode(mode);
+
+                            GameScreenPanel newGamePanel = new GameScreenPanel(mode);
+
+                            // Pass the existing money ladder and reset it
+                            if (ladderRef != null) {
+                                newGamePanel.setMoneyLadder(ladderRef);
+                                ladderRef.setCurrentLevel(1);
+                                ladderRef.setCurrentMoney(0);
+                            }
+
+                            parent.add(newGamePanel);
+                            if (gameOverHolder[0] != null && gameOverHolder[0].getParent() != null) {
+                                java.awt.Container goParent = gameOverHolder[0].getParent();
+                                goParent.remove(gameOverHolder[0]);
+                                goParent.revalidate();
+                                goParent.repaint();
+                            }
+                            parent.revalidate();
+                            parent.repaint();
+                            newGamePanel.requestFocusInWindow();
+                        });
                     });
 
             gameOverHolder[0] = gameOver;
@@ -695,6 +705,7 @@ public class GameScreenPanel extends JPanel {
 
     /**
      * Prompts the player to replay or return to the menu after the run ends.
+     * "YES" (Play Again) skips the intro and goes straight to the game loop.
      *
      * @param none no parameters are required
      * @return void
@@ -730,6 +741,7 @@ public class GameScreenPanel extends JPanel {
                 JOptionPane.INFORMATION_MESSAGE);
 
         if (choice == JOptionPane.YES_OPTION) {
+            // PLAY AGAIN - Skip intro, go straight to game loop
             SESSION.RESTART();
             SESSION.setGameMode(gameMode);
             completionDialogShowing = false;
@@ -740,7 +752,8 @@ public class GameScreenPanel extends JPanel {
             playOrWalkPanel = null;
 
             if (moneyLadder != null) {
-                moneyLadder.setCurrentMoney(SESSION.getScore());
+                moneyLadder.setCurrentLevel(1);
+                moneyLadder.setCurrentMoney(0);
             }
 
             COUNTDOWN_TIMER.start();
